@@ -4,13 +4,14 @@
 CREATE TABLE Usuario(
     UsuarioId INTEGER PRIMARY KEY,
     Nome VARCHAR(200) NULL,
+    Tipo VARCHAR NOT NULL,
+    Localizacao VARCHAR(200) NULL,
     Descricao VARCHAR(2000) NULL,
     Zap VARCHAR NULL,
     Insta VARCHAR NULL,
     Face VARCHAR NULL,
     Twitter VARCHAR NULL,
-    Foto VARCHAR NULL,
-    Artistas INTEGER NOT NULL -- 0 False, 1 True
+    Foto VARCHAR NULL
 );
 
 --Create table Categoria
@@ -23,11 +24,17 @@ CREATE TABLE Obra(
     ObraId INTEGER PRIMARY KEY,
     Titulo VARCHAR(200) NULL,
     Descricao VARCHAR(2000) NULL,
-    Foto VARCHAR NOT NULL,
     UsuarioId INTEGER NOT NULL,
     Categoria VARCHAR(100) NOT NULL,
     FOREIGN KEY (UsuarioId) REFERENCES Usuario(UsuarioId)
     FOREIGN KEY (Categoria) REFERENCES Categoria(Texto)
+);
+
+CREATE TABLE Img( --imgs associadas a obra
+    ImgId INTEGER PRIMARY KEY,
+    Foto VARCHAR NOT NULL,
+    ObraId INTEGER NOT NULL, --obra da imagem
+    FOREIGN KEY (ObraId) REFERENCES Obra(ObraId)
 );
 
 --Create table Tag
