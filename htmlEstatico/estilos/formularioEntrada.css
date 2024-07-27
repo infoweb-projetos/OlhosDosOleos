@@ -1,0 +1,280 @@
+* {
+	box-sizing: border-box;
+}
+
+#inputArquivo{
+    display: none;
+}
+h1 {
+	font-weight: normal;
+	margin: 0;
+    width: 100%;
+    text-align: left;
+    margin-top: 1.8em;
+    margin-bottom: 1.2em;
+}
+section{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+span {
+	font-size: 12px;
+}
+a{
+    display: block;
+    margin-left: auto;
+    text-decoration: none;
+    text-align: right;
+    color: white;
+    width: fit-content;
+    border-bottom: 1px solid white;
+    font-size: 14px;
+}
+#formCadastro{
+    overflow-y: auto;
+}
+#formCadastro::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+#formCadastro::-webkit-scrollbar-thumb {
+    background-color: #ffffff; 
+    border-radius: 6px;
+}
+#formCadastro::-webkit-scrollbar-track {
+    background-color: transparent;
+} 
+
+button {
+    display: block;
+    background-color: transparent;
+    border: none;
+	color: #FFFFFF;
+	font-weight:normal;
+	transition: transform 80ms ease-in;
+    width: 50%;
+    margin: 0 auto;
+    font-size: 17px;
+}
+button:active {
+	transform: scale(0.95);
+}
+button:focus {
+	outline: none;
+}
+button:hover{
+    cursor: pointer;
+}
+button b{
+    border-bottom: 2px solid white;
+}
+
+hr{
+    border: 0.5px solid white;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 1em;
+}
+
+#imgForm{
+    display: block;
+    width: 125px;
+    height: 125px;
+    border-radius: 100%;
+    margin: 0 auto;
+}
+#imgForm:hover{
+    cursor: pointer;
+}
+
+
+form {
+	background-color: #E30048;
+    color: white;
+	padding: 0 15px;
+    width: 100%;
+    margin:  0 auto;
+    display: flex;
+    align-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 100%;
+}
+form > div{
+    width: 100%;
+    margin-bottom: 3em;
+}
+form > div div label{
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 2px;
+}
+input {
+	background-color: #eee;
+	border: none;
+	padding: 6px 3px;
+    margin-bottom: 5px;
+	width: 100%;
+}
+.campoFlex label{
+    margin-top: 0;
+}
+.campoFlex input{
+    width: min-content;
+    margin-right: 0.5em;
+    height: 15px;
+    margin-bottom: 0;
+}
+.campoFlex{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+}
+.campoFlex select{
+    background-color: #eee;
+	border: none;
+	padding: 6px 3px;
+    margin-bottom: 5px;
+	width: 100%; 
+    box-sizing: border-box;
+}
+.paisSelectDiv{
+    width: 45%;
+}
+.estadoSelectDiv{
+    width: 15%;
+    margin: 0 5px;
+}
+.cidadeSelectDiv{
+    width: 35%;
+}
+
+.container {
+    background-color: #E30048;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			    0 10px 10px rgba(0,0,0,0.22);
+	position: relative;
+	overflow: hidden;
+	width: 768px;
+	max-width: 100%;
+	min-height: 580px;
+}
+
+.form-container {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container  {
+	left: 0;
+	width: 50%;
+	z-index: 2;
+}
+
+.container.right-panel-active .sign-in-container {
+	transform: translateX(100%);
+}
+
+.sign-up-container {
+	left: 0;
+	width: 50%;
+	opacity: 0;
+	z-index: 1;
+}
+
+.container.right-panel-active .sign-up-container {
+	transform: translateX(100%);
+	opacity: 1;
+	z-index: 5;
+	animation: show 0.6s;
+}
+
+@keyframes show {
+	0%, 49.99% {
+		opacity: 0;
+		z-index: 1;
+	}
+	
+	50%, 100% {
+		opacity: 1;
+		z-index: 5;
+	}
+}
+
+.overlay-container {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 50%;
+	height: 100%;
+	overflow: hidden;
+	transition: transform 0.6s ease-in-out;
+	z-index: 100;
+}
+
+.container.right-panel-active .overlay-container{
+	transform: translateX(-100%);
+}
+
+.overlay {
+    background-image: url('imgs/perfilPadrao.png');
+	background-repeat: no-repeat;
+    background-position: center;
+	background-size: cover;
+	background-position: 0 0;
+	color: #FFFFFF;
+	position: relative;
+	left: -100%;
+	height: 100%;
+	width: 200%;
+  	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+
+.container.right-panel-active .overlay {
+  	transform: translateX(50%);
+}
+
+.overlay-panel {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	top: 0;
+	height: 100%;
+    width: 50%;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+.overlay-panel img{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.overlay-left {
+	transform: translateX(-20%);
+}
+
+.container.right-panel-active .overlay-left {
+	transform: translateX(0);
+}
+
+.overlay-right {
+	right: 0;
+	transform: translateX(0);
+}
+
+.container.right-panel-active .overlay-right {
+	transform: translateX(20%);
+}

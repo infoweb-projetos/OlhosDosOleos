@@ -1,0 +1,20 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    display: flex;
+    width: 100%;
+    padding: 1.2em;
+}
+header p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.5em;
+    font-size: 180%;
+    margin-left: 10px;
+    color: #D9D9D9;
+}

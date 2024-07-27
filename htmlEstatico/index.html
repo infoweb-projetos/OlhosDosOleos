@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver</title>
+    <link rel="stylesheet" href="estilos/principal.css">
+    <link rel="stylesheet" href="estilos/formularioEntrada.css">
+    <script src="scripts/anexarImagem.js"></script>
+</head>
+
+<body>
+    <header>
+        <img src="imgs/logoHeader.png">
+        <p>Olhos<br> dos<br> Óleos</p>
+    </header>
+    <main>
+        <section>
+            <div>
+                <div class="container right-panel-active" id="container">
+                    <div class="form-container sign-up-container">
+                        <form action="#">
+                            <div>
+                                <h1>Entrar</h1>
+                                <div>
+                                    <label>Usuario:</label>
+                                    <input type="text" />
+                                </div>
+                                <div>
+                                    <label>Senha:</label>
+                                    <input type="password" />
+                                </div>
+                                <a href="#">Esqueceu a senha?</a>
+                            </div>
+                            <div>
+                                <hr />
+                                <button type="button" id="signUp">Não possui conta? Registre-se <b>aqui</b></button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-container sign-in-container">
+                        <form action="#" id="formCadastro">
+                            <div>
+                                <h1>Cadastro</h1>
+                                <div>
+                                    <img onclick="javascript:MudarImg('inputArquivo', 'imgForm')" id="imgForm" src="imgs/perfilPadrao.png" />
+                                    <input type="file" id="inputArquivo" />
+                                </div>
+                                <div>
+                                    <label>Usuario:</label>
+                                    <input type="text" />
+                                </div>
+                                <div>
+                                    <label>Email:</label>
+                                    <input type="text" />
+                                </div>
+                                <div>
+                                    <label>Senha:</label>
+                                    <input type="password" />
+                                </div>
+                                <div>
+                                    <label>Confirme a senha:</label>
+                                    <input type="password" />
+                                </div>
+                                <div class="campoFlex">
+                                    <div class="paisSelectDiv">
+                                        <label for="paisSelect">Pais:</label>
+                                        <select id="paisSelect" name="paisSelect">
+                                            <option value="br">Brasil</option>
+                                            <option value="eua">Estados Unidos</option>
+                                        </select>
+                                    </div>
+                                    <div class="estadoSelectDiv">
+                                        <label for="ufSelect">Estado:</label>
+                                        <select id="ufSelect" name="ufSelect">
+                                            <option value="rn">RN</option>
+                                            <option value="pe">PE</option>
+                                        </select>
+                                    </div>
+                                    <div class="cidadeSelectDiv">
+                                        <label for="cidadeSelect">Cidade:</label>
+                                        <select id="cidadeSelect" name="cidadeSelect">
+                                            <option value="natal">Natal</option>
+                                            <option value="vilaAlva">Vila Alva</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="campoFlex">
+                                    <input type="checkbox" id="artistaCheck" name="artistaCheck" /><label
+                                        for="artistaCheck">Artista</label>
+                                </div>
+                            </div>
+                            <div>
+                                <hr />
+                                <button type="button" id="signIn">Já possui conta? Entre por <b>aqui</b></button>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="overlay-container">
+                        <div class="overlay">
+                            <div class="overlay-panel overlay-left">
+                                <img src="imgs/login/imgLogin.jpg" />
+                            </div>
+                            <div class="overlay-panel overlay-right">
+                                <img src="imgs/login/imgLogin.jpg" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="scripts/formularioCadastro.js"></script>
+</body>
+
+</html>
