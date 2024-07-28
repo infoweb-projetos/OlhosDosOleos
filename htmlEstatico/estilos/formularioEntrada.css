@@ -1,7 +1,15 @@
 * {
 	box-sizing: border-box;
 }
-
+.campoCheck input{
+	transform: scale(1.1);
+}
+.campoCheck label{
+	margin-bottom: 0;
+}
+.campoCheck label:hover, .campoCheck input:hover{
+	cursor: pointer;
+}
 #inputArquivo, #areaCamposContato{
     display: none;
 }

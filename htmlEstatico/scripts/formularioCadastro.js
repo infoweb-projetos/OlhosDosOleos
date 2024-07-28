@@ -1,7 +1,8 @@
 const btCadastrar = document.getElementById('signUp');
 const btLogar = document.getElementById('signIn');
 const container = document.getElementById('container');
-const selectTipoUsuario = document.getElementById('tipoUsuarioSelect');
+
+const checkArtista = document.getElementById('artistaCheck');
 const camposContato = document.getElementById('areaCamposContato');
 
 btCadastrar.addEventListener('click', () => {
@@ -12,9 +13,9 @@ btLogar.addEventListener('click', () => {
 	container.classList.add("right-panel-active");
 });
 
-selectTipoUsuario.addEventListener("change", () => {
-    const valorSelecionado = selectTipoUsuario.value;
-    if (valorSelecionado != "usuarioComum") {
+checkArtista.addEventListener("change", () => {
+    const valorSelecionado = checkArtista.checked;
+    if (valorSelecionado == true) {
         camposContato.style.display = "block";
     }
 	else{

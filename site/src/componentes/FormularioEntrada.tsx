@@ -33,10 +33,10 @@ const FormularioEntrada = () => {
         inputRef.current?.click();
     };
 
-    const [isUsuarioComum, setIsUsuarioComum] = useState(true);
-    const handleSelectTipoUsuarioMudou = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if(event.target.value === 'usuarioComum') setIsUsuarioComum(true);
-        else setIsUsuarioComum(false);
+    const [isArtista, setArtista] = useState(false);
+    const handleCheckArtista = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if (event.target.checked) setArtista(true);
+        else setArtista(false);
     };
 
     return (
@@ -117,19 +117,21 @@ const FormularioEntrada = () => {
                                                 </select>
                                             </div>
                                         </div>
-
-                                        <div className="campoSelectComum">
-                                            <label htmlFor="tipoUsuarioSelect">Tipo:</label>
-                                            <select id="tipoUsuarioSelect" name="tipoUsuarioSelect" onChange={handleSelectTipoUsuarioMudou}>
-                                                <option value="usuarioComum">Usuario</option>
-                                                <option value="artistaDigital">Artistista Digital</option>
-                                                <option value="pintorAquarela">Pintor de Aquarela</option>
-                                                <option value="pintorAquarela">Artista Multi-Material</option>
-                                            </select>
+                                        <div className="campoFlex campoCheck">
+                                            <input type="checkbox" id="artistaCheck" onChange={handleCheckArtista} name="artistaCheck" />
+                                            <label htmlFor="artistaCheck">Artista</label>
                                         </div>
-                                        {isUsuarioComum ?
+                                        {!isArtista ?
                                             null :
                                             <div id="areaCamposContato">
+                                                <div className="campoSelectComum">
+                                                    <label htmlFor="tipoUsuarioSelect">Tipo:</label>
+                                                    <select id="tipoUsuarioSelect" name="tipoUsuarioSelect">
+                                                        <option value="artistaDigital">Artistista Digital</option>
+                                                        <option value="pintorAquarela">Pintor de Aquarela</option>
+                                                        <option value="pintorAquarela">Artista Multi-Material</option>
+                                                    </select>
+                                                </div>
                                                 <div>
                                                     <label>Whatzap:</label>
                                                     <input type="text" />
