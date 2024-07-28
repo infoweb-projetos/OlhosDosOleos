@@ -1,11 +1,23 @@
-const signUpButton = document.getElementById('signUp');
-const signInButton = document.getElementById('signIn');
+const btCadastrar = document.getElementById('signUp');
+const btLogar = document.getElementById('signIn');
 const container = document.getElementById('container');
+const selectTipoUsuario = document.getElementById('tipoUsuarioSelect');
+const camposContato = document.getElementById('areaCamposContato');
 
-signUpButton.addEventListener('click', () => {
+btCadastrar.addEventListener('click', () => {
 	container.classList.remove("right-panel-active");
 });
 
-signInButton.addEventListener('click', () => {
+btLogar.addEventListener('click', () => {
 	container.classList.add("right-panel-active");
+});
+
+selectTipoUsuario.addEventListener("change", () => {
+    const valorSelecionado = selectTipoUsuario.value;
+    if (valorSelecionado != "usuarioComum") {
+        camposContato.style.display = "block";
+    }
+	else{
+		camposContato.style.display = "none";
+	}
 });

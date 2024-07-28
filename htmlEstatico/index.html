@@ -26,13 +26,14 @@
                                 <h1>Entrar</h1>
                                 <div>
                                     <label>Usuario:</label>
-                                    <input type="text" />
+                                    <input type="text" name="loginUsuario"/>
                                 </div>
                                 <div>
                                     <label>Senha:</label>
-                                    <input type="password" />
+                                    <input type="password" name="loginSenha"/>
                                 </div>
                                 <a href="#">Esqueceu a senha?</a>
+                                <input type="submit" value="Entrar"/>
                             </div>
                             <div>
                                 <hr />
@@ -46,23 +47,23 @@
                                 <h1>Cadastro</h1>
                                 <div>
                                     <img onclick="javascript:MudarImg('inputArquivo', 'imgForm')" id="imgForm" src="imgs/perfilPadrao.png" />
-                                    <input type="file" id="inputArquivo" />
+                                    <input type="file" id="inputArquivo" name="cadImg"/>
                                 </div>
                                 <div>
                                     <label>Usuario:</label>
-                                    <input type="text" />
+                                    <input type="text" name="cadUsuario"/>
                                 </div>
                                 <div>
                                     <label>Email:</label>
-                                    <input type="text" />
+                                    <input type="text" name="cadEmail"/>
                                 </div>
                                 <div>
                                     <label>Senha:</label>
-                                    <input type="password" />
+                                    <input type="password" name="cadSenha"/>
                                 </div>
                                 <div>
                                     <label>Confirme a senha:</label>
-                                    <input type="password" />
+                                    <input type="password" name="cadConfirmarSenha"/>
                                 </div>
                                 <div class="campoFlex">
                                     <div class="paisSelectDiv">
@@ -87,11 +88,40 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="campoFlex">
+                                <!-- <div class="campoFlex">
                                     <input type="checkbox" id="artistaCheck" name="artistaCheck" /><label
                                         for="artistaCheck">Artista</label>
+                                </div> -->
+                                <div class="campoSelectComum">
+                                    <label  for="tipoUsuarioSelect">Tipo:</label>
+                                    <select id="tipoUsuarioSelect" name="tipoUsuarioSelect">
+                                        <option value="usuarioComum">Usuario</option>
+                                        <option value="artistaDigital">Artistista Digital</option>
+                                        <option value="pintorAquarela">Pintor de Aquarela</option>
+                                        <option value="pintorAquarela">Artista Multi-Material</option>
+                                    </select>
                                 </div>
+                                <div id="areaCamposContato"> 
+                                    <div>
+                                        <label>Whatzap:</label>
+                                        <input type="text" />
+                                    </div>
+                                    <div>
+                                        <label>Facebook:</label>
+                                        <input type="text" />
+                                    </div>
+                                    <div>
+                                        <label>Twitter:</label>
+                                        <input type="text" />
+                                    </div>
+                                    <div>
+                                        <label>Insta:</label>
+                                        <input type="text" />
+                                    </div>
+                                </div>
+                                <input type="submit" value="Cadastrar"/>
                             </div>
+                            
                             <div>
                                 <hr />
                                 <button type="button" id="signIn">Já possui conta? Entre por <b>aqui</b></button>

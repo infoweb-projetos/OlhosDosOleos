@@ -2,7 +2,7 @@
 	box-sizing: border-box;
 }
 
-#inputArquivo, #areaCamposContato{
+#inputArquivo{
     display: none;
 }
 input[type='submit']{
