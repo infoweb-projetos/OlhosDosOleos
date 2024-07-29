@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import axios from 'axios';
 import '../estilos/formularioEntrada.css'
 
 
@@ -39,6 +40,47 @@ const FormularioEntrada = () => {
         else setArtista(false);
     };
 
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+
+        const formElement = e.currentTarget; // Certifique-se de que é um HTMLFormElement
+        if (!(formElement instanceof HTMLFormElement)) {
+            console.error("e.currentTarget não é um HTMLFormElement");
+            return;
+        }
+
+        const formData = new FormData(formElement);
+        const userData = Object.fromEntries(formData.entries());
+
+        const pais = formData.get('paisSelect');
+        const estado = formData.get('ufSelect');
+        const cidade = formData.get('cidadeSelect');
+        const localizacao = `${pais}, ${estado}, ${cidade}`;
+
+        const data = {
+            nome: userData.cadUsuario? userData.cadUsuario : null,
+            tipo: isArtista ? userData.tipoUsuarioSelect : null,
+            localizacao: localizacao? localizacao : null,
+            descricao: null,
+            zap: isArtista ? userData.cadZap : null,
+            insta: isArtista ? userData.cadInsta : null,
+            face: isArtista ? userData.cadFace : null,
+            twitter: isArtista ? userData.cadX : null,
+            foto: null, // Adicione lógica para capturar a URL da imagem aqui, se necessário
+            Senha: userData.cadSenha ? userData.cadSenha : null, 
+            Email: userData.cadEmail ? userData.cadEmail : null, 
+        };
+        try {
+            const response = await axios.post('http://localhost:5000/api/usuario', data);
+            alert("Deu certo, cadastrado");
+            // Recarregar a página
+            window.location.reload();
+        } catch (error) {
+            alert("Erro no cadastro");
+            console.error('Erro ao cadastrar:', error);
+        }
+    };
+
     return (
         <div>
             <header>
@@ -70,8 +112,8 @@ const FormularioEntrada = () => {
                                     </div>
                                 </form>
                             </div>
-                            <div className="form-container sign-in-container">
-                                <form action="#" id="formCadastro">
+                            <div className="form-container sign-in-container" >
+                                <form action="#" id="formCadastro" onSubmit={handleFormSubmit}>
                                     <div>
                                         <h1>Cadastro</h1>
                                         <div>
@@ -133,20 +175,20 @@ const FormularioEntrada = () => {
                                                     </select>
                                                 </div>
                                                 <div>
-                                                    <label>Whatzap:</label>
-                                                    <input type="text" />
+                                                    <label>Whatsapp:</label>
+                                                    <input type="text" name="cadZap" />
                                                 </div>
                                                 <div>
                                                     <label>Facebook:</label>
-                                                    <input type="text" />
+                                                    <input type="text" name="cadFace" />
                                                 </div>
                                                 <div>
                                                     <label>Twitter:</label>
-                                                    <input type="text" />
+                                                    <input type="text" name="cadX" />
                                                 </div>
                                                 <div>
                                                     <label>Insta:</label>
-                                                    <input type="text" />
+                                                    <input type="text" name="cadInsta" />
                                                 </div>
                                             </div>
                                         }
