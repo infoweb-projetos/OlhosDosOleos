@@ -1,9 +1,10 @@
-import { useState, useRef } from 'react'
-import axios from 'axios';
+import { useState, useRef, useEffect } from 'react'
+import axios from 'axios'
 import '../estilos/formularioEntrada.css'
+import { useNavigate } from 'react-router-dom'
 
 
-const FormularioEntrada = () => {
+const FormularioEntrada: React.FC = () => {
     const [painelDireiroAtivo, setPainelDireitoAtivo] = useState(true);
     const handleCadastroClick = () => {
         setPainelDireitoAtivo(false);
@@ -40,7 +41,8 @@ const FormularioEntrada = () => {
         else setArtista(false);
     };
 
-    const handleFormSubmit = async (e) => {
+    const navegar = useNavigate();
+    const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const formElement = e.currentTarget; // Certifique-se de que é um HTMLFormElement
@@ -58,28 +60,103 @@ const FormularioEntrada = () => {
         const localizacao = `${pais}, ${estado}, ${cidade}`;
 
         const data = {
-            nome: userData.cadUsuario? userData.cadUsuario : null,
+            nome: userData.cadUsuario ? userData.cadUsuario : null,
             tipo: isArtista ? userData.tipoUsuarioSelect : null,
-            localizacao: localizacao? localizacao : null,
-            descricao: null,
+            localizacao: localizacao ? localizacao : null,
+            descricao: userData.cadBio ? userData.cadBio : null,
             zap: isArtista ? userData.cadZap : null,
             insta: isArtista ? userData.cadInsta : null,
             face: isArtista ? userData.cadFace : null,
             twitter: isArtista ? userData.cadX : null,
             foto: null, // Adicione lógica para capturar a URL da imagem aqui, se necessário
-            Senha: userData.cadSenha ? userData.cadSenha : null, 
-            Email: userData.cadEmail ? userData.cadEmail : null, 
+            Senha: userData.cadSenha ? userData.cadSenha : null,
+            Email: userData.cadEmail ? userData.cadEmail : null,
         };
         try {
+            alert("Tentando ");
             const response = await axios.post('http://localhost:5000/api/usuario', data);
-            alert("Deu certo, cadastrado");
-            // Recarregar a página
-            window.location.reload();
+            console.log('Resposta da API:', response);
+            alert("Deu certo, cadastrado ");
+            navegar('/feed');
         } catch (error) {
-            alert("Erro no cadastro");
-            console.error('Erro ao cadastrar:', error);
+            if (axios.isAxiosError(error)) {
+                let erro = (error.response?.data?.error || error.message).toString();
+                console.log('Erro ao cadastrar:', erro);
+                alert('Erro ao cadastrar: ' + erro);
+            }
+            else {
+                console.error('Erro inesperado:', error);
+            }
         }
     };
+
+    const [cidades, setCidades] = useState<string[]>([]);
+    const [cidadeSelecionada, setCidadeSelecionada] = useState<string | ''>('');
+    useEffect(() => {
+        // Função para buscar cidades da API
+        const buscaCidades = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/cidades');
+                const cidadeNomes = response.data.map((cidade: { nome: string }) => cidade.nome);
+                setCidades(cidadeNomes);
+            } catch (error) {
+                console.error('Erro ao buscar cidades:', error);
+            }
+        };
+
+        buscaCidades();
+    }, []);
+
+    const [estados, setEstados] = useState<string[]>([]);
+    const [estadoSelecionado, setEstadoSelecionado] = useState<string | ''>('');
+    useEffect(() => {
+        // Função para buscar cidades da API
+        const buscaEstados = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/estados');
+                const estadosNomes = response.data.map((estado: { nome: string }) => estado.nome);
+                setEstados(estadosNomes);
+            } catch (error) {
+                console.error('Erro ao buscar estados:', error);
+            }
+        };
+
+        buscaEstados();
+    }, []);
+
+    const [paises, setPaises] = useState<string[]>([]);
+    const [paisSelecionado, setPaisSelecionado] = useState<string | ''>('');
+    useEffect(() => {
+        // Função para buscar cidades da API
+        const buscaPaises = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/paises');
+                const paisesNomes = response.data.map((pais: { nome: string }) => pais.nome);
+                setPaises(paisesNomes);
+            } catch (error) {
+                console.error('Erro ao buscar paises:', error);
+            }
+        };
+
+        buscaPaises();
+    }, []);
+
+    const [especializacoes, setEspecializacoes] = useState<string[]>([]);
+    const [especializacaoSelecionada, setEspecializacaoSelecionada] = useState<string | ''>('');
+    useEffect(() => {
+        // Função para buscar cidades da API
+        const buscaEspecializacoes = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/especializacoes');
+                const especializacoes = response.data.map((especializacao: { nome: string }) => especializacao.nome);
+                setEspecializacoes(especializacoes);
+            } catch (error) {
+                console.error('Erro ao buscar especializações:', error);
+            }
+        };
+
+        buscaEspecializacoes();
+    }, []);
 
     return (
         <div>
@@ -125,6 +202,10 @@ const FormularioEntrada = () => {
                                             <input type="text" name="cadUsuario" />
                                         </div>
                                         <div>
+                                            <label>Bio:</label>
+                                            <textarea name="cadBio" ></textarea>
+                                        </div>
+                                        <div>
                                             <label>Email:</label>
                                             <input type="text" name="cadEmail" />
                                         </div>
@@ -139,23 +220,29 @@ const FormularioEntrada = () => {
                                         <div className="campoFlex">
                                             <div className="paisSelectDiv">
                                                 <label htmlFor="paisSelect">Pais:</label>
-                                                <select id="paisSelect" name="paisSelect">
-                                                    <option value="br">Brasil</option>
-                                                    <option value="eua">Estados Unidos</option>
+                                                <select id="paisSelect" name="paisSelect" value={paisSelecionado}
+                                                    onChange={(e) => setPaisSelecionado(e.target.value)} >
+                                                    {paises.map(pais => (
+                                                        <option key={pais} value={pais}>{pais} </option>
+                                                    ))}
                                                 </select>
                                             </div>
                                             <div className="estadoSelectDiv">
                                                 <label htmlFor="ufSelect">Estado:</label>
-                                                <select id="ufSelect" name="ufSelect">
-                                                    <option value="rn">RN</option>
-                                                    <option value="pe">PE</option>
+                                                <select id="ufSelect" name="ufSelect" value={estadoSelecionado}
+                                                    onChange={(e) => setEstadoSelecionado(e.target.value)} >
+                                                    {estados.map(estado => (
+                                                        <option key={estado} value={estado}>{estado} </option>
+                                                    ))}
                                                 </select>
                                             </div>
                                             <div className="cidadeSelectDiv">
                                                 <label htmlFor="cidadeSelect">Cidade:</label>
-                                                <select id="cidadeSelect" name="cidadeSelect">
-                                                    <option value="natal">Natal</option>
-                                                    <option value="vilaAlva">Vila Alva</option>
+                                                <select id="cidadeSelect" name="cidadeSelect" value={cidadeSelecionada}
+                                                    onChange={(e) => setCidadeSelecionada(e.target.value)} >
+                                                    {cidades.map(cidade => (
+                                                        <option key={cidade} value={cidade}>{cidade} </option>
+                                                    ))}
                                                 </select>
                                             </div>
                                         </div>
@@ -168,10 +255,11 @@ const FormularioEntrada = () => {
                                             <div id="areaCamposContato">
                                                 <div className="campoSelectComum">
                                                     <label htmlFor="tipoUsuarioSelect">Tipo:</label>
-                                                    <select id="tipoUsuarioSelect" name="tipoUsuarioSelect">
-                                                        <option value="artistaDigital">Artistista Digital</option>
-                                                        <option value="pintorAquarela">Pintor de Aquarela</option>
-                                                        <option value="pintorAquarela">Artista Multi-Material</option>
+                                                    <select id="tipoUsuarioSelect" name="tipoUsuarioSelect" value={especializacaoSelecionada}
+                                                        onChange={(e) => setEspecializacaoSelecionada(e.target.value)} >
+                                                        {especializacoes.map(especializacao => (
+                                                            <option key={especializacao} value={especializacao}>{especializacao} </option>
+                                                        ))}
                                                     </select>
                                                 </div>
                                                 <div>

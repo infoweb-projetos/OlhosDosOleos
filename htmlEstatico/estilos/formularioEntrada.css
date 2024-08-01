@@ -1,6 +1,18 @@
 * {
 	box-sizing: border-box;
 }
+
+
+textarea{
+	outline: none;
+	width: 100%;
+	height: 120px;
+	resize: none;
+	background-color: #eee;
+	border: none;
+	padding: 6px 3px;
+}
+
 .campoCheck input{
 	transform: scale(1.1);
 }
@@ -312,4 +324,20 @@ input {
 
 .container.right-panel-active .overlay-right {
 	transform: translateX(20%);
+}
+
+@media screen and (max-width: 800px) {
+	.container {
+		width: 700px;
+	}
+}
+@media screen and (max-width: 700px) {
+	.container {
+		width: 500px;
+	}
+}
+@media screen and (max-width: 500px) {
+	.container {
+		width: 450px;
+	}
 }
