@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import '../estilos/formularioEntrada.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link  } from 'react-router-dom'
 
 
 const FormularioEntrada: React.FC = () => {
@@ -75,8 +75,6 @@ const FormularioEntrada: React.FC = () => {
         try {
             alert("Tentando ");
             const response = await axios.post('http://localhost:5000/api/usuario', data);
-            console.log('Resposta da API:', response);
-            alert("Deu certo, cadastrado ");
             navegar('/feed');
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -159,17 +157,19 @@ const FormularioEntrada: React.FC = () => {
     }, []);
 
     return (
-        <div>
+        <>
             <header>
-                <img src="/imgs/logoHeader.png" />
-                <p>Olhos<br /> dos<br /> Óleos</p>
+                <Link to="/feed">
+                    <img src="/imgs/logoHeader.png" />
+                    <p>Olhos<br /> dos<br /> Óleos</p>
+                </Link>
             </header>
             <main>
                 <section>
                     <div>
                         <div className={painelDireiroAtivo ? 'right-panel-active container' : 'container'} id="container">
                             <div className="form-container sign-up-container">
-                                <form action="#">
+                                <form action="#" className="formularioEntrada">
                                     <div>
                                         <h1>Entrar</h1>
                                         <div>
@@ -190,7 +190,7 @@ const FormularioEntrada: React.FC = () => {
                                 </form>
                             </div>
                             <div className="form-container sign-in-container" >
-                                <form action="#" id="formCadastro" onSubmit={handleFormSubmit}>
+                                <form action="#" id="formCadastro" onSubmit={handleFormSubmit} className="formularioEntrada">
                                     <div>
                                         <h1>Cadastro</h1>
                                         <div>
@@ -305,7 +305,7 @@ const FormularioEntrada: React.FC = () => {
                     </div>
                 </section>
             </main>
-        </div>
+        </>
     );
 };
 

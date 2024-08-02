@@ -57,7 +57,7 @@ section{
 span {
 	font-size: 12px;
 }
-a{
+main a{
     display: block;
     margin-left: auto;
     text-decoration: none;
@@ -125,7 +125,7 @@ hr{
 }
 
 
-form {
+form.formularioEntrada {
 	background-color: #E30048;
     color: white;
 	padding: 0 15px;
@@ -137,11 +137,11 @@ form {
     justify-content: center;
     height: 100%;
 }
-form > div{
+form.formularioEntrada > div{
     width: 100%;
     margin-bottom: 3em;
 }
-form > div div label{
+form.formularioEntrada > div div label{
     display: block;
     width: 100%;
     text-align: left;
