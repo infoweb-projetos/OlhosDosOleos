@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import '../estilos/formularioEntrada.css'
-import { useNavigate, Link  } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 
 const FormularioEntrada: React.FC = () => {
@@ -156,6 +156,27 @@ const FormularioEntrada: React.FC = () => {
         buscaEspecializacoes();
     }, []);
 
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const loginUsuario = (event.currentTarget.elements.namedItem('loginUsuario') as HTMLInputElement).value;
+        const loginSenha = (event.currentTarget.elements.namedItem('loginSenha') as HTMLInputElement).value;
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/login', {
+                loginUsuario,
+                loginSenha
+            });
+
+            localStorage.setItem('token', response.data.token);
+
+            alert('Login bem-sucedido');
+            navegar('/feed');
+        } catch (error: any) {
+            console.error('Erro ao fazer login:', error.response?.data?.error || error.message);
+            alert('Erro ao fazer login: ' + (error.response?.data?.error || error.message));
+        }
+    };
+
     return (
         <>
             <header>
@@ -169,12 +190,12 @@ const FormularioEntrada: React.FC = () => {
                     <div>
                         <div className={painelDireiroAtivo ? 'right-panel-active container' : 'container'} id="container">
                             <div className="form-container sign-up-container">
-                                <form action="#" className="formularioEntrada">
+                                <form action="#" className="formularioEntrada" onSubmit={handleLogin}>
                                     <div>
                                         <h1>Entrar</h1>
                                         <div>
-                                            <label>Usuario:</label>
-                                            <input type="text" name="loginUsuario" />
+                                            <label>Email:</label>
+                                            <input type="email" name="loginUsuario" />
                                         </div>
                                         <div>
                                             <label>Senha:</label>
