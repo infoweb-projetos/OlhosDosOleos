@@ -80,4 +80,18 @@ header .headerDireita button{
     width: 50%;
     margin: 0 auto;
     font-size: 17px;
+    cursor: pointer;
+}
+
+#pagFeed ol {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: space-evenly;
+    /* margin-left: 300px; */
+    /* margin-right: 300px; */
+    align-items: center;
+    /* gap: 5px; */
+    flex-wrap: wrap;
+    align-content: center;
 }
