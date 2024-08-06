@@ -8,6 +8,7 @@ header{
     padding: 1.2em;
     display: flex;
     justify-content: space-between;
+    box-sizing: border-box;
 }
 header a{
     width: min-content;
@@ -27,7 +28,7 @@ header > div{
     display: flex;
 }
 .headerEsquerda{
-    width: 80%;
+    width: 85%;
     align-items: center;
 }
 header form{
@@ -45,13 +46,17 @@ header form input[type="image"]{
     height: min-content;
     background-color: transparent;
     width: 25px;
+
     margin: 0;
 }
+
 header form input[type="search"]{
     width: 100%;
     background-color: transparent;
     outline: none;
+    border: none;
     margin: 0;
+    margin-left: 5px;
 }
 
 header .headerDireita{
@@ -64,4 +69,15 @@ header .headerDireita a{
 }
 header .headerDireita img{
     margin: 0 20px;
+}
+header .headerDireita button{
+    display: block;
+    background-color: transparent;
+    border: none;
+	color: #FFFFFF;
+	font-weight:normal;
+	transition: transform 80ms ease-in;
+    width: 50%;
+    margin: 0 auto;
+    font-size: 17px;
 }
