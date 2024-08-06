@@ -95,3 +95,12 @@ header .headerDireita button{
     flex-wrap: wrap;
     align-content: center;
 }
+
+#pagFeed li {
+    height: 200px;
+    width: 200px;
+}
+
+#pagFeed li img{
+    border-radius: 1em;
+}
