@@ -178,7 +178,7 @@ const FormularioEntrada: React.FC = () => {
     };
 
     return (
-        <>
+        <div id="pagFormEntrada">
             <header>
                 <Link to="/feed">
                     <img src="/imgs/logoHeader.png" />
@@ -326,7 +326,7 @@ const FormularioEntrada: React.FC = () => {
                     </div>
                 </section>
             </main>
-        </>
+        </div>
     );
 };
 

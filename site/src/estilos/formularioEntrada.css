@@ -1,7 +1,7 @@
 * {
 	box-sizing: border-box;
 }
-textarea{
+#pagFormEntrada textarea{
 	outline: none;
 	width: 100%;
 	height: 120px;
@@ -10,19 +10,19 @@ textarea{
 	border: none;
 	padding: 6px 3px;
 }
-.campoCheck input{
+#pagFormEntrada .campoCheck input{
 	transform: scale(1.1);
 }
-.campoCheck label{
+#pagFormEntrada .campoCheck label{
 	margin-bottom: 0;
 }
-.campoCheck label:hover, .campoCheck input:hover{
+#pagFormEntrada .campoCheck label:hover, .campoCheck input:hover{
  cursor: pointer;
 }
-#inputArquivo{
+#pagFormEntrada #inputArquivo{
     display: none;
 }
-input[type='submit']{
+#pagFormEntrada input[type='submit']{
 	display: block;
     background-color: white;
     border: none;
@@ -34,11 +34,11 @@ input[type='submit']{
 	margin-top: 1em;
     font-size: 17px;
 }
-input[type='submit']:hover{
+#pagFormEntrada input[type='submit']:hover{
 	cursor: pointer;
 	transform: scale(1.1);
 }
-h1 {
+#pagFormEntrada h1 {
 	font-weight: normal;
 	margin: 0;
     width: 100%;
@@ -46,7 +46,7 @@ h1 {
     margin-top: 1.8em;
     margin-bottom: 1.2em;
 }
-section{
+#pagFormEntrada section{
     width: 100%;
     height: 100%;
     display: flex;
@@ -54,10 +54,10 @@ section{
     align-items: center;
 }
 
-span {
+#pagFormEntrada span {
 	font-size: 12px;
 }
-main a{
+#pagFormEntrada main a{
     display: block;
     margin-left: auto;
     text-decoration: none;
@@ -67,22 +67,22 @@ main a{
     border-bottom: 1px solid white;
     font-size: 14px;
 }
-#formCadastro{
+#pagFormEntrada #formCadastro{
     overflow-y: auto;
 }
-#formCadastro::-webkit-scrollbar {
+#pagFormEntrada #formCadastro::-webkit-scrollbar {
     width: 5px;
     height: 5px;
 }
-#formCadastro::-webkit-scrollbar-thumb {
+#pagFormEntrada #formCadastro::-webkit-scrollbar-thumb {
     background-color: #ffffff; 
     border-radius: 6px;
 }
-#formCadastro::-webkit-scrollbar-track {
+#pagFormEntrada #formCadastro::-webkit-scrollbar-track {
     background-color: transparent;
 } 
 
-button {
+#pagFormEntrada button {
     display: block;
     background-color: transparent;
     border: none;
@@ -93,39 +93,39 @@ button {
     margin: 0 auto;
     font-size: 17px;
 }
-button:active {
+#pagFormEntrada button:active {
 	transform: scale(0.95);
 }
-button:focus {
+#pagFormEntrada button:focus {
 	outline: none;
 }
-button:hover{
+#pagFormEntrada button:hover{
     cursor: pointer;
 }
-button b{
+#pagFormEntrada button b{
     border-bottom: 2px solid white;
 }
 
-hr{
+#pagFormEntrada hr{
     border: 0.5px solid white;
     width: 90%;
     margin: 0 auto;
     margin-bottom: 1em;
 }
 
-#imgForm{
+#pagFormEntrada #imgForm{
     display: block;
     width: 125px;
     height: 125px;
     border-radius: 100%;
     margin: 0 auto;
 }
-#imgForm:hover{
+#pagFormEntrada #imgForm:hover{
     cursor: pointer;
 }
 
 
-form.formularioEntrada {
+#pagFormEntrada form.formularioEntrada {
 	background-color: #E30048;
     color: white;
 	padding: 0 15px;
@@ -137,18 +137,18 @@ form.formularioEntrada {
     justify-content: center;
     height: 100%;
 }
-form.formularioEntrada > div{
+#pagFormEntrada form.formularioEntrada > div{
     width: 100%;
     margin-bottom: 3em;
 }
-form.formularioEntrada > div div label{
+#pagFormEntrada form.formularioEntrada > div div label{
     display: block;
     width: 100%;
     text-align: left;
     margin-top: 5px;
     margin-bottom: 2px;
 }
-input {
+#pagFormEntrada input {
 	background-color: #eee;
 	border: none;
 	padding: 6px 3px;
@@ -156,22 +156,22 @@ input {
 	width: 100%;
 	outline: none;
 }
-.campoFlex label{
+#pagFormEntrada .campoFlex label{
     margin-top: 0;
 }
-.campoFlex input{
+#pagFormEntrada .campoFlex input{
     width: min-content;
     margin-right: 0.5em;
     height: 15px;
     margin-bottom: 0;
 }
-.campoFlex{
+#pagFormEntrada .campoFlex{
     display:flex;
     justify-content: space-between;
     align-items: center;
     margin: 5px 0;
 }
-.campoFlex select, .campoSelectComum select{
+#pagFormEntrada .campoFlex select, .campoSelectComum select{
     background-color: #eee;
 	border: none;
 	padding: 6px 3px;
@@ -180,26 +180,26 @@ input {
     box-sizing: border-box;
 	outline: none;
 }
-.campoFlex select, .campoSelectComum select:hover{
+#pagFormEntrada .campoFlex select, .campoSelectComum select:hover{
 	cursor: pointer;
 }
-.campoFlex select option, .campoSelectComum select option{
+#pagFormEntrada .campoFlex select option, .campoSelectComum select option{
 	background-color: #E30048;
 	color: white;
 
 }
-.paisSelectDiv{
+#pagFormEntrada .paisSelectDiv{
     width: 45%;
 }
-.estadoSelectDiv{
+#pagFormEntrada .estadoSelectDiv{
     width: 15%;
     margin: 0 5px;
 }
-.cidadeSelectDiv{
+#pagFormEntrada .cidadeSelectDiv{
     width: 35%;
 }
 
-.container {
+#pagFormEntrada .container {
     background-color: #E30048;
   	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			    0 10px 10px rgba(0,0,0,0.22);
@@ -210,31 +210,31 @@ input {
 	min-height: 580px;
 }
 
-.form-container {
+#pagFormEntrada .form-container {
 	position: absolute;
 	top: 0;
 	height: 100%;
 	transition: all 0.6s ease-in-out;
 }
 
-.sign-in-container  {
+#pagFormEntrada .sign-in-container  {
 	left: 0;
 	width: 50%;
 	z-index: 2;
 }
 
-.container.right-panel-active .sign-in-container {
+#pagFormEntrada .container.right-panel-active .sign-in-container {
 	transform: translateX(100%);
 }
 
-.sign-up-container {
+#pagFormEntrada .sign-up-container {
 	left: 0;
 	width: 50%;
 	opacity: 0;
 	z-index: 1;
 }
 
-.container.right-panel-active .sign-up-container {
+#pagFormEntrada .container.right-panel-active .sign-up-container {
 	transform: translateX(100%);
 	opacity: 1;
 	z-index: 5;
@@ -253,7 +253,7 @@ input {
 	}
 }
 
-.overlay-container {
+#pagFormEntrada .overlay-container {
 	position: absolute;
 	top: 0;
 	left: 50%;
@@ -264,11 +264,11 @@ input {
 	z-index: 100;
 }
 
-.container.right-panel-active .overlay-container{
+#pagFormEntrada .container.right-panel-active .overlay-container{
 	transform: translateX(-100%);
 }
 
-.overlay {
+#pagFormEntrada .overlay {
 	background-color: #E30048;
     /* background-image: url('imgs/perfilPadrao.png'); */
 	background-repeat: no-repeat;
@@ -284,11 +284,11 @@ input {
 	transition: transform 0.6s ease-in-out;
 }
 
-.container.right-panel-active .overlay {
+#pagFormEntrada .container.right-panel-active .overlay {
   	transform: translateX(50%);
 }
 
-.overlay-panel {
+#pagFormEntrada .overlay-panel {
 	position: absolute;
 	display: flex;
 	align-items: center;
@@ -300,41 +300,41 @@ input {
 	transform: translateX(0);
 	transition: transform 0.6s ease-in-out;
 }
-.overlay-panel img{
+#pagFormEntrada .overlay-panel img{
     display: block;
     width: 100%;
     height: 100%;
 }
 
-.overlay-left {
+#pagFormEntrada .overlay-left {
 	transform: translateX(-20%);
 }
 
-.container.right-panel-active .overlay-left {
+#pagFormEntrada .container.right-panel-active .overlay-left {
 	transform: translateX(0);
 }
 
-.overlay-right {
+#pagFormEntrada .overlay-right {
 	right: 0;
 	transform: translateX(0);
 }
 
-.container.right-panel-active .overlay-right {
+#pagFormEntrada .container.right-panel-active .overlay-right {
 	transform: translateX(20%);
 }
 
 @media screen and (max-width: 800px) {
-	.container {
+	#pagFormEntrada .container {
 		width: 700px;
 	}
 }
 @media screen and (max-width: 700px) {
-	.container {
+	#pagFormEntrada .container {
 		width: 500px;
 	}
 }
 @media screen and (max-width: 500px) {
-	.container {
+	#pagFormEntrada .container {
 		width: 450px;
 	}
 }

@@ -1,6 +1,6 @@
 #pagPerfil div.esquerda{
     box-sizing: border-box;
-    width: 60%;
+    width: 70%;
     padding: 5px;
 }
 #pagPerfil div.esquerda figure{
@@ -41,4 +41,111 @@
     height: 100%;
     max-width: 100%;
     max-height: 100%;
+}
+
+#pagPerfil div.direita{
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    right: 1%;
+    width: 25%;
+    height: 85vh;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+    padding: 1em 2em;
+    overflow-y: auto;
+    
+}
+#pagPerfil div.direita figure{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    margin-bottom: 1em;
+}
+#pagPerfil div.direita figure img{
+    box-sizing: border-box;
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+#pagPerfil div.direita h1{
+    text-align: center;
+    font-size: 150%;
+}
+#pagPerfil div.direita span{
+    display: flex;
+    margin: 1em 0;
+    text-align: center;
+    color: rgb(109, 109, 109);
+    font-size: 110%;
+    justify-content: center;
+    align-items: center;
+
+}
+#pagPerfil div.direita span img{
+    width: 25px;
+    margin-right: 5px;
+}
+#pagPerfil div.direita p{
+    padding-bottom: 1em;
+    border-bottom: 2px solid black;
+    font-size: 110%;
+}
+#pagPerfil div.direita a{
+    display: flex;
+    align-items: center;
+    color: rgb(109, 109, 109);
+    text-decoration: none;
+    margin-bottom: 1em;
+    font-size: 125%;
+    
+}
+
+#pagPerfil div.direita a img{
+    margin-right: 5px;
+    display: block;
+}
+#pagPerfil div.direita::-webkit-scrollbar {
+    width: 0px;
+    height: 2px;
+}
+#pagPerfil div.direita::-webkit-scrollbar-thumb {
+    background-color: #5e5e5e; 
+  
+}
+#pagPerfil div.direita::-webkit-scrollbar-track {
+    background-color: transparent;
+} 
+#pagPerfil div.direita > button{
+    background-color: transparent;
+    border: transparent;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: right;
+    box-sizing: border-box;
+    font-size: 150%;
+}
+#pagPerfil div.direita > button:hover{
+    cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+	#pagPerfil div.direita {
+		width: 40%;
+	}
+    #pagPerfil div.esquerda{
+        width: 55%;
+    }
+    #pagPerfil div.esquerda > figure{
+        margin-bottom: 1em;
+    }
+    #pagPerfil div.esquerda ul li{
+        width: 24%;
+    }
 }
