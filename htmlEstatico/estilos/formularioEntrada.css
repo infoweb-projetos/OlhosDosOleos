@@ -2,6 +2,14 @@
 	box-sizing: border-box;
 }
 
+header{
+	justify-content: start;
+}
+header > div{
+    display: flex;
+	justify-content: left;
+}
+
 
 textarea{
 	outline: none;
