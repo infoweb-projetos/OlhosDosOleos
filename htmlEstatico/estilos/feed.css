@@ -17,6 +17,7 @@ header{
     justify-content: center;
     padding-bottom: 1em;
 }
+
 header a{
     width: min-content;
     display: flex;
@@ -29,7 +30,7 @@ header p{
     line-height: 1.5em;
     font-size: 140%;
     margin-left: 10px;
-    color: #D9D9D9;
+    color: #000000;
 }
 header > div{
     display: flex;
@@ -102,6 +103,7 @@ header .headerDireita button{
     /* gap: 5px; */
     flex-wrap: wrap;
     align-content: center;
+    padding-bottom: 18px;
 }
 
 #pagFeed li {
@@ -111,6 +113,32 @@ header .headerDireita button{
 
 #pagFeed li img{
     border-radius: 1em;
+}
+
+#pagFeed ol li img{
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 1em;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+#Placa{
+    display: flex;
+    flex-direction: column;
+}
+#Placa li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#organizadora{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
     /*estou usando isso para deixar os textos com cores diferentes*/
