@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import '../estilos/formularioEntrada.css'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 
 const FormularioEntrada: React.FC = () => {
@@ -36,9 +36,8 @@ const FormularioEntrada: React.FC = () => {
     };
 
     const [isArtista, setArtista] = useState(false);
-    const handleCheckArtista = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if (event.target.checked) setArtista(true);
-        else setArtista(false);
+    const handleCheckArtista = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setArtista(e.target.checked); // Sincroniza o estado com o valor do checkbox
     };
 
     const navegar = useNavigate();
@@ -53,6 +52,11 @@ const FormularioEntrada: React.FC = () => {
 
         const formData = new FormData(formElement);
         const userData = Object.fromEntries(formData.entries());
+
+        if ((userData.cadSenha && userData.cadConfirmarSenha) && (userData.cadConfirmarSenha != userData.cadSenha)){
+            alert('Erro ao cadastrar: Verifique as senhas novamente.');
+            return;
+        }
 
         const pais = formData.get('paisSelect');
         const estado = formData.get('ufSelect');
@@ -73,9 +77,15 @@ const FormularioEntrada: React.FC = () => {
             Email: userData.cadEmail ? userData.cadEmail : null,
         };
         try {
-            alert("Tentando ");
+            //alert("Tentando ");
             const response = await axios.post('http://localhost:5000/api/usuario', data);
-            navegar('/feed');
+
+            if (response.data.data) {
+                const senha = response.data.data.Senha;
+                const email = response.data.data.Email;
+                Login(email, senha);
+            }
+
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 let erro = (error.response?.data?.error || error.message).toString();
@@ -160,7 +170,10 @@ const FormularioEntrada: React.FC = () => {
         event.preventDefault();
         const loginUsuario = (event.currentTarget.elements.namedItem('loginUsuario') as HTMLInputElement).value;
         const loginSenha = (event.currentTarget.elements.namedItem('loginSenha') as HTMLInputElement).value;
+        Login(loginUsuario, loginSenha);
+    };
 
+    const Login = async (loginUsuario: string, loginSenha: string) => {
         try {
             const response = await axios.post('http://localhost:5000/api/login', {
                 loginUsuario,
@@ -169,7 +182,7 @@ const FormularioEntrada: React.FC = () => {
 
             localStorage.setItem('token', response.data.token);
 
-            alert('Login bem-sucedido');
+            //alert('Login bem-sucedido');
             navegar('/feed');
         } catch (error: any) {
             console.error('Erro ao fazer login:', error.response?.data?.error || error.message);
@@ -180,10 +193,11 @@ const FormularioEntrada: React.FC = () => {
     return (
         <div id="pagFormEntrada">
             <header>
-                <Link to="/feed">
+                <div className="headerEsquerda">
                     <img src="/imgs/logoHeader.png" />
                     <p>Olhos<br /> dos<br /> Óleos</p>
-                </Link>
+                </div>
+
             </header>
             <main>
                 <section>
@@ -228,7 +242,7 @@ const FormularioEntrada: React.FC = () => {
                                         </div>
                                         <div>
                                             <label>Email:</label>
-                                            <input type="text" name="cadEmail" />
+                                            <input type="email" name="cadEmail" />
                                         </div>
                                         <div>
                                             <label>Senha:</label>
@@ -268,12 +282,14 @@ const FormularioEntrada: React.FC = () => {
                                             </div>
                                         </div>
                                         <div className="campoFlex campoCheck">
-                                            <input type="checkbox" id="artistaCheck" onChange={handleCheckArtista} name="artistaCheck" />
+                                            <input type="checkbox" id="artistaCheck" name="artistaCheck"  checked={isArtista} 
+                                                onChange={handleCheckArtista} />
                                             <label htmlFor="artistaCheck">Artista</label>
                                         </div>
+                             
                                         {!isArtista ?
                                             null :
-                                            <div id="areaCamposContato">
+                                            (<div id="areaCamposContato">
                                                 <div className="campoSelectComum">
                                                     <label htmlFor="tipoUsuarioSelect">Tipo:</label>
                                                     <select id="tipoUsuarioSelect" name="tipoUsuarioSelect" value={especializacaoSelecionada}
@@ -299,7 +315,7 @@ const FormularioEntrada: React.FC = () => {
                                                     <label>Insta:</label>
                                                     <input type="text" name="cadInsta" />
                                                 </div>
-                                            </div>
+                                            </div>)
                                         }
 
                                         <input type="submit" value="Cadastrar" />

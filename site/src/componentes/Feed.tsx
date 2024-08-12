@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+
 interface Usuario {
     usuarioid: number;
     nome: string;
@@ -11,7 +12,6 @@ interface Usuario {
     foto?: string;
     Email: string;
 }
-
 const Feed: React.FC = () => {
     const [usuario, setUsuario] = useState<Usuario | null>(null);
 
@@ -19,14 +19,16 @@ const Feed: React.FC = () => {
         const getUsuario = async () => {
             try {
                 const token = localStorage.getItem('token');
-
+                console.log(token);
                 if (token) {
                     const response = await axios.get<Usuario>('http://localhost:5000/api/usuario', {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     });
+
                     setUsuario(response.data);
+                    ;
                 }
             } catch (error) {
                 console.error('Erro ao obter dados do usuário:', error);
@@ -53,16 +55,28 @@ const Feed: React.FC = () => {
                     <button>
                         <img src="/imgs/menuSanduicheHeader.png" />
                     </button>
-                   
-                   
+
+
                     {usuario ? (
                         <>
-                            <Link to="/feed">
-                                <img src="/imgs/perfilHeader.png" />
-                            </Link>
-                            <Link to="/feed">
-                                {usuario.nome}
-                            </Link>
+                            {usuario.tipo ?
+                                (<Link to="/perfil">
+                                    <img src="/imgs/perfilHeader.png" />
+                                </Link>)
+                                : (
+                                    <>
+                                        <Link to="/feed">
+                                            <img src="/imgs/perfilHeader.png" />
+                                        </Link>
+                                        <Link to="/feed">
+                                            {usuario.nome} 
+                                        </Link>
+                                    </>
+
+                                )
+
+                            }
+
                         </>
                     ) : (
                         <>
@@ -74,7 +88,7 @@ const Feed: React.FC = () => {
                             </Link>
                         </>
                     )}
-                   
+
                 </div>
             </header>
         </>

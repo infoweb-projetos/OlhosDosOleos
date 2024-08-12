@@ -1,6 +1,16 @@
 * {
 	box-sizing: border-box;
 }
+
+#pagFormEntrada header{
+	justify-content: start;
+}
+#pagFormEntrada header > div{
+    display: flex;
+	justify-content: left;
+}
+
+
 #pagFormEntrada textarea{
 	outline: none;
 	width: 100%;
@@ -10,6 +20,7 @@
 	border: none;
 	padding: 6px 3px;
 }
+
 #pagFormEntrada .campoCheck input{
 	transform: scale(1.1);
 }
@@ -17,7 +28,7 @@
 	margin-bottom: 0;
 }
 #pagFormEntrada .campoCheck label:hover, .campoCheck input:hover{
- cursor: pointer;
+	cursor: pointer;
 }
 #pagFormEntrada #inputArquivo{
     display: none;
@@ -57,7 +68,7 @@
 #pagFormEntrada span {
 	font-size: 12px;
 }
-#pagFormEntrada main a{
+#pagFormEntrada a{
     display: block;
     margin-left: auto;
     text-decoration: none;
@@ -125,7 +136,7 @@
 }
 
 
-#pagFormEntrada form.formularioEntrada {
+#pagFormEntrada form {
 	background-color: #E30048;
     color: white;
 	padding: 0 15px;
@@ -137,11 +148,11 @@
     justify-content: center;
     height: 100%;
 }
-#pagFormEntrada form.formularioEntrada > div{
+#pagFormEntrada form > div{
     width: 100%;
     margin-bottom: 3em;
 }
-#pagFormEntrada form.formularioEntrada > div div label{
+#pagFormEntrada form > div div label{
     display: block;
     width: 100%;
     text-align: left;
