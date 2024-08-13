@@ -18,6 +18,7 @@ const Perfil: React.FC = () => {
                             Authorization: `Bearer ${token}`,
                         },
                     });
+                    console.log(response);
                     setUsuario(response.data);
                 }
             } catch (error) {
@@ -109,7 +110,9 @@ const Perfil: React.FC = () => {
             <span>{usuario?.tipo}</span>
             <span> <img src="imgs/icones/localizacao.png"/> {usuario?.localizacao}.</span>
             <p>{usuario?.descricao}</p>
-            <span>Contatos</span>
+            {
+                (usuario?.zap || usuario?.insta || usuario?.face)? (<span>Contatos</span>):null
+            }
             {usuario?.zap ? <a href={usuario?.zap}><img src="imgs/redes/Wpp.png" />{usuario?.zap}</a> : null}
             {usuario?.insta ? <a href={usuario?.insta}><img src="imgs/redes/Insta.png" />{usuario?.insta}</a> : null}
             {usuario?.face ? <a href={usuario?.face}><img src="imgs/redes/Face.png" />{usuario?.face}</a> : null}

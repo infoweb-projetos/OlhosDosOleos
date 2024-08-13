@@ -53,7 +53,7 @@ const FormularioEntrada: React.FC = () => {
         const formData = new FormData(formElement);
         const userData = Object.fromEntries(formData.entries());
 
-        if ((userData.cadSenha && userData.cadConfirmarSenha) && (userData.cadConfirmarSenha != userData.cadSenha)){
+        if (!(userData.cadSenha || userData.cadConfirmarSenha) || (userData.cadConfirmarSenha != userData.cadSenha)){
             alert('Erro ao cadastrar: Verifique as senhas novamente.');
             return;
         }
