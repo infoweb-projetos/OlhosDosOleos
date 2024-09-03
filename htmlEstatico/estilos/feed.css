@@ -9,9 +9,9 @@ header{
     justify-content: space-between;*/
     box-sizing: border-box;
     width: 100%;
-    background: linear-gradient(to bottom, rgb(187 187 187), rgba(0, 0, 0, 0));
+    background: #F5E8E8;
     height: 150px;
-    color: white;
+    color: #F5E8E8;
     display: flex;
     align-items: center;
     justify-content: center;
