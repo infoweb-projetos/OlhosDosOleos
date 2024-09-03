@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -8,6 +10,7 @@ header{
     display: flex;
     justify-content: space-between;*/
     box-sizing: border-box;
+    box-shadow: 1px 1px #00000025;
     width: 100%;
     background: #F5E8E8;
     height: 150px;
@@ -16,12 +19,14 @@ header{
     align-items: center;
     justify-content: center;
     padding-bottom: 1em;
+    font-family: "Ubuntu", sans-serif;
 }
 
 header a{
     width: min-content;
     display: flex;
     text-decoration: none;
+    color: #E30048;
 }
 header p{
     display: flex;
@@ -41,33 +46,68 @@ header > div{
 }
 header form{
     display: flex;
+    justify-content: left;
     align-items: center;
     margin-left: 25px;
-    background-color:  #F8F1EE;
     width: 100%;
     padding: 8px;
-    border-radius: 30px;
-    border: 1px solid black;
+}
+
+header form div{
+    display: flex;
+    justify-items: center;
+    box-sizing: border-box;
+    box-shadow: 1px 1px #00000025;
+    border: 1px solid #F5E8E8;
+    padding: 8px;
+    background-color: #FFFFFF;
+    width: 500px;
+    height: 35px;
+    border-radius: 5px;
 }
 header form input[type="image"]{
     display: block;
-    width: min-content;
-    height: min-content;
     background-color: transparent;
     width: 25px;
-
     margin: 0;
 }
 
-header form input[type="search"]{
-    width: 100%;
-    background-color: transparent;
+header form input[type="text"]{
+    padding-top: 2px;
+    padding-left: 8px;
+    font-size: 14px;
     outline: none;
     border: none;
-    margin: 0;
-    margin-left: 5px;
 }
+header form input[type="text"]::placeholder{
+    font-weight: lighter;
+    color: #B0B0B0;
 
+}
+header form button{
+    background-color: #E30048;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #E30048;
+    border-radius: 5px;
+    color: #FFFFFF;
+    margin: 10px;
+    box-shadow: 1px 1px #00000025;
+    font-weight: 500;
+}
+.headerEsquerda{
+    margin-left: 1em;
+}
+.headerEsquerda ul{
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+}
+.headerEsquerda ul a{
+    padding: 20px;
+    text-decoration: none;
+    
+}
 header .headerDireita{
     display: flex;
     align-items: center;
@@ -106,10 +146,6 @@ header .headerDireita button{
     padding-bottom: 18px;
 }
 
-#pagFeed li {
-    height: 200px;
-    width: 200px;
-}
 
 #pagFeed li img{
     border-radius: 1em;
