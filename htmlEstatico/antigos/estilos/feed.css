@@ -10,15 +10,14 @@ header{
     display: flex;
     justify-content: space-between;*/
     box-sizing: border-box;
-    box-shadow: 1px 1px #00000025;
+    box-shadow: 0px 0px 4px #00000025;
     width: 100%;
     background: #F5E8E8;
-    height: 150px;
+    height: 90px;
     color: #F5E8E8;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 1em;
     font-family: "Ubuntu", sans-serif;
 }
 
@@ -48,16 +47,15 @@ header form{
     display: flex;
     justify-content: left;
     align-items: center;
-    margin-left: 25px;
     width: 100%;
-    padding: 8px;
 }
 
 header form div{
     display: flex;
     justify-items: center;
     box-sizing: border-box;
-    box-shadow: 1px 1px #00000025;
+    align-items: center;
+    box-shadow: 0px 0px 4px #00000025;
     border: 1px solid #F5E8E8;
     padding: 8px;
     background-color: #FFFFFF;
@@ -68,7 +66,7 @@ header form div{
 header form input[type="image"]{
     display: block;
     background-color: transparent;
-    width: 25px;
+    width: 20px;
     margin: 0;
 }
 
@@ -82,55 +80,63 @@ header form input[type="text"]{
 header form input[type="text"]::placeholder{
     font-weight: lighter;
     color: #B0B0B0;
-
+    font-size: 14px;
+    font-family: "Ubuntu", sans-serif;
 }
 header form button{
     background-color: #E30048;
     box-sizing: border-box;
-    padding: 8px;
+    padding: 8.5px;
     border: 1px solid #E30048;
     border-radius: 5px;
     color: #FFFFFF;
     margin: 10px;
-    box-shadow: 1px 1px #00000025;
+    box-shadow: 0px 0px 4px #00000025;
     font-weight: 500;
+    font-family: "Ubuntu", sans-serif;
 }
 .headerEsquerda{
     margin-left: 1em;
 }
 .headerEsquerda ul{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     list-style-type: none;
+    margin: 10px 28px;
 }
 .headerEsquerda ul a{
-    padding: 20px;
+    padding: 10px;
     text-decoration: none;
     
 }
-header .headerDireita{
+.headerEsquerda li{
+    font-size: 20px;
+}
+.headerDireita{
+    float: right;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    
 }
-header .headerDireita a{
-    color: black;
+.headerDireita .login{
+    background-color: #ffffff;
+    border: 1px solid #FFF7F7;
 }
-header .headerDireita img{
-    margin: 0 20px;
+.headerDireita .criarPerfil{
+    background-color: #E30048;
+    border: 1px solid #E30048;
 }
-header .headerDireita button{
-    display: block;
-    background-color: transparent;
-    border: none;
-	color: #FFFFFF;
-	font-weight:normal;
-	transition: transform 80ms ease-in;
-    width: 50%;
-    margin: 0 auto;
-    font-size: 17px;
-    cursor: pointer;
+.headerDireita a{
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 8px;
+    box-shadow: 0px 0px 4px #00000025;
+    height: 36px;
 }
+.headerDireita p{
+    font-size: 12px;
+}
+
 
 #pagFeed ol {
     display: flex;
