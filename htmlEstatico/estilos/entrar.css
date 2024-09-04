@@ -1,0 +1,96 @@
+body{
+    background-color: #EEEEEE;
+}
+.figureHeader{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    padding: 0.5em 1em;
+    box-sizing: border-box;
+}
+.botaoComum{
+    width: fit-content;
+    box-sizing: border-box;
+    margin: 1em auto;
+}
+.botaoComum p{
+    color: #000000;
+}
+.linkSimples{
+    color: #000000;
+    font-size: 11px; 
+    display: block;
+    width: 70%;
+
+    margin: 2px auto;
+}
+.linkSimples b{
+    color: var(--corPrincipal);
+    font-size: 11px; 
+}
+input{
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #E4E4EA;
+    padding: 5px 0;
+    display: block; 
+    margin: 0.5em auto;
+    width: 70%;
+    background-color: #FFFFFF;
+}
+.formCompleto{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+}
+span{
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0.5em 0;
+}
+form figure{
+    display: block;
+    text-align: center;
+    width: 100%;
+    
+}
+h2{
+    width: 100%;
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 2.5em;
+    font-size: 130%;
+}
+
+.formCompleto > figure{
+    box-sizing: border-box;
+}
+.formCompleto > figure img{
+    height: 670px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+form{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    width: 35%;
+    padding: 1em 4em;
+    background-color: #FFFFFF;
+    height: 670px;
+    box-sizing: border-box;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+input[type="submit"]{
+    width: 70%;
+    border-radius: 10px;
+}
+form div{
+    width: 100%;
+}

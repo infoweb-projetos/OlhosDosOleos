@@ -30,7 +30,7 @@ input[type="submit"]{
     justify-content: space-between;
     padding: 2em 1em;
     background-color: var(--corHeader);
-
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
 }
 
 .headerEsquerda, .headerEsquerda ul, .headerEsquerda form{
@@ -86,6 +86,7 @@ input[type="submit"]{
     background-color: transparent;
     border: none;
     display: flex;
+    align-items: center;
     justify-content: center;
     border-radius: 5px;
     padding: 9px;
