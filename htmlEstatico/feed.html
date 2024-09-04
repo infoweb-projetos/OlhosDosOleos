@@ -7,6 +7,7 @@
     <title>Óleos dos Olhos - Explorar</title>
     <link rel="icon" type="image/x-icon" href="imgs/icones/signo.svg">
     <link rel="stylesheet" href="estilos/feed.css">
+    <script src="scripts/dropdownButton.js"></script>
 </head>
 <body>
     
@@ -37,9 +38,18 @@
                     <img src="imgs/icones/signIn-icon.svg">
                     <p>Cadastrar-se</p>
                 </a>
-                <button type="button" name="OptionsButton">
-                    <img src="imgs/icones/options.png" />
-                </button>
+                <div class="dropdown">
+                    <button type="button" onclick="OptionsFunction()" class="optionsButton" name="optionsButton">
+                        <img src="imgs/icones/options.png" />
+                    </button>
+                    <div id="options" class="dropdown-content">
+                        <a href="sobre.html">Sobre Óleos dos Olhos</a>
+                        <a href="memorial.html">Memorial</a>
+                        <a href="ajuda.html">Ajuda</a>
+                        <a href="politicaPrivacidade.html">Política de Privacidade</a>
+                        <a href="termosUso.html">Termos de Uso e Serviço</a>
+                    </div>
+                </div>
             </div>
         </header>
        
