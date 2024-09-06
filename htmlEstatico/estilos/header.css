@@ -1,14 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-}
-
 header{
-    /*padding: 1.2em;
-    display: flex;
-    justify-content: space-between;*/
     box-sizing: border-box;
     box-shadow: 0px 0px 4px #00000025;
     width: 100%;
@@ -136,10 +126,10 @@ header form button{
     color: #E30048;
     font-weight: 500;
 }
-.headerDireita a{
+.botaoComum{
     border-radius: 5px;
     box-sizing: border-box;
-    padding: 8px;
+
     box-shadow: 0px 0px 4px #00000025;
     height: 36px;
     display: flex;
@@ -153,7 +143,12 @@ header form button{
 
 
 
-.optionsButton {
+.submenu{
+    visibility: hidden;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.submenu > a{
     text-align: center;
     box-sizing: border-box;
     padding: 4px 8px;
@@ -161,49 +156,43 @@ header form button{
     background-color: transparent;
     margin-right: 16px;
     cursor: pointer;
-  }
-  .optionsButton:hover, .optionsButton:focus {
-    background-color: transparent;
-    border-bottom: #E30048;
-  }
-  
-  /* The container <div> - needed to position the dropdown content */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    display: flex;
-  }
-  
-  /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
-    display: none;
+    visibility: visible;
+}
+.submenu:hover{
+    visibility: visible;
+}
+.menuVermelho{
+    background-color: var(--corPrincipal);
+    border-radius: 7px;
+    padding: 3px;
     position: absolute;
-    right: 16px;
-    top: 36px;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(226, 100, 100, 0.2);
-    z-index: 1;
-    border-radius: 5px;
-  }
-  
-  /* Links inside the dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 10px 10px;
+    right: 0;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+}
+.menuVermelho a{
+    color: #FFFFFF;
+}
+.menuVermelho a:hover{
+    background-color: var(--corPrincipalEscura);
+}
+.menuItemComum{
     text-decoration: none;
-    display: block;
-    box-sizing: border-box;
-    height: max-content;
-    width: 100%;
-    /* border-radius: 0px; */
-    background-color: #FFFFFF;
-    color: #E30048;
-    border: 1px solid #FFF7F7;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: rgba(0, 0, 0, 0.1);}
-  
-  /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-  .show {display:block;}
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: left;
+    border-radius: 5px;
+    padding: 9px;
+}
+.menuItemComum img{
+    margin-right: 7px;
+}
+
+
+
+/* Responsividade */
+@media screen and (max-width: 800px) {
+    .headerEsquerda{
+        width: 75%;
+    }
+}
