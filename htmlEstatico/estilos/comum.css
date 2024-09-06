@@ -4,14 +4,13 @@
     --corPrincipalEscura: #8D002D;
     --corHeader: #F5E8E8;
 }
-@font-face {
-    font-family: 'Ubuntu';
-    src: url('Ubuntu-Regular.ttf');
-}
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
 *{
     padding: 0;
     margin: 0;
-    font-family: Ubuntu, sans-serif;
+    font-family: 'Ubuntu';
+    font-size: 14px;
 }
 ul, ol{
     list-style-type: none;
@@ -22,3 +21,90 @@ a{
 input[type="submit"]{
     cursor: pointer; 
 }
+
+/* Comum */
+.botaoComum{
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 9px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+}
+.botaoComum img{
+    margin-right: 7px;
+}
+
+.fundoBtVermelho{
+    background-color: var(--corPrincipal);
+    color: #FFFFFF;
+}
+.bordarBranca{
+    border: 1px solid #FFFFFF;
+}
+.fundoBtBranco{
+    background-color: #FFF7F7;
+    color:  var(--corPrincipal);
+}
+.pagSelecionada{
+    font-weight: bold;
+}
+.marginEsquerda{
+    margin-left: 10px;
+}
+.centralizado{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.submenu > button{
+    text-align: center;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    border: none;
+    background-color: transparent;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.menuVermelho{
+    background-color: var(--corPrincipal);
+    border-radius: 7px;
+    padding: 3px;
+    position: absolute;
+    right: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);    
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 500ms;
+}
+.menuVermelho a{
+    color: #FFFFFF;
+}
+.menuVermelho a:hover{
+    background-color: var(--corPrincipalEscura);
+}
+.menuItemComum{
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: left;
+    border-radius: 5px;
+    padding: 9px;
+    color: #FFFFFF;
+    box-sizing: border-box;
+    width: 100%;
+}
+.menuItemComum p{
+    box-sizing: border-box;
+    color: #FFFFFF;
+}
+.menuItemComum img{
+    margin-right: 3px;
+}
+

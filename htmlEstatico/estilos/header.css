@@ -1,71 +1,61 @@
-header{
-    box-sizing: border-box;
-    box-shadow: 0px 0px 4px #00000025;
-    width: 100%;
-    background: #F5E8E8;
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.2em;
     height: 90px;
-    color: #F5E8E8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "Ubuntu", sans-serif;
+    background-color: var(--corHeader);
+    box-sizing: border-box;
+    box-shadow: 0px 0px 4px #00000025;
 }
 
-header a{
-    width: min-content;
+.headerLogo{
     display: flex;
-    text-decoration: none;
-    color: #E30048;
-}
-header p{
-    display: flex;
+    align-items: center;
     justify-content: center;
+
+}
+.headerLogo img{
+    margin-right: 1em;
+}
+.headerEsquerda, .headerEsquerda ul, .headerEsquerda form{
+    display: flex;
     align-items: center;
-    line-height: 1.5em;
+}
+
+.headerEsquerda {
+    width: 45%;
+}
+.headerEsquerda  > a{
+    margin-right: 10px;
+}
+.headerEsquerda > ul a{
     font-size: 140%;
-    margin-left: 10px;
-    color: #000000;
 }
-header > div{
-    display: flex;
+.headerEsquerda > ul > li > a{
+    margin: 0 10px;
+    color: var(--corPrincipal);
 }
-.headerEsquerda{
-    width: 85%;
-    align-items: center;
-}
-header form{
-    display: flex;
-    justify-content: left;
-    align-items: center;
+.headerEsquerda form {
     width: 100%;
 }
-
-header form div{
+.headerEsquerda form div{
     display: flex;
-    justify-items: center;
-    box-sizing: border-box;
     align-items: center;
-    box-shadow: 0px 0px 4px #00000025;
-    border: 1px solid #F5E8E8;
-    padding: 8px;
     background-color: #FFFFFF;
-    width: 500px;
-    height: 35px;
+    padding: 7px 5px;
+    margin: 0 10px;
+    margin-left: 1em;
     border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(121, 120, 120, 0.3);
+    width: 100%;
 }
-header form input[type="image"]{
-    display: block;
-    background-color: transparent;
-    width: 20px;
-    margin: 0;
-}
-
-header form input[type="text"]{
-    padding-top: 2px;
-    padding-left: 8px;
-    font-size: 14px;
+.headerEsquerda form div input[type="text"]{
     outline: none;
     border: none;
+    padding: 0 8px;
+    width: 100%;
+
 }
 header form input[type="text"]::placeholder{
     font-weight: lighter;
@@ -73,119 +63,17 @@ header form input[type="text"]::placeholder{
     font-size: 14px;
     font-family: "Ubuntu", sans-serif;
 }
-header form button{
-    background-color: #E30048;
-    box-sizing: border-box;
-    padding: 8.5px;
-    border: 1px solid #E30048;
-    border-radius: 5px;
-    color: #FFFFFF;
-    margin: 10px;
-    box-shadow: 0px 0px 4px #00000025;
-    font-weight: 500;
-    font-family: "Ubuntu", sans-serif;
-}
-.headerEsquerda{
-    margin-left: 1em;
-}
-.headerEsquerda ul{
-    display: flex;
-    justify-content: space-between;
-    list-style-type: none;
-    margin: 10px 28px;
-}
-.headerEsquerda ul a{
-    padding: 10px;
-    text-decoration: none;
-    
-}
-.headerEsquerda li{
-    font-size: 20px;
-}
-.headerDireita{
-    float: right;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.headerDireita .login{
-    width: 96px;
-    background-color: #ffffff;
-    border: 1px solid #FFF7F7;
-}
-.headerDireita .criarPerfil{
-    width: 130px;
-    background-color: #E30048;
-    border: 1px solid #E30048;
-}
-.headerDireita .criarPerfil p{
-    color: white;
-    font-weight: 500;
-}
-.headerDireita .login p{
-    color: #E30048;
-    font-weight: 500;
-}
-.botaoComum{
-    border-radius: 5px;
-    box-sizing: border-box;
-
-    box-shadow: 0px 0px 4px #00000025;
-    height: 36px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-right: 16px;
-}
-.headerDireita p{
-    font-size: 14px;
-}
-
-
-
-.submenu{
-    visibility: hidden;
-    padding: 0 10px;
-    cursor: pointer;
-}
-.submenu > a{
-    text-align: center;
-    box-sizing: border-box;
-    padding: 4px 8px;
-    border: none;
-    background-color: transparent;
-    margin-right: 16px;
-    cursor: pointer;
-    visibility: visible;
-}
-.submenu:hover{
-    visibility: visible;
-}
-.menuVermelho{
-    background-color: var(--corPrincipal);
-    border-radius: 7px;
-    padding: 3px;
-    position: absolute;
-    right: 0;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
-}
-.menuVermelho a{
+.headerEsquerda form > input{
+    height: 100%;
     color: #FFFFFF;
 }
-.menuVermelho a:hover{
-    background-color: var(--corPrincipalEscura);
-}
-.menuItemComum{
-    text-decoration: none;
-    background-color: transparent;
-    border: none;
+
+.headerDireita > ul{
     display: flex;
-    justify-content: left;
-    border-radius: 5px;
-    padding: 9px;
+    align-items: center;
 }
-.menuItemComum img{
-    margin-right: 7px;
+.headerDireita > ul > li{
+    margin: 0 8px;
 }
 
 
@@ -194,5 +82,14 @@ header form button{
 @media screen and (max-width: 800px) {
     .headerEsquerda{
         width: 75%;
+    }
+	.botaoComum p{
+        display: none;
+    }
+    .botaoComum img{
+        margin: 0;
+    }
+    .headerEsquerda form > input{
+        display: none;
     }
 }

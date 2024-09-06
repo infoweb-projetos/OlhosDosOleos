@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,42 +9,44 @@
     <link rel="icon" type="image/x-icon" href="imgs/header/signo.svg">
     <link rel="stylesheet" href="estilos/comum.css">
     <link rel="stylesheet" href="estilos/header.css">
-    <script src="scripts/dropdownButton.js"></script>
+    <script src="scripts/modal.js"></script>
 </head>
+
 <body>
-    
-    <div id="pagFeed">
-        <header>
-            <div class="headerEsquerda">
-                <a href="feed.html">
-                    <img src="imgs/header/signo.svg" />
-                </a>
-                <ul>
-                    <a href="feed.html"><li>Explorar</li></a>
-                    <a href="verPortfolios.html"><li>Portfólios</li></a>
-                </ul>
-                <form method="get" action="">
+    <div class="header">
+        <div class="headerEsquerda">
+            <a class="headerLogo"  href="#"><img   src="imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante."/></a>
+            <ul>
+                <li><a class="pagSelecionada" href="#">Explorar</a></li>
+                <li><a href="#">Portfólios</a></li>
+            </ul>
+            <form action="#">
+                <div>
+                    <input type="image" src="imgs/header/lupa.svg" alt="Icone de lupa."/> 
+                    <input type="text" placeholder='Busque por "aquarela"'/>
+                </div>
+                <input type="submit" class="botaoComum fundoBtVermelho" value="Pesquisar" />   
+            </form>
+        </div>
+        <div class="headerDireita">
+            <!-- Menu Visitante -->
+            <ul>
+                <li>
+                    <a href="#" class="botaoComum fundoBtBranco" >
+                        <img src="imgs/header/login-icon.svg" alt="Icone de entrar."/>
+                        <p>Entrar</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="botaoComum fundoBtVermelho">
+                        <img src="imgs/header/signIn-icon.svg" alt="Icone de cadastrar-se."/>
+                        <p>Cadastre-se</p>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" onclick="AbrirFecharModal('modalOpcoes')" class="marginEsquerda"><img src="imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></a>
                     <div>
-                        <input type="image" src="imgs/header/lupa.svg" />
-                        <input type="text" name="pesquisa" placeholder='Busque por "aquarela"' /> 
-                    </div>
-                    <button class="botaoComum" type="submit">Pesquisar</button>
-                </form>
-            </div>
-            <div class="headerDireita">
-                <a href="entrada.html" class="botaoComum login">
-                    <img src="imgs/header/login-icon.svg">
-                    <p>Entrar</p>
-                </a>
-                <a href="criarPerfil.html" class="botaoComum criarPerfil">
-                    <img src="imgs/header/signIn-icon.svg">
-                    <p>Cadastrar-se</p>
-                </a>
-                
-                <div class="submenu">
-                    <a href="#" class="marginEsquerda"><img src="imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></a>
-                    <div>
-                        <ul class="menuVermelho">
+                        <ul id="modalOpcoes" class="menuVermelho">
                             <li>
                                 <a class="menuItemComum" href="#">
                                     <p>Sobre</p>
@@ -71,40 +74,28 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-
+                </li>
+            </ul>
             <!-- Menu Logado -->
-            <!-- 
-                <div>
+            <!-- <ul>
+                <li>
                     <a href="#" class="botaoComum fundoBtVermelho bordarBranca">
                         <img src="imgs/header/maisIcone.png" alt="Icone de entrar."/>
                         <p>Criar</p>
                     </a>
-                </div>
-                <div>
+                </li>
+                <li>
                     <a href="#" class="marginEsquerda centralizado"><img src="imgs/header/notificacaoIcone.png" alt="Icone de notificação." /></a>
-                </div>
-                <div>
+                </li>
+                <li>
                     <a href="#" class="centralizado"><img src="imgs/header/perfilIcone.png" alt="Icone de perfil." /></a>
-                </div>
-                <div>
+                </li>
+                <li>
                     <a href="#" class="centralizado"><img src="imgs/header/configuracaoIcone.png" alt="Icone de configuração." /></a>
-                </div>
-           -->
-                <!-- <div class="dropdown">
-                    <button type="button" onclick="OptionsFunction()" class="optionsButton" name="optionsButton">
-                        <img src="imgs/header/options.png" />
-                    </button>
-                    <div id="options" class="dropdown-content">
-                        <a href="sobre.html">Sobre Óleos dos Olhos</a>
-                        <a href="memorial.html">Memorial</a>
-                        <a href="ajuda.html">Ajuda</a>
-                        <a href="politicaPrivacidade.html">Política de Privacidade</a>
-                        <a href="termosUso.html">Termos de Uso e Serviço</a>
-                    </div>
-                </div> -->
-            </div>
-        </header>
+                </li>
+            </ul> -->
+        </div>
     </div>
 </body>
+
 </html>
