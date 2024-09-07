@@ -6,7 +6,7 @@ body{
     justify-content: left;
     align-items: center;
     width: 100%;
-    padding: 0.5em 1em;
+    padding: 0.7em 1em;
     box-sizing: border-box;
 }
 .botaoComum{
@@ -19,15 +19,26 @@ body{
 }
 .linkSimples{
     color: #000000;
-    font-size: 11px; 
+    font-size: 12px; 
     display: block;
     width: 70%;
 
     margin: 2px auto;
+    padding-bottom: 4px;
+
+}
+
+.linkSimples b,.linkSimples mark{
+    font-size: 12px; 
+    background-color: transparent;
+    padding-bottom: 4px;
+}
+.linkSimples mark{
+    border-bottom: 2px solid #E4E4EA;
+    font-weight: none;
 }
 .linkSimples b{
     color: var(--corPrincipal);
-    font-size: 11px; 
 }
 input{
     border: none;
@@ -38,6 +49,14 @@ input{
     margin: 0.5em auto;
     width: 70%;
     background-color: #FFFFFF;
+    font-family: "DM Sans";
+    font-weight: bold;
+    font-size: 18px;
+}
+input::placeholder{
+    font-family: "DM Sans Thin";
+    font-weight: 500;
+    font-size: 18px;
 }
 .formCompleto{
     width: 100%;
@@ -60,8 +79,8 @@ form figure{
 h2{
     width: 100%;
     text-align: center;
-    margin-top: 2em;
-    margin-bottom: 2.5em;
+    margin-top: 1em;
+    margin-bottom: 1.5em;
     font-size: 130%;
 }
 
@@ -70,8 +89,8 @@ h2{
 }
 .formCompleto > figure img{
     height: 670px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 form{
@@ -84,13 +103,44 @@ form{
     background-color: #FFFFFF;
     height: 670px;
     box-sizing: border-box;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
 }
 input[type="submit"]{
     width: 70%;
     border-radius: 10px;
+    margin-bottom: 10px;
 }
 form div{
     width: 100%;
+}
+
+input[type="password"]::-ms-reveal,  /* Para Internet Explorer */
+input[type="password"]::-ms-clear,   /* Para Internet Explorer */
+input[type="password"]::-webkit-clear-button, /* Para navegadores Webkit */
+input[type="password"]::-webkit-input-password-toggle {
+  display: none; /* Esconde o ícone nativo */
+}
+
+
+.campoSenha {
+  position: relative;
+  display: inline-block;
+}
+.olhoSenha {
+  position: absolute;
+  top: 40%;
+  left: 78%;
+  width: min-content;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+
+.google{
+    margin-top: 0.8em;
+    margin-bottom: 1.3em;
+}
+form > span{
+    margin-top: 1.3em;
 }

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Óleos dos Olhos</title>
-    <link rel="icon" type="image/x-icon" href="imgs/icones/signo.svg">
+    <title>Óleos dos Olhos - Entrar</title>
+    <link rel="icon" type="image/x-icon" href="imgs/header/signo.svg">
     <link rel="stylesheet" href="estilos/comum.css">
     <link rel="stylesheet" href="estilos/entrar.css">
+    <script src="scripts/mostrarSenha.js"></script>
 </head>
 <body>
     <figure class="figureHeader">
@@ -18,17 +19,24 @@
             <figure>
                 <img src="imgs/entrar/logoOdoVermelha.png"/>
             </figure>
-            <h2>Entrar</h2>
-            <input type="text" placeholder="nome email"/>
-            <input type="password" placeholder="senha"/>
-            <span>-OU-</span>
-            <a href="" class="botaoComum">
+            <h2 class="dmSans">Entrar</h2>
+            <input name="login" type="text" class="dmSansThin" placeholder="nome ou email"/>
+            <div class="campoSenha">
+                <input name="senha" type="password" id="campoSenhaEntrar" class="dmSansThin" placeholder="senha"/>
+                <span class="olhoSenha" onclick="mostrarSenha('campoSenhaEntrar')">
+                    <img src="imgs/entrar/iconeVerSenha.svg" alt="Mostrar senha" />
+                </span>
+            </div>
+            <span class="dmSansThin">-OU-</span>
+            <a href="" class="botaoComum google">
                 <img src="imgs/entrar/googleIcone.png" />
                 <p>Entre com o Google</p>
             </a>
             <div>
                 <input class="botaoComum fundoBtVermelho" type="submit" value="Entrar" />
-                <a class="linkSimples" href="#">Ainda não possui uma conta? Registre-se  <b>aqui</b></a>
+                <a class="linkSimples" href="#" class="dmSans">
+                    Ainda não possui uma conta? <mark  class="dmSans">Registre-se  <b class="dmSans">aqui</b></mark>
+                </a>
             </div>
         </form>
         <figure>
