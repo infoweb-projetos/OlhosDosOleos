@@ -17,8 +17,8 @@
         <div class="headerEsquerda">
             <a class="headerLogo"  href="#"><img   src="imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante."/></a>
             <ul>
-                <li><a class="pagSelecionada" href="#">Explorar</a></li>
-                <li><a href="#">Portfólios</a></li>
+                <li><a  href="#">Explorar</a></li>
+                <li><a class="pagSelecionada" href="#">Portfólios</a></li>
             </ul>
             <form action="#">
                 <div>
@@ -79,7 +79,7 @@
             <!-- Menu Logado -->
             <!-- <ul>
                 <li>
-                    <a href="#" class="botaoComum fundoBtVermelho bordarBranca">
+                    <a href="#" class="botaoComum fundoBtVermelho ">
                         <img src="imgs/header/maisIcone.png" alt="Icone de entrar."/>
                         <p>Criar</p>
                     </a>
@@ -87,11 +87,37 @@
                 <li>
                     <a href="#" class="marginEsquerda centralizado"><img src="imgs/header/notificacaoIcone.png" alt="Icone de notificação." /></a>
                 </li>
-                <li>
-                    <a href="#" class="centralizado"><img src="imgs/header/perfilIcone.png" alt="Icone de perfil." /></a>
+                <li onclick="AbrirFecharModal('modalPerfilHeader')">
+                    <a href="#"  class="centralizado"><img src="imgs/header/perfilIcone.png" alt="Icone de perfil." /></a>
+                    <ul id="modalPerfilHeader" class="menuVermelho">
+                        <li>
+                            <a class="menuItemComum" href="#">
+                                <img src="imgs/header/editarHeader.svg" alt="Lapis."/>
+                                <p>Editar perfil</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="menuItemComum" href="#">
+                                <img src="imgs/header/favoritarHeader.svg" alt="Icone de banner."/>
+                                <p>Itens Favoritos</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="menuItemComum" href="#">
+                                <img src="imgs/header/atividadeHeader.svg" alt="Icone de relogio."/>
+                                <p>Minha Atividade</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="menuItemComum" href="#">
+                                <img src="imgs/header/sairHeader.svg" alt="Porta de Saida"/>
+                                <p>Sair</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="#" class="centralizado"><img src="imgs/header/configuracaoIcone.png" alt="Icone de configuração." /></a>
+                    <a href="#" class="centralizado tirarMarginDireita"><img src="imgs/header/configuracaoIcone.png" alt="Icone de configuração." /></a>
                 </li>
             </ul> -->
         </div>

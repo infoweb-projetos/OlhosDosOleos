@@ -4,9 +4,10 @@
     align-items: center;
     padding: 0 1.2em;
     height: 90px;
+    width: 100%;
     background-color: var(--corHeader);
     box-sizing: border-box;
-    box-shadow: 0px 0px 4px #00000025;
+    box-shadow: 0px 0px 8px #00000025;
 }
 
 .headerLogo{
@@ -29,40 +30,46 @@
 .headerEsquerda  > a{
     margin-right: 10px;
 }
-.headerEsquerda > ul a{
-    font-size: 140%;
-}
+
 .headerEsquerda > ul > li > a{
+    font-size: 20px;
+    font-weight: lighter;
     margin: 0 10px;
     color: var(--corPrincipal);
 }
 .headerEsquerda form {
     width: 100%;
+    margin-left: 10px;
 }
 .headerEsquerda form div{
     display: flex;
     align-items: center;
     background-color: #FFFFFF;
-    padding: 7px 5px;
+    padding: 6px;
     margin: 0 10px;
     margin-left: 1em;
     border-radius: 5px;
-    box-shadow: 0px 0px 4px rgba(121, 120, 120, 0.3);
-    width: 100%;
+    box-shadow: 0px 0px 8px rgba(121, 120, 120, 0.3);
+    border: 1px solid #F5E8E8;
+    width: 500px;
 }
 .headerEsquerda form div input[type="text"]{
     outline: none;
     border: none;
     padding: 0 8px;
+    box-sizing: border-box;
+    font-size: 14px;
     width: 100%;
-
 }
-header form input[type="text"]::placeholder{
-    font-weight: lighter;
+.headerEsquerda form div input[type="text"]::placeholder{
+    font-family: 'UbuntuLeve';
     color: #B0B0B0;
     font-size: 14px;
-    font-family: "Ubuntu", sans-serif;
 }
+header form input[type="submit"]{
+    font-size: 14px;
+}
+
 .headerEsquerda form > input{
     height: 100%;
     color: #FFFFFF;
@@ -76,7 +83,26 @@ header form input[type="text"]::placeholder{
     margin: 0 8px;
 }
 
+.botaoComum p{
+    font-size: 14px;
+}
 
+.marginEsquerda{
+    margin-left: 10px;
+}
+.tirarMarginDireita{
+    margin-right: 0;
+}
+
+@media screen and (max-width: 1018px) {
+    .headerEsquerda form div{
+        width: 100%;
+    }
+    .headerEsquerda{
+        width: 75%;
+    }
+	
+}
 
 /* Responsividade */
 @media screen and (max-width: 800px) {
@@ -89,7 +115,17 @@ header form input[type="text"]::placeholder{
     .botaoComum img{
         margin: 0;
     }
+    .headerEsquerda  > a{
+        margin-right: 5px;
+    }
+    .headerEsquerda > ul > li > a{
+        margin: 0 6px;
+    }
+    .headerEsquerda form {
+        margin-left: 0;
+    }
     .headerEsquerda form > input{
         display: none;
     }
+
 }
