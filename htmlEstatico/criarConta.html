@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Óleos dos Olhos - Criar Conta</title>
+    <link rel="icon" type="image/x-icon" href="imgs/header/signo.svg">
+    <link rel="stylesheet" href="estilos/comum.css">
+    <link rel="stylesheet" href="estilos/entrar.css">
+    <link rel="stylesheet" href="estilos/criarConta.css">
+</head>
+<body>
+    <figure class="figureHeader">
+        <img src="imgs/header/logo.png" alt="Logo do site. Signo em formato de cabeça de elefante."/>
+    </figure>
+    <div class="formCompleto">
+        <div class="progress-container">
+            <div class="barra-progresso">
+                <div class="progresso" id="progresso"></div>
+                <div class="etapa-progresso active">1</div>
+                <div class="etapa-progresso">2</div>
+                <div class="etapa-progresso">3</div>
+                <div class="etapa-progresso">4</div>
+                <div class="etapa-progresso">5</div>
+            </div>
+        </div>
+    
+        <div class="etapa-form active">
+            <!-- Conteúdo da etapa 1 -->
+            <h2>Informações essenciais</h2>
+            <p>Complete seu cadastro para começar a compartilhar sua arte!</p>
+            <input type="text" placeholder="Digite seu Nome" />
+            <input type="email" placeholder="Digite seu E-mail" />
+            <input type="text" placeholder="Nome de usuário" />
+            <input type="password" placeholder="Senha" />
+            <button id="proximoBotao">Próximo passo</button>
+        </div>
+    
+        <div class="etapa-form">
+            <!-- Conteúdo da etapa 2 -->
+            <h2>Etapa 2</h2>
+            <p>Outras informações...</p>
+            <button id="anteriorBotao">Voltar</button>
+            <button id="proximoBotao">Próximo passo</button>
+        </div>
+    
+        <!-- Adicionar mais etapas conforme necessário -->
+    
+        
+        <figure>
+            <img src="imgs/entrar/banner.png" />
+        </figure>
+    </div>
+    <script src="scripts/progress-bar.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.progress-container {
+    margin: 30px auto;
+    width: 100%;
+    max-width: 600px;
+}
+
+.barra-progresso {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.barra-progresso::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #ccc;
+    z-index: -1;
+}
+
+.progresso {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 4px;
+    background-color: #e5097f;
+    z-index: -1;
+    transition: width 0.3s ease;
+}
+
+.etapa-progresso {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #999;
+}
+
+.etapa-progresso {
+    border-color: #e5097f;
+    color: #e5097f;
+}
+
+.etapa-form {
+    display: none;
+}
+
+.etapa-form.active {
+    display: block;
+}
