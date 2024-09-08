@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Óleos dos Olhos - Meu Perfil</title>
+  <link rel="stylesheet" href="estilos/verPerfil.css">
+  <link rel="stylesheet" href="estilos/header.css">
+  <link rel="stylesheet" href="estilos/comum.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHqTZZ2G5cq3dFj5QixUnDyS5eSH5clOxF9GaS9sFZGkaFW4AhP/Nlthxguvb9Ue4wYp8Fg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <div class="header">
+    <div class="headerEsquerda">
+      <a class="headerLogo" href="#">
+        <img src="imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante." />
+      </a>
+      <ul>
+        <li><a href="#">Explorar</a></li>
+        <li><a class="pagSelecionada" href="#">Portfólios</a></li>
+      </ul>
+      <form action="#">
+        <div>
+          <input type="image" src="imgs/header/lupa.svg" alt="Icone de lupa." />
+          <input type="text" placeholder='Busque por "aquarela"' />
+        </div>
+        <input type="submit" class="botaoComum fundoBtVermelho" value="Pesquisar" />
+      </form>
+    </div>
+    <div class="headerDireita">
+      <ul>
+        <li>
+          <a href="/" class="botaoComum fundoBtBranco">
+            <img src="imgs/header/login-icon.svg" alt="Icone de entrar." />
+            <p>Entrar</p>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="botaoComum fundoBtVermelho">
+            <img src="imgs/header/signIn-icon.svg" alt="Icone de cadastrar-se." />
+            <p>Cadastre-se</p>
+          </a>
+        </li>
+        <li class="submenu">
+          <a href="#" onclick="AbrirFecharModal('modalOpcoes')" class="marginEsquerda">
+            <img src="imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" />
+          </a>
+          <div>
+            <ul id="modalOpcoes" class="menuVermelho">
+              <li>
+                <a class="menuItemComum" href="#">
+                  <p>Sobre</p>
+                </a>
+              </li>
+              <li>
+                <a class="menuItemComum" href="#">
+                  <p>Memorial</p>
+                </a>
+              </li>
+              <li>
+                <a class="menuItemComum" href="#">
+                  <p>Ajuda</p>
+                </a>
+              </li>
+              <li>
+                <a class="menuItemComum" href="#">
+                  <p>Política de Privacidade</p>
+                </a>
+              </li>
+              <li>
+                <a class="menuItemComum" href="#">
+                  <p>Termos de Serviço</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="page-container">
+    <div class="banner">
+      <img src="imgs/verPerfil/banner.jpg" alt="Banner Image">
+      <button class="add-banner-btn">
+        <img src="imgs/verPerfil/add_image.svg" alt="Add Banner">
+      </button>
+      <div class="banner-text">
+        Adicionar uma imagem de banner<br>
+        Dimensões ideais 3200 x 410px
+      </div>
+    </div>
+    
+    <div class="main-content">
+      <div class="portfolio-section">
+        <h1>Portfólio</h1>
+        <div class="portfolio-grid">
+          <div class="new-project-card">
+            <button class="new-project-button">
+              <span class="new-project-icon">+</span>
+              <span class="new-project-text">Novo Projeto</span>
+            </button>
+            <p class="new-project-description">
+              Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
+            </p>
+          </div>
+          <div class="project-card"></div>
+          <div class="project-card"></div>
+          <div class="project-card"></div>
+          <div class="project-card"></div>
+          <div class="project-card"></div>
+          <div class="project-card"></div>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="profile-image-background"></div>
+          <img src="imgs/verPerfil/perfil.png" alt="Imagem de Perfil" class="profile-image" />
+          <div class="profile-info">
+            <h2>Nome do Artista</h2>
+            <p>Artista Digital</p>
+            <p><img class="location-icon" src="imgs/verPerfil/location_icon.png" alt="Localização"> Brasil, Rio Grande do Norte, Natal</p>
+          </div>
+        </div>
+    
+        <hr />
+    
+        <div class="profile-contacts">
+          <h3>Contatos</h3>
+          <p>Na WEB</p>
+          <table class="contacts-table">
+            <tbody>
+              <tr>
+                <td class="contact-cell">
+                  <div class="contact-content">
+                    <img class="contact-icon" src="imgs/verPerfil/whatsapp_icon.png" alt="WhatsApp">
+                    <span>WhatsApp</span>
+                    <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="contact-cell">
+                  <div class="contact-content">
+                    <img class="contact-icon" src="imgs/verPerfil/facebook logo_icon.png" alt="Facebook">
+                    <span>Facebook</span>
+                    <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="contact-cell">
+                  <div class="contact-content">
+                    <img class="contact-icon" src="imgs/verPerfil/instagram_icon.png" alt="Instagram">
+                    <span>Instagram</span>
+                    <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="contact-cell">
+                  <div class="contact-content">
+                    <img class="contact-icon" src="imgs/verPerfil/youtubelogo_icon.png" alt="YouTube">
+                    <span>YouTube</span>
+                    <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    
+        <div class="profile-actions">
+          <button><img class="button-icon" src="imgs/verPerfil/edit_icon.svg" alt="Editar">Editar Informações do perfil</button>
+          <button class="no-padding"><img class="button-icon" src="imgs/verPerfil/personalize_icon.svg" alt="Personalizar">Personalizar perfil</button>
+        </div>
+    
+        <div class="profile-stats">
+          <div class="stat">
+            <span class="count">1234</span>
+            <span class="label">Seguidores</span>
+          </div>
+          <div class="stat">
+            <span class="count">56</span>
+            <span class="label">Posts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
