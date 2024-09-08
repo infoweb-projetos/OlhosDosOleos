@@ -81,10 +81,10 @@ input[type="submit"]{
 .submenu > button{
     text-align: center;
     box-sizing: border-box;
-    padding: 4px 8px;
+    /* padding: 4px 8px; */
     border: none;
     background-color: transparent;
-    margin-right: 16px;
+    /* margin-right: 16px; */
     cursor: pointer;
 }
 

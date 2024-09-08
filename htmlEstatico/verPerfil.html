@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="imgs/header/signo.svg">
   <title>Óleos dos Olhos - Meu Perfil</title>
-  <link rel="stylesheet" href="estilos/verPerfil.css">
-  <link rel="stylesheet" href="estilos/header.css">
   <link rel="stylesheet" href="estilos/comum.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHqTZZ2G5cq3dFj5QixUnDyS5eSH5clOxF9GaS9sFZGkaFW4AhP/Nlthxguvb9Ue4wYp8Fg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="estilos/header.css">
+  <link rel="stylesheet" href="estilos/verPerfil.css">
+  <script src="scripts/modal.js"></script>
+  <script src="scripts/selecionarArquivo.js"></script>
 </head>
+
 <body>
-  <div class="header">
+  <div class="header som">
     <div class="headerEsquerda">
-      <a class="headerLogo" href="#">
-        <img src="imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante." />
-      </a>
+      <a class="headerLogo" href="#"><img src="imgs/header/signo.svg"
+          alt="Logo do site. Signo em formato de cabeça de elefante." /></a>
       <ul>
         <li><a href="#">Explorar</a></li>
         <li><a class="pagSelecionada" href="#">Portfólios</a></li>
@@ -30,7 +33,7 @@
     <div class="headerDireita">
       <ul>
         <li>
-          <a href="/" class="botaoComum fundoBtBranco">
+          <a href="#" class="botaoComum fundoBtBranco">
             <img src="imgs/header/login-icon.svg" alt="Icone de entrar." />
             <p>Entrar</p>
           </a>
@@ -42,9 +45,8 @@
           </a>
         </li>
         <li class="submenu">
-          <a href="#" onclick="AbrirFecharModal('modalOpcoes')" class="marginEsquerda">
-            <img src="imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" />
-          </a>
+          <button href="#" onclick="AbrirFecharModal('modalOpcoes')" class="marginEsquerda"><img
+              src="imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></button>
           <div>
             <ul id="modalOpcoes" class="menuVermelho">
               <li>
@@ -76,30 +78,111 @@
           </div>
         </li>
       </ul>
+
     </div>
   </div>
-  <div class="page-container">
-    <div class="banner">
-      <img src="imgs/verPerfil/banner.jpg" alt="Banner Image">
-      <button class="add-banner-btn">
-        <img src="imgs/verPerfil/add_image.svg" alt="Add Banner">
-      </button>
-      <div class="banner-text">
-        Adicionar uma imagem de banner<br>
-        Dimensões ideais 3200 x 410px
-      </div>
+
+  <form action="" class="banner ">
+    <img class="esconda" alt="Banner Image" id="imgBanner">
+    <button type="button" onclick="SelecionarArquivoImg('inputImgBanner', 'imgBanner')" class="add-banner-btn">
+      <img src="imgs/verPerfil/add_image.svg" alt="Add Banner">
+    </button>
+    <input type="file" id="inputImgBanner">
+    <div class="banner-text">
+      Adicionar uma imagem de banner<br>
+      Dimensões ideais 3200 x 410px
     </div>
-    
+  </form>
+
+  <div class="page-container">
     <div class="main-content">
       <div class="portfolio-section">
-        <h1>Portfólio</h1>
+        <h1 class="dmSansThin">Portfólio</h1>
         <div class="portfolio-grid">
           <div class="new-project-card">
-            <button class="new-project-button">
-              <span class="new-project-icon">+</span>
-              <span class="new-project-text">Novo Projeto</span>
-            </button>
-            <p class="new-project-description">
+            <a href="" class="new-project-button">
+              <span class="new-project-icon dmSansThin">+</span>
+              <span class="new-project-text dmSansThin">Criar um Projeto</span>
+            </a>
+            <p class="new-project-description dmSans">
+              Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
+            </p>
+          </div>
+          <div class="project-card guiaCondutor">
+            <p class="dmSansThin">Lista de verificação de perfil</p>
+            <ul>
+              <li>
+                <a class="bordaInferiror" href="#">
+                  <div>
+                    <canvas class="circuloBrancoVazio"></canvas>
+                    <span class="dmSansThin">Adicionar Localização</span>
+                  </div>
+                  <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                </a>
+              </li>
+              <li>
+                <a class="bordaInferiror" href="#">
+                  <div>
+                    <canvas class="circuloBrancoVazio"></canvas>
+                    <span class="dmSansThin">Adicionar Contatos</span>
+                  </div>
+                  <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                </a>
+              </li>
+              <li>
+                <a class="bordaInferiror" href="#">
+                  <div>
+                    <canvas class="circuloBrancoVazio"></canvas>
+                    <span class="dmSansThin">Adicionar Biografia</span>
+                  </div>
+                  <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <div>
+                    <canvas class="circuloBrancoVazio"></canvas>
+                    <span class="dmSansThin">Adicionar Foto de Perfil</span>
+                  </div>
+                  <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                </a>
+              </li>
+            </ul>
+            <a href=""><b class="bordaInferiror dmSansThin">Não mostrar novamente</b></a>
+          </div>
+          <div class="project-card imagemPortifolio">
+            <a href="">
+              <img src="imgs/temp/imgPortifolio.png" alt="Obra do artista." />
+            </a>
+          </div>
+          <div class="project-card imagemPortifolio">
+            <a href="">
+              <img src="imgs/temp/imgPortifolio.png" alt="Obra do artista." />
+            </a>
+          </div>
+          <div class="project-card imagemPortifolio">
+            <a href="">
+              <img class="conteudoSensivel" src="imgs/temp/imgPortifolio.png" alt="Obra do artista." />
+              <div>
+                <img src="imgs/verPerfil/olhoSensivel.svg" alt="Icone indicando conteudo sensivel." />
+              </div>
+            </a>
+          </div>
+          <!-- <div class="new-project-card">
+            <a href="" class="new-project-button">
+              <span class="new-project-icon dmSans">+</span>
+              <span class="new-project-text dmSans">Criar um Projeto</span>
+            </a>
+            <p class="new-project-description dmSans">
+              Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
+            </p>
+          </div>
+          <div class="new-project-card">
+            <a href="" class="new-project-button">
+              <span class="new-project-icon dmSans">+</span>
+              <span class="new-project-text dmSans">Criar um Projeto</span>
+            </a>
+            <p class="new-project-description dmSans">
               Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
             </p>
           </div>
@@ -108,7 +191,7 @@
           <div class="project-card"></div>
           <div class="project-card"></div>
           <div class="project-card"></div>
-          <div class="project-card"></div>
+          <div class="project-card"></div> -->
         </div>
       </div>
 
@@ -117,16 +200,22 @@
           <div class="profile-image-background"></div>
           <img src="imgs/verPerfil/perfil.png" alt="Imagem de Perfil" class="profile-image" />
           <div class="profile-info">
-            <h2>Nome do Artista</h2>
-            <p>Artista Digital</p>
-            <p><img class="location-icon" src="imgs/verPerfil/location_icon.png" alt="Localização"> Brasil, Rio Grande do Norte, Natal</p>
+            <h2 class="dmSansThin">Nome do Artista</h2>
+            <p class="dmSansThin">Artista Digital</p>
+            <a href="" class="dmSansThin botaoComum fundoBtVermelho"> <img src="imgs/header/maisIcone.png" />Seguir</a>
+            <!-- Para ver o botão acima e so ir no css do verPErfil.css procurar .profile-info .botaoComum
+            e comentar o visibility -->
+            <p class="dmSans"><img class="location-icon" src="imgs/verPerfil/location_icon.png" alt="Localização">
+              Brasil, Rio Grande do Norte, Natal</p>
           </div>
         </div>
-    
-        <hr />
-    
+
+        <p class="dmSansThin descricaoPerfil">
+          Arte é minha terapia, produzo para desopilar e aliviar o estresse cotidiano.
+        </p>
+
         <div class="profile-contacts">
-          <h3>Contatos</h3>
+          <h3 class="dmSansThin">Contatos</h3>
           <p>Na WEB</p>
           <table class="contacts-table">
             <tbody>
@@ -169,12 +258,14 @@
             </tbody>
           </table>
         </div>
-    
+
         <div class="profile-actions">
-          <button><img class="button-icon" src="imgs/verPerfil/edit_icon.svg" alt="Editar">Editar Informações do perfil</button>
-          <button class="no-padding"><img class="button-icon" src="imgs/verPerfil/personalize_icon.svg" alt="Personalizar">Personalizar perfil</button>
+          <a href=""><img class="button-icon" src="imgs/verPerfil/edit_icon.svg" alt="Editar">Editar Informações do
+            perfil</a>
+          <a href="" class="no-padding"><img class="button-icon" src="imgs/verPerfil/personalize_icon.svg"
+              alt="Personalizar">Personalizar perfil</a>
         </div>
-    
+
         <div class="profile-stats">
           <div class="stat">
             <span class="count">1234</span>
@@ -189,4 +280,5 @@
     </div>
   </div>
 </body>
+
 </html>
