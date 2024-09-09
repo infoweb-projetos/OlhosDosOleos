@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Óleos dos Olhos - Explorar</title>
+    <link rel="icon" type="image/x-icon" href="imgs/header/signo.svg">
+    <link rel="stylesheet" href="estilos/comum.css">
+    <link rel="stylesheet" href="estilos/header.css">
+    <link rel="stylesheet" href="estilos/verperfildoartista.css">
+
+    <script src="scripts/modal.js"></script>
+
+</head>
+
+<body>
+    <div class="header" id="he">
+        <div class="headerEsquerda">
+            <a class="headerLogo"  href="#"><img   src="imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante."/></a>
+            <ul>
+                <li><a  href="#">Explorar</a></li>
+                <li><a class="pagSelecionada" href="#">Portfólios</a></li>
+            </ul>
+            <form action="#">
+                <div>
+                    <input type="image" src="imgs/header/lupa.svg" alt="Icone de lupa."/> 
+                    <input type="text" placeholder='Busque por "aquarela"'/>
+                </div>
+                <input type="submit" class="botaoComum fundoBtVermelho" value="Pesquisar" />   
+            </form>
+        </div>
+        <div class="headerDireita">
+            <!-- Menu Visitante -->
+            <ul>
+                <li>
+                    <a href="#" class="botaoComum fundoBtBranco" >
+                        <img src="imgs/header/login-icon.svg" alt="Icone de entrar."/>
+                        <p>Entrar</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="botaoComum fundoBtVermelho">
+                        <img src="imgs/header/signIn-icon.svg" alt="Icone de cadastrar-se."/>
+                        <p>Cadastre-se</p>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#" onclick="AbrirFecharModal('modalOpcoes')" class="marginEsquerda"><img src="imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></a>
+                    <div>
+                        <ul id="modalOpcoes" class="menuVermelho">
+                            <li>
+                                <a class="menuItemComum" href="#">
+                                    <p>Sobre</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="menuItemComum" href="#">
+                                    <p>Memorial</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="menuItemComum" href="#">
+                                    <p>Ajuda</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="menuItemComum" href="#">
+                                    <p>Política de Privacidade</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="menuItemComum" href="#">
+                                    <p>Termos de Serviço</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-container">
+        <div class="banner">
+          <img src="imgs/verPerfil/bannerTemp.png" alt="Banner Image">
+          
+        </div>
+        
+        <div class="main-content">
+          <div class="portfolio-section">
+            <h1>Portfólio</h1>
+            <div class="portfolio-grid">
+              
+              <div class="project-card"><img src="imgs/verPerfil/MorangoArt.png" alt="Imagem de Perfil" /></div>
+              <div class="project-card"><img src="imgs/verPerfil/MorangoArt.png" alt="Imagem de Perfil" /></div>
+              <div class="project-card"><img src="imgs/verPerfil/MorangoArt.png" alt="Imagem de Perfil" /></div>
+              <div class="project-card"><img src="imgs/verPerfil/MorangoArt.png" alt="Imagem de Perfil" /></div>
+              <div class="project-card"><img src="imgs/verPerfil/MorangoArt.png" alt="Imagem de Perfil" /></div>
+              <div class="project-card"><img src="imgs/verPerfil/MorangoArt.png" alt="Imagem de Perfil" /></div>
+            </div>
+          </div>
+    
+          <div class="profile-card">
+            <a href="entrar.html" id="x"><div>X</div></a>
+            <div class="profile-header">
+              <div class="profile-image-background"></div>
+              <img src="imgs/verPerfil/MorangoArt.png" alt="Imagem de Perfil" class="profile-image" />
+              <div class="profile-info">
+                <h2>Nome do Artista</h2>
+                <p>Artista Digital</p>
+
+                <button class="btnseguir"> +Seguir </button>
+                <p><img class="location-icon" src="imgs/verPerfil/location_icon.png" alt="Localização"> Brasil, Rio Grande do Norte, Natal</p>
+              </div>
+            </div>
+        
+            <hr />
+        
+            <div class="profile-contacts">
+              <h3>Contatos</h3>
+              <p>Na WEB</p>
+              <table class="contacts-table">
+                <tbody>
+                  <tr>
+                    <td class="contact-cell">
+                      <div class="contact-content">
+                        <img class="contact-icon" src="imgs/verPerfil/whatsapp_icon.png" alt="WhatsApp">
+                        <span>WhatsApp</span>
+                        <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="contact-cell">
+                      <div class="contact-content">
+                        <img class="contact-icon" src="imgs/verPerfil/facebook logo_icon.png" alt="Facebook">
+                        <span>Facebook</span>
+                        <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="contact-cell">
+                      <div class="contact-content">
+                        <img class="contact-icon" src="imgs/verPerfil/instagram_icon.png" alt="Instagram">
+                        <span>Instagram</span>
+                        <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="contact-cell">
+                      <div class="contact-content">
+                        <img class="contact-icon" src="imgs/verPerfil/youtubelogo_icon.png" alt="YouTube">
+                        <span>YouTube</span>
+                        <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        
+            <div class="profile-stats">
+              <div class="stat">
+                <span class="count">1234</span>
+                <span class="label">Seguidores</span>
+              </div>
+              <div class="stat">
+                <span class="count">56</span>
+                <span class="label">Posts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+   
+</body>
+
+</html>
