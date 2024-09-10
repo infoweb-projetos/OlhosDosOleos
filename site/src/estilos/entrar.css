@@ -1,0 +1,164 @@
+body{
+    background-color: #EEEEEE;
+}
+#entrarPag .figureHeader {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    padding: 0.7em 1em;
+    box-sizing: border-box;
+}
+
+#entrarPag .botaoComum {
+    width: fit-content;
+    box-sizing: border-box;
+    margin: 1em auto;
+}
+
+#entrarPag .botaoComum p {
+    color: #000000;
+}
+
+#entrarPag .linkSimples {
+    color: #000000;
+    font-size: 12px; 
+    display: block;
+    width: 70%;
+    margin: 2px auto;
+    padding-bottom: 4px;
+}
+
+#entrarPag .linkSimples b,
+#entrarPag .linkSimples mark {
+    font-size: 12px; 
+    background-color: transparent;
+    padding-bottom: 4px;
+}
+
+#entrarPag .linkSimples mark {
+    border-bottom: 2px solid #E4E4EA;
+    font-weight: none;
+}
+
+#entrarPag .linkSimples b {
+    color: var(--corPrincipal);
+}
+
+#entrarPag input[type="text"],  #entrarPag input[type="password"] {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #E4E4EA;
+    padding: 5px 9px;
+    display: block; 
+    margin: 0.5em auto;
+    width: 70%;
+    background-color: #FFFFFF;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#entrarPag input[type="text"]::placeholder, #entrarPag input[type="password"]::placeholder {
+    font-family: "DM Sans Thin";
+    font-weight: 500;
+    font-size: 18px;
+}
+
+#entrarPag .formCompleto {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+#entrarPag span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0.5em 0;
+}
+
+#entrarPag form figure {
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+#entrarPag h2 {
+    width: 100%;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+    font-size: 130%;
+}
+
+#entrarPag .formCompleto > figure {
+    box-sizing: border-box;
+}
+
+#entrarPag .formCompleto > figure img {
+    height: 670px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+#entrarPag form {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    width: 35%;
+    padding: 1em 4em;
+    background-color: #FFFFFF;
+    height: 670px;
+    box-sizing: border-box;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+#entrarPag input[type="submit"] {
+    width: 70%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: var(--corPrincipal);
+    font-size: 18px;
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+}
+
+#entrarPag form div {
+    width: 100%;
+}
+
+#entrarPag input[type="password"]::-ms-reveal,  /* Para Internet Explorer */
+#entrarPag input[type="password"]::-ms-clear,   /* Para Internet Explorer */
+#entrarPag input[type="password"]::-webkit-clear-button, /* Para navegadores Webkit */
+#entrarPag input[type="password"]::-webkit-input-password-toggle {
+  display: none; /* Esconde o ícone nativo */
+}
+
+#entrarPag .campoSenha {
+  position: relative;
+  display: inline-block;
+}
+
+#entrarPag .olhoSenha {
+  position: absolute;
+  top: 40%;
+  left: 78%;
+  width: min-content;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+#entrarPag .google {
+    margin-top: 0.8em;
+    margin-bottom: 1.1em;
+   
+}
+#entrarPag .google p{
+    font-size: 16px;
+}
+#entrarPag form > span {
+    margin-top: 1.3em;
+}

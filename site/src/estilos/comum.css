@@ -1,0 +1,136 @@
+/* Configurações basicas */
+:root {
+    --corPrincipal: #E30048;
+    --corPrincipalEscura: #8D002D;
+    --corHeader: #F5E8E8;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('fontes/Ubuntu-Regular.ttf');
+}
+@font-face {
+    font-family: 'UbuntuLeve';
+    src: url('fontes/Ubuntu-Light.ttf');
+}
+@font-face {
+    font-family: 'DM Sans';
+    src: url('fontes/DMSans_18pt-Regular.ttf');
+}
+@font-face {
+    font-family: 'DM Sans Thin';
+    src: url('fontes/DMSans_18pt-Thin.ttf');
+}
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Ubuntu', sans-serif;
+}
+ul, ol{
+    list-style-type: none;
+}
+a{
+    text-decoration: none;
+}
+input[type="submit"], button{
+    cursor: pointer; 
+}
+
+/* Comum */
+.botaoComum{
+    text-decoration: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 9.5px;
+    font-weight: 500;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+}
+.botaoComum img{
+    margin-right: 7px;
+}
+
+
+.fundoBtVermelho{
+    background-color: var(--corPrincipal);
+    color: #FFFFFF;
+}
+
+.fundoBtBranco{
+    background-color: #FFF7F7;
+    color:  var(--corPrincipal);
+}
+.pagSelecionada{
+   font-weight: 9000;
+}
+.buttonSemEstilo{
+    background-color: transparent;
+    border: none;
+
+}
+.centralizado{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dmSans{
+    font-family:  "DM Sans", sans-serif;
+}
+.dmSansThin{
+    font-family: "DM Sans Thin", sans-serif;
+}
+
+.submenu > button{
+    text-align: center;
+    box-sizing: border-box;
+    /* padding: 4px 8px; */
+    border: none;
+    background-color: transparent;
+    /* margin-right: 16px; */
+    cursor: pointer;
+}
+
+.menuVermelho{
+    background-color: var(--corPrincipal);
+    border-radius: 7px;
+    padding: 3px;
+    position: absolute;
+    right: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);    
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 500ms;
+}
+.menuVermelho a, .menuVermelho button{
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+  
+}
+.menuVermelho a:hover, .menuVermelho button:hover{
+    background-color: var(--corPrincipalEscura);
+}
+.menuItemComum{
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: left;
+    border-radius: 5px;
+    padding: 9px;
+    color: #FFFFFF;
+    box-sizing: border-box;
+    width: 100%;
+}
+.menuItemComum p{
+    box-sizing: border-box;
+    color: #FFFFFF;
+    font-size: 16px;
+}
+.menuItemComum img{
+    margin-right: 8px;
+
+}

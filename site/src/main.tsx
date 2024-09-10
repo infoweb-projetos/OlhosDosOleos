@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import './estilos/principal.css'
+import './estilos/comum.css'
+import './estilos/header.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
