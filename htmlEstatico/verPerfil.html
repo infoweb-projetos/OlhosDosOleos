@@ -14,271 +14,250 @@
 </head>
 
 <body>
-  <div class="header som">
-    <div class="headerEsquerda">
-      <a class="headerLogo" href="#"><img src="imgs/header/signo.svg"
-          alt="Logo do site. Signo em formato de cabeça de elefante." /></a>
-      <ul>
-        <li><a href="#">Explorar</a></li>
-        <li><a class="pagSelecionada" href="#">Portfólios</a></li>
-      </ul>
-      <form action="#">
-        <div>
-          <input type="image" src="imgs/header/lupa.svg" alt="Icone de lupa." />
-          <input type="text" placeholder='Busque por "aquarela"' />
-        </div>
-        <input type="submit" class="botaoComum fundoBtVermelho" value="Pesquisar" />
-      </form>
-    </div>
-    <div class="headerDireita">
-      <ul>
-        <li>
-          <a href="#" class="botaoComum fundoBtBranco">
-            <img src="imgs/header/login-icon.svg" alt="Icone de entrar." />
-            <p>Entrar</p>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="botaoComum fundoBtVermelho">
-            <img src="imgs/header/signIn-icon.svg" alt="Icone de cadastrar-se." />
-            <p>Cadastre-se</p>
-          </a>
-        </li>
-        <li class="submenu">
-          <button href="#" onclick="AbrirFecharModal('modalOpcoes')" class="marginEsquerda"><img
-              src="imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></button>
+  <div class="paginaPerfil">
+    <div class="header">
+      <div class="headerEsquerda">
+        <a class="headerLogo" href="#"><img src="imgs/header/signo.svg"
+            alt="Logo do site. Signo em formato de cabeça de elefante." /></a>
+        <ul>
+          <li><a href="#">Explorar</a></li>
+          <li><a class="pagSelecionada" href="#">Portfólios</a></li>
+        </ul>
+        <form action="#">
           <div>
-            <ul id="modalOpcoes" class="menuVermelho">
-              <li>
-                <a class="menuItemComum" href="#">
-                  <p>Sobre</p>
-                </a>
-              </li>
-              <li>
-                <a class="menuItemComum" href="#">
-                  <p>Memorial</p>
-                </a>
-              </li>
-              <li>
-                <a class="menuItemComum" href="#">
-                  <p>Ajuda</p>
-                </a>
-              </li>
-              <li>
-                <a class="menuItemComum" href="#">
-                  <p>Política de Privacidade</p>
-                </a>
-              </li>
-              <li>
-                <a class="menuItemComum" href="#">
-                  <p>Termos de Serviço</p>
-                </a>
-              </li>
-            </ul>
+            <input type="image" src="imgs/header/lupa.svg" alt="Icone de lupa." />
+            <input type="text" placeholder='Busque por "aquarela"' />
           </div>
-        </li>
-      </ul>
-
+          <input type="submit" class="botaoComum fundoBtVermelho" value="Pesquisar" />
+        </form>
+      </div>
+      <div class="headerDireita">
+        <ul>
+          <li>
+            <a href="#" class="botaoComum fundoBtBranco">
+              <img src="imgs/header/login-icon.svg" alt="Icone de entrar." />
+              <p>Entrar</p>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="botaoComum fundoBtVermelho">
+              <img src="imgs/header/signIn-icon.svg" alt="Icone de cadastrar-se." />
+              <p>Cadastre-se</p>
+            </a>
+          </li>
+          <li class="submenu">
+            <button href="#" onclick="AbrirFecharModal('modalOpcoes')" class="marginEsquerda"><img
+                src="imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></button>
+            <div>
+              <ul id="modalOpcoes" class="menuVermelho">
+                <li>
+                  <a class="menuItemComum" href="#">
+                    <p>Sobre</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="menuItemComum" href="#">
+                    <p>Memorial</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="menuItemComum" href="#">
+                    <p>Ajuda</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="menuItemComum" href="#">
+                    <p>Política de Privacidade</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="menuItemComum" href="#">
+                    <p>Termos de Serviço</p>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+  
+      </div>
+    </div>
+  
+    <form action="" class="banner ">
+      <img class="esconda" alt="Banner Image" id="imgBanner">
+      <button type="button" onclick="SelecionarArquivoImg('inputImgBanner', 'imgBanner')" class="add-banner-btn">
+        <img src="imgs/verPerfil/add_image.svg" alt="Add Banner">
+      </button>
+      <input type="file" id="inputImgBanner">
+      <div class="banner-text">
+        Adicionar uma imagem de banner<br>
+        Dimensões ideais 3200 x 410px
+      </div>
+    </form>
+  
+    <div class="page-container">
+      <div class="main-content">
+        <div class="portfolio-section">
+          <h1 class="dmSansThin">Portfólio</h1>
+          <div class="portfolio-grid">
+            <div class="new-project-card">
+              <a href="" class="new-project-button">
+                <span class="new-project-icon dmSansThin">+</span>
+                <span class="new-project-text dmSansThin">Criar um Projeto</span>
+              </a>
+              <p class="new-project-description dmSans">
+                Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
+              </p>
+            </div>
+            <div class="project-card guiaCondutor">
+              <p class="dmSansThin">Lista de verificação de perfil</p>
+              <ul>
+                <li>
+                  <a class="bordaInferiror" href="#">
+                    <div>
+                      <canvas class="circuloBrancoVazio"></canvas>
+                      <span class="dmSansThin">Adicionar Localização</span>
+                    </div>
+                    <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                  </a>
+                </li>
+                <li>
+                  <a class="bordaInferiror" href="#">
+                    <div>
+                      <canvas class="circuloBrancoVazio"></canvas>
+                      <span class="dmSansThin">Adicionar Contatos</span>
+                    </div>
+                    <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                  </a>
+                </li>
+                <li>
+                  <a class="bordaInferiror" href="#">
+                    <div>
+                      <canvas class="circuloBrancoVazio"></canvas>
+                      <span class="dmSansThin">Adicionar Biografia</span>
+                    </div>
+                    <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div>
+                      <canvas class="circuloBrancoVazio"></canvas>
+                      <span class="dmSansThin">Adicionar Foto de Perfil</span>
+                    </div>
+                    <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                  </a>
+                </li>
+              </ul>
+              <a href=""><b class="bordaInferiror dmSansThin">Não mostrar novamente</b></a>
+            </div>
+            <div class="project-card imagemPortifolio">
+              <a href="">
+                <img src="imgs/temp/imgPortifolio.png" alt="Obra do artista." />
+              </a>
+            </div>
+            <div class="project-card imagemPortifolio">
+              <a href="">
+                <img src="imgs/temp/imgPortifolio.png" alt="Obra do artista." />
+              </a>
+            </div>
+            <div class="project-card imagemPortifolio">
+              <a href="">
+                <img class="conteudoSensivel" src="imgs/temp/imgPortifolio.png" alt="Obra do artista." />
+                <div>
+                  <img src="imgs/verPerfil/olhoSensivel.svg" alt="Icone indicando conteudo sensivel." />
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-image-background"></div>
+            <img src="imgs/verPerfil/perfil.png" alt="Imagem de Perfil" class="profile-image" />
+            <div class="profile-info">
+              <h2 class="dmSansThin">Nome do Artista</h2>
+              <p class="dmSansThin">Artista Digital</p>
+              <a href="" class="dmSansThin botaoComum fundoBtVermelho"> <img src="imgs/header/maisIcone.png" />Seguir</a>
+              <!-- Para ver o botão acima e so ir no css do verPErfil.css procurar .profile-info .botaoComum
+              e comentar o visibility -->
+              <p class="dmSans"><img class="location-icon" src="imgs/verPerfil/location_icon.png" alt="Localização">
+                Brasil, Rio Grande do Norte, Natal</p>
+            </div>
+          </div>
+  
+          <p class="dmSansThin descricaoPerfil">
+            Arte é minha terapia, produzo para desopilar e aliviar o estresse cotidiano.
+          </p>
+  
+          <div class="profile-contacts">
+            <h3 class="dmSansThin">Contatos</h3>
+            <p>Na WEB</p>
+            <table class="contacts-table">
+              <tbody>
+                <tr>
+                  <td class="contact-cell">
+                    <div class="contact-content">
+                      <img class="contact-icon" src="imgs/verPerfil/whatsapp_icon.png" alt="WhatsApp">
+                      <span>WhatsApp</span>
+                      <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contact-cell">
+                    <div class="contact-content">
+                      <img class="contact-icon" src="imgs/verPerfil/facebook logo_icon.png" alt="Facebook">
+                      <span>Facebook</span>
+                      <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contact-cell">
+                    <div class="contact-content">
+                      <img class="contact-icon" src="imgs/verPerfil/instagram_icon.png" alt="Instagram">
+                      <span>Instagram</span>
+                      <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contact-cell">
+                    <div class="contact-content">
+                      <img class="contact-icon" src="imgs/verPerfil/youtubelogo_icon.png" alt="YouTube">
+                      <span>YouTube</span>
+                      <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+  
+          <div class="profile-actions">
+            <a href=""><img class="button-icon" src="imgs/verPerfil/edit_icon.svg" alt="Editar">Editar Informações do
+              perfil</a>
+            <a href="" class="no-padding"><img class="button-icon" src="imgs/verPerfil/personalize_icon.svg"
+                alt="Personalizar">Personalizar perfil</a>
+          </div>
+  
+          <div class="profile-stats">
+            <div class="stat">
+              <span class="count">1234</span>
+              <span class="label">Seguidores</span>
+            </div>
+            <div class="stat">
+              <span class="count">56</span>
+              <span class="label">Posts</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <form action="" class="banner ">
-    <img class="esconda" alt="Banner Image" id="imgBanner">
-    <button type="button" onclick="SelecionarArquivoImg('inputImgBanner', 'imgBanner')" class="add-banner-btn">
-      <img src="imgs/verPerfil/add_image.svg" alt="Add Banner">
-    </button>
-    <input type="file" id="inputImgBanner">
-    <div class="banner-text">
-      Adicionar uma imagem de banner<br>
-      Dimensões ideais 3200 x 410px
-    </div>
-  </form>
-
-  <div class="page-container">
-    <div class="main-content">
-      <div class="portfolio-section">
-        <h1 class="dmSansThin">Portfólio</h1>
-        <div class="portfolio-grid">
-          <div class="new-project-card">
-            <a href="" class="new-project-button">
-              <span class="new-project-icon dmSansThin">+</span>
-              <span class="new-project-text dmSansThin">Criar um Projeto</span>
-            </a>
-            <p class="new-project-description dmSans">
-              Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
-            </p>
-          </div>
-          <div class="project-card guiaCondutor">
-            <p class="dmSansThin">Lista de verificação de perfil</p>
-            <ul>
-              <li>
-                <a class="bordaInferiror" href="#">
-                  <div>
-                    <canvas class="circuloBrancoVazio"></canvas>
-                    <span class="dmSansThin">Adicionar Localização</span>
-                  </div>
-                  <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                </a>
-              </li>
-              <li>
-                <a class="bordaInferiror" href="#">
-                  <div>
-                    <canvas class="circuloBrancoVazio"></canvas>
-                    <span class="dmSansThin">Adicionar Contatos</span>
-                  </div>
-                  <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                </a>
-              </li>
-              <li>
-                <a class="bordaInferiror" href="#">
-                  <div>
-                    <canvas class="circuloBrancoVazio"></canvas>
-                    <span class="dmSansThin">Adicionar Biografia</span>
-                  </div>
-                  <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div>
-                    <canvas class="circuloBrancoVazio"></canvas>
-                    <span class="dmSansThin">Adicionar Foto de Perfil</span>
-                  </div>
-                  <img src="imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                </a>
-              </li>
-            </ul>
-            <a href=""><b class="bordaInferiror dmSansThin">Não mostrar novamente</b></a>
-          </div>
-          <div class="project-card imagemPortifolio">
-            <a href="">
-              <img src="imgs/temp/imgPortifolio.png" alt="Obra do artista." />
-            </a>
-          </div>
-          <div class="project-card imagemPortifolio">
-            <a href="">
-              <img src="imgs/temp/imgPortifolio.png" alt="Obra do artista." />
-            </a>
-          </div>
-          <div class="project-card imagemPortifolio">
-            <a href="">
-              <img class="conteudoSensivel" src="imgs/temp/imgPortifolio.png" alt="Obra do artista." />
-              <div>
-                <img src="imgs/verPerfil/olhoSensivel.svg" alt="Icone indicando conteudo sensivel." />
-              </div>
-            </a>
-          </div>
-          <!-- <div class="new-project-card">
-            <a href="" class="new-project-button">
-              <span class="new-project-icon dmSans">+</span>
-              <span class="new-project-text dmSans">Criar um Projeto</span>
-            </a>
-            <p class="new-project-description dmSans">
-              Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
-            </p>
-          </div>
-          <div class="new-project-card">
-            <a href="" class="new-project-button">
-              <span class="new-project-icon dmSans">+</span>
-              <span class="new-project-text dmSans">Criar um Projeto</span>
-            </a>
-            <p class="new-project-description dmSans">
-              Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
-            </p>
-          </div>
-          <div class="project-card"></div>
-          <div class="project-card"></div>
-          <div class="project-card"></div>
-          <div class="project-card"></div>
-          <div class="project-card"></div>
-          <div class="project-card"></div> -->
-        </div>
-      </div>
-
-      <div class="profile-card">
-        <div class="profile-header">
-          <div class="profile-image-background"></div>
-          <img src="imgs/verPerfil/perfil.png" alt="Imagem de Perfil" class="profile-image" />
-          <div class="profile-info">
-            <h2 class="dmSansThin">Nome do Artista</h2>
-            <p class="dmSansThin">Artista Digital</p>
-            <a href="" class="dmSansThin botaoComum fundoBtVermelho"> <img src="imgs/header/maisIcone.png" />Seguir</a>
-            <!-- Para ver o botão acima e so ir no css do verPErfil.css procurar .profile-info .botaoComum
-            e comentar o visibility -->
-            <p class="dmSans"><img class="location-icon" src="imgs/verPerfil/location_icon.png" alt="Localização">
-              Brasil, Rio Grande do Norte, Natal</p>
-          </div>
-        </div>
-
-        <p class="dmSansThin descricaoPerfil">
-          Arte é minha terapia, produzo para desopilar e aliviar o estresse cotidiano.
-        </p>
-
-        <div class="profile-contacts">
-          <h3 class="dmSansThin">Contatos</h3>
-          <p>Na WEB</p>
-          <table class="contacts-table">
-            <tbody>
-              <tr>
-                <td class="contact-cell">
-                  <div class="contact-content">
-                    <img class="contact-icon" src="imgs/verPerfil/whatsapp_icon.png" alt="WhatsApp">
-                    <span>WhatsApp</span>
-                    <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="contact-cell">
-                  <div class="contact-content">
-                    <img class="contact-icon" src="imgs/verPerfil/facebook logo_icon.png" alt="Facebook">
-                    <span>Facebook</span>
-                    <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="contact-cell">
-                  <div class="contact-content">
-                    <img class="contact-icon" src="imgs/verPerfil/instagram_icon.png" alt="Instagram">
-                    <span>Instagram</span>
-                    <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="contact-cell">
-                  <div class="contact-content">
-                    <img class="contact-icon" src="imgs/verPerfil/youtubelogo_icon.png" alt="YouTube">
-                    <span>YouTube</span>
-                    <img class="external-icon" src="imgs/verPerfil/external_link_icon.png" alt="External Link">
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="profile-actions">
-          <a href=""><img class="button-icon" src="imgs/verPerfil/edit_icon.svg" alt="Editar">Editar Informações do
-            perfil</a>
-          <a href="" class="no-padding"><img class="button-icon" src="imgs/verPerfil/personalize_icon.svg"
-              alt="Personalizar">Personalizar perfil</a>
-        </div>
-
-        <div class="profile-stats">
-          <div class="stat">
-            <span class="count">1234</span>
-            <span class="label">Seguidores</span>
-          </div>
-          <div class="stat">
-            <span class="count">56</span>
-            <span class="label">Posts</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </body>
 
 </html>

@@ -1,13 +1,15 @@
 export interface Usuario {
-    usuarioid: number;
-    nome: string;
-    tipo?: string;
-    localizacao?: string;
-    descricao?: string;
-    foto?: string;
-    Email: string;
-    zap: string;
-    insta: string;
+    biografia: string;
+    email: string;
     face: string;
-    twitter: string;
+    id: number;
+    imagem: string;
+    insta: string;
+    localizacao: string;
+    nome: string;
+    senha: string;
+    tipo: string;
+    usuario: string;
+    youtube: string;
+    zap: string;
 }

@@ -513,3 +513,10 @@ body {
 .paginaPerfil .conteudoSensivel{
   filter: blur(3px);
 }
+.paginaPerfil .linkContatos{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+}

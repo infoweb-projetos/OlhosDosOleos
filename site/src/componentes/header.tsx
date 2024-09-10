@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { AbrirFecharModal } from '../scripts/modal'
+import { AbrirFecharModal } from '../scripts/modal';
+import '../estilos/verPerfil.css';
 
-const Feed: React.FC = () => {
+const HeaderSite: React.FC = () => {
     const navegar = useNavigate();
 
     const AbrirFecharPerfil = () => {
@@ -98,6 +99,11 @@ const Feed: React.FC = () => {
                                     <button onClick={AbrirFecharPerfil} type='button' className="centralizado buttonSemEstilo"><img src="imgs/header/perfilIcone.png" alt="Icone de perfil." /></button>
                                     <ul id="modalPerfilHeader" className="menuVermelho">
                                         <li>
+                                            <Link to="/meuperfil" className="menuItemComum">
+                                                <p>Perfil</p>
+                                            </Link>
+                                        </li>
+                                        <li>
                                             <a className="menuItemComum" href="#">
                                                 <img src="imgs/header/editarHeader.svg" alt="Lapis." />
                                                 <p>Editar perfil</p>
@@ -135,4 +141,4 @@ const Feed: React.FC = () => {
         </div>
     );
 }
-export default Feed;
+export default HeaderSite;
