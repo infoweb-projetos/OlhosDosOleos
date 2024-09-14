@@ -18,7 +18,7 @@ Usuários e Artistas.
 
 ### 3. Pré-condições
 
-O usuario deve acessar o link de login, atravez do feed do site.
+O usuario deve acessar o link do site e ir em "ENTRAR", atravez do feed do site.
 
 ### 4. Pós-condições
 
