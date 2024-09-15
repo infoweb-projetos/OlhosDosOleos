@@ -1,7 +1,7 @@
 import { useState} from 'react';
 import axios from 'axios';
 import '../estilos/entrar.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Entrar: React.FC = () => {
     const navegar = useNavigate();
@@ -35,7 +35,7 @@ const Entrar: React.FC = () => {
             //alert(response.data);
             localStorage.setItem('tokenODO', response.data.acessToken);
             navegar('/')
-        } catch (error) {
+        } catch (error : any) {
             alert(error.response.data.message);
             //console.log(error);
         }
@@ -44,7 +44,7 @@ const Entrar: React.FC = () => {
     return (
         <div id='entrarPag'>
             <figure className="figureHeader">
-                <img src="imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante." />
+                <Link className="headerLogo" to="/"><img src="imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante." /></Link>
             </figure>
             <div className="formCompleto">
                 <form >

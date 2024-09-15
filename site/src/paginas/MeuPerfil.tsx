@@ -7,6 +7,11 @@ import { Usuario } from '../interfaces/Usuario';
 const Feed: React.FC = () => {
     const navegar = useNavigate();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
+    const [imagemUrl, setImagemUrl] = useState<string>("/imgs/verPerfil/perfil.png");
+
+    const [painelPerfilCor, setPainelPerfilCor] = useState<string>('');
+    const [textoPerfilCor, setTextoPerfilCor] = useState<{}>({});
+    const [bordaPerfilCor, setBordaPerfilCor] = useState<{}>({});
 
     useEffect(() => {
         const token = localStorage.getItem('tokenODO');
@@ -20,9 +25,19 @@ const Feed: React.FC = () => {
                 }
             })
                 .then(response => {
-                    console.log(response.data.dados);
-                    setUsuario(response.data.dados);
-                    console.log('Token válido');
+                    const usu = response.data.dados;
+                    setUsuario(usu);
+                    console.log(usu);
+
+                    if (usu.imagem && usu.imagem.data && usu.imagemtipo) {
+                        const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        setImagemUrl(urlImagem);
+                    } else {
+                        setImagemUrl("/imgs/verPerfil/perfil.png"); // Ou uma imagem padrão
+                    }
+
+                    if (usu.cor1) setPainelPerfilCor("#" + usu.cor1);
                 })
                 .catch(error => {
                     console.log(token);
@@ -125,16 +140,36 @@ const Feed: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="profile-card">
+                    <div className="profile-card" style={{backgroundColor: painelPerfilCor}}>
                         <div className="profile-header">
-                            <div className="profile-image-background"></div>
-                            <img src={usuario?.imagem ? usuario.imagem : "/imgs/verPerfil/perfil.png"} alt="Imagem de Perfil" className="profile-image" />
+                            <div style={{backgroundColor: painelPerfilCor, boxShadow: ''}} className="profile-image-background"></div>
+                            <img  src={imagemUrl} alt="Imagem de Perfil" className="profile-image" />
                             <div className="profile-info">
                                 <h2 className="dmSansThin"> {usuario ? usuario.nome : ""}</h2>
-                                <p className="dmSansThin"> {usuario ? usuario.tipo : ""}</p>
+                                <p className="dmSansThin"> {usuario?.tipo ? usuario.tipo : ""}</p>
                                 <a href="" className="dmSansThin botaoComum fundoBtVermelho"> <img src="/imgs/header/maisIcone.png" />Seguir</a>
-                                <p className="dmSans"><img className="location-icon" src="/imgs/verPerfil/location_icon.png" alt="Localização" />
-                                    {usuario ? usuario.localizacao : ""}</p>
+                                <div className='seguidoresArea'>
+                                    <div className='seguidoresLinha '>
+                                        <p><b className='dmSansThin'>Seguidores: </b></p>
+                                        <p><b className='dmSansThin'>0</b></p>
+                                    </div>
+                                    <div className='seguidoresLinha'>
+                                        <p className='dmSansThin'>Exibições de Posts:</p>
+                                        <p className='dmSansThin'>0</p>
+                                    </div>
+
+                                </div>
+                                {usuario?.localizacao ?
+                                    (
+                                        <p className="dmSansThin textoLocalizacao">
+                                            <img className="location-icon" src="/imgs/verPerfil/location_icon.png" alt="Localização" />
+                                            {usuario.localizacao}
+                                        </p>
+                                    )
+
+                                    : ""
+                                }
+
                             </div>
                         </div>
 
@@ -200,19 +235,8 @@ const Feed: React.FC = () => {
                         <div className="profile-actions">
                             <a href=""><img className="button-icon" src="/imgs/verPerfil/edit_icon.svg" alt="Editar" />Editar Informações do
                                 perfil</a>
-                            <a href="" className="no-padding"><img className="button-icon" src="/imgs/verPerfil/personalize_icon.svg"
+                            <a href="" className="no-padding branco"><img className="button-icon" src="/imgs/verPerfil/personalize_icon.svg"
                                 alt="Personalizar" />Personalizar perfil</a>
-                        </div>
-
-                        <div className="profile-stats">
-                            <div className="stat">
-                                <span className="count">1234</span>
-                                <span className="label">Seguidores</span>
-                            </div>
-                            <div className="stat">
-                                <span className="count">56</span>
-                                <span className="label">Posts</span>
-                            </div>
                         </div>
                     </div>
                 </div>

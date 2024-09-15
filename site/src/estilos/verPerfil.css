@@ -80,12 +80,13 @@ body {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  border: 1px solid black;
   border-radius: 10px;
   overflow: hidden;
 }
 
 .paginaPerfil .contacts-table td {
-  border: 2px solid #ddd;
+  border-bottom: 1px solid black;
   padding: 10px;
 }
 
@@ -145,9 +146,9 @@ body {
 .paginaPerfil .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
-  gap: 20px;
+  gap: 10px;
   padding-top: 20px;
-  width: 72%;
+  width: 73%;
 
 }
 
@@ -158,14 +159,14 @@ body {
   width: 100%;
 }
 
-.paginaPerfil .new-project-card, .project-card {
+.paginaPerfil .new-project-card, .paginaPerfil  .project-card {
   border: 2px dashed #ccc;
   border-radius: 10px;
   background-color: #fff;
   text-align: center;
   padding: 26px 20px;
   display: flex;
-  flex-direction: column;
+  
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
@@ -174,7 +175,6 @@ body {
   width: 100%;
   height: 257px;
 }
-
 
 .paginaPerfil .new-project-button {
   border: none;
@@ -190,6 +190,8 @@ body {
   gap: 15px;
   font-weight: lighter;
   font-size: 16px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .paginaPerfil .new-project-icon {
@@ -211,6 +213,8 @@ body {
   color: #fff;
   padding: 7px 1.5em;
   border-radius: 0.7em;
+  box-sizing: border-box;
+  width: 100%;
   margin-bottom: 8px;
 }
 
@@ -273,7 +277,7 @@ body {
 
 .paginaPerfil .profile-info p {
   margin: 5px 0;
-  color: #666;
+  color: black;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -289,7 +293,7 @@ body {
   margin: 20px 0;
   margin-top: 1.5em;
   padding-bottom: 1.5em;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid black;
   text-align: left;
 }
 
@@ -378,6 +382,9 @@ body {
   background-color: transparent;
   color: #E30048;
 }
+.paginaPerfil .profile-actions a.no-padding{
+  background-color: #ffffff;
+}
 
 .paginaPerfil .profile-actions a:hover {
   background-color: #e72965;
@@ -387,31 +394,12 @@ body {
   background-color: #e0e0e0;
 }
 
-.paginaPerfil .profile-stats {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.paginaPerfil .stat {
-  text-align: center;
-}
-
-.paginaPerfil .stat .count {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #333;
-}
-
-.paginaPerfil .stat .label {
-  font-size: 0.9em;
-  color: #666;
-}
 
 
 .paginaPerfil .new-project-description{
   font-size: 13px;
   color: #535353;
+  width: 100%;
 }
 
 .paginaPerfil .guiaCondutor{
@@ -488,7 +476,22 @@ body {
 .paginaPerfil .esconda[src] {
   display: block;
 }
-
+.seguidoresArea{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.paginaPerfil .seguidoresLinha{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+}
 
 
 .paginaPerfil .imagemPortifolio{
