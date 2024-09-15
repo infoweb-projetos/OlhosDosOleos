@@ -1,5 +1,5 @@
 import HeaderSite from '../componentes/header';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
@@ -8,10 +8,37 @@ const Feed: React.FC = () => {
     const navegar = useNavigate();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [imagemUrl, setImagemUrl] = useState<string>("/imgs/verPerfil/perfil.png");
+    const [bannerUrl, setBannerUrl] = useState<string | undefined>(undefined);
 
     const [painelPerfilCor, setPainelPerfilCor] = useState<string>('');
-    const [textoPerfilCor, setTextoPerfilCor] = useState<{}>({});
-    const [bordaPerfilCor, setBordaPerfilCor] = useState<{}>({});
+
+    const [imgBtBanner, setImgBtBanner] = useState<string>("/imgs/verPerfil/add_image.svg");
+    const arquivoInputRef = useRef<HTMLInputElement | null>(null);
+    const [estiloBtBanner, setEstiloBtBanner] = useState<{}>({});
+    const btEnviarBanner = () => {
+        arquivoInputRef.current?.click();
+    };
+    const aoMudarValorInputArquivo = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const token = localStorage.getItem('tokenODO');
+        const arquivo = event.target.files?.[0];
+        if (arquivo) {
+            const formData = new FormData();
+            formData.append('banner', arquivo);
+            try {
+                // Enviar o arquivo com Axios
+                const response = await axios.patch('http://localhost:3000/usuarios/banner', formData, {
+                    headers: {
+                      'Authorization': `Bearer ${token}`,
+                      'Content-Type': 'multipart/form-data',
+                    },
+                  });
+                console.log('Arquivo enviado com sucesso', response.data);
+                navegar(0);
+            } catch (error) {
+                console.error('Erro ao enviar o arquivo', error);
+            }
+        }
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('tokenODO');
@@ -37,10 +64,26 @@ const Feed: React.FC = () => {
                         setImagemUrl("/imgs/verPerfil/perfil.png"); // Ou uma imagem padrão
                     }
 
+                    if (usu.banner && usu.banner.data && usu.bannertipo) {
+                        const blob = new Blob([new Uint8Array(usu.banner.data)], { type: usu.bannertipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        setBannerUrl(urlImagem);
+                        setImgBtBanner('/imgs/verPerfil/editarBanner.svg');
+                        setEstiloBtBanner({
+                            top: "90%",
+                            left: "3%"
+                        });
+                    } else {
+                        setBannerUrl(undefined);
+                        setImgBtBanner('/imgs/verPerfil/add_image.svg');
+                        setEstiloBtBanner({});
+                    }
+
                     if (usu.cor1) setPainelPerfilCor("#" + usu.cor1);
                 })
                 .catch(error => {
                     console.log(token);
+                    console.log(error);
                     console.log('Token inválido ou expirado');
                     localStorage.removeItem('tokenODO');
                     navegar('/');
@@ -52,15 +95,23 @@ const Feed: React.FC = () => {
         <div className="paginaPerfil">
             <HeaderSite />
             <form action="" className="banner ">
-                <img className="esconda" alt="Banner Image" id="imgBanner" />
-                <button type="button" className="add-banner-btn">
-                    <img src="/imgs/verPerfil/add_image.svg" alt="Add Banner" />
+                <img className="esconda" alt="Banner Image" src={bannerUrl} id="imgBanner" />
+                <button style={estiloBtBanner}  onClick={btEnviarBanner} type="button" className="add-banner-btn">
+                    <img src={imgBtBanner} alt="Add Banner" />
                 </button>
-                <input type="file" id="inputImgBanner" />
-                <div className="banner-text">
-                    Adicionar uma imagem de banner<br />
-                    Dimensões ideais 3200 x 410px
-                </div>
+                <input type="file" id="inputImgBanner"  ref={arquivoInputRef} onChange={aoMudarValorInputArquivo}/>
+                {
+                    !usuario?.banner ? 
+                    ( 
+                    <div className="banner-text">
+                        Adicionar uma imagem de banner<br />
+                        Dimensões ideais 3200 x 410px
+                    </div>
+                    )
+                    :
+                    ""
+                }
+               
             </form>
 
             <div className="page-container">
@@ -140,13 +191,13 @@ const Feed: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="profile-card" style={{backgroundColor: painelPerfilCor}}>
+                    <div className="profile-card" style={{ backgroundColor: painelPerfilCor }}>
                         <div className="profile-header">
-                            <div style={{backgroundColor: painelPerfilCor, boxShadow: ''}} className="profile-image-background"></div>
-                            <img  src={imagemUrl} alt="Imagem de Perfil" className="profile-image" />
+                            <div style={{ backgroundColor: painelPerfilCor, boxShadow: '' }} className="profile-image-background"></div>
+                            <img src={imagemUrl} alt="Imagem de Perfil" className="profile-image" />
                             <div className="profile-info">
                                 <h2 className="dmSansThin"> {usuario ? usuario.nome : ""}</h2>
-                                <p className="dmSansThin"> {usuario?.tipo ? usuario.tipo : ""}</p>
+                                <p className="dmSansThin"> {usuario?.tipoid ? usuario.tipoid : ""}</p>
                                 <a href="" className="dmSansThin botaoComum fundoBtVermelho"> <img src="/imgs/header/maisIcone.png" />Seguir</a>
                                 <div className='seguidoresArea'>
                                     <div className='seguidoresLinha '>

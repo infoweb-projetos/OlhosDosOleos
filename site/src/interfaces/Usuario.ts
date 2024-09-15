@@ -4,13 +4,17 @@ export interface Usuario {
     face?: string;
     id: number;
     imagem?: ArrayBuffer;
-    imagemtipo?: ArrayBuffer;
+    imagemtipo?: string;
+    banner?: ArrayBuffer;
+    bannertipo?: string;
     insta?: string;
     localizacao?: string;
     nome?: string;
     senha?: string;
-    tipo?: string;
+    tipoid?: string;
     usuario?: string;
     youtube?: string;
     zap?: string;
+    cidadeid? : number;
+    estadoid? : number;
 }
