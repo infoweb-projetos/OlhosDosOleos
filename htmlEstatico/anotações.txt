@@ -1,4 +1,0 @@
-npm create vite@latest site -- --template react-ts //cria projeto
-cd site //entrar no site
-npm i //instala dependencias
-npm run dev //roda localmente
