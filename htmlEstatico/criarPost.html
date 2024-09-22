@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Óleos dos Olhos - Explorar</title>
+    <link rel="icon" type="image/x-icon" href="imgs/header/signo.svg">
+    <link rel="stylesheet" href="estilos/comum.css">
+    <link rel="stylesheet" href="estilos/header.css">
+    <link rel="stylesheet" href="estilos/criarPost.css">
+    <link rel="stylesheet" href="estilos/footer.css">
+    <script src="scripts/modal.js"></script>
+    <script src="scripts/selecionarArquivo.js"></script>
+</head>
+
+<body>
+    <div class="organizacaoPadrao">
+        <div class="header">
+            <div class="headerEsquerda">
+                <a class="headerLogo" href="#"><img src="imgs/header/signo.svg"
+                        alt="Logo do site. Signo em formato de cabeça de elefante." /></a>
+                <ul>
+                    <li><a href="#">Explorar</a></li>
+                    <li><a class="pagSelecionada" href="#">Portfólios</a></li>
+                </ul>
+                <form action="#">
+                    <div>
+                        <input type="image" src="imgs/header/lupa.svg" alt="Icone de lupa." />
+                        <input type="text" placeholder='Busque por "aquarela"' />
+                    </div>
+                    <input type="submit" class="botaoComum fundoBtVermelho" value="Pesquisar" />
+                </form>
+            </div>
+            <div class="headerDireita">
+                <ul>
+                    <li>
+                        <a href="#" class="botaoComum fundoBtBranco">
+                            <img src="imgs/header/login-icon.svg" alt="Icone de entrar." />
+                            <p>Entrar</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="botaoComum fundoBtVermelho">
+                            <img src="imgs/header/signIn-icon.svg" alt="Icone de cadastrar-se." />
+                            <p>Cadastre-se</p>
+                        </a>
+                    </li>
+                    <li class="submenu">
+                        <button href="#" onclick="AbrirFecharModal('modalOpcoes')" class="marginEsquerda"><img
+                                src="imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></button>
+                        <div>
+                            <ul id="modalOpcoes" class="menuVermelho">
+                                <li>
+                                    <a class="menuItemComum" href="#">
+                                        <p>Sobre</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menuItemComum" href="#">
+                                        <p>Memorial</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menuItemComum" href="#">
+                                        <p>Ajuda</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menuItemComum" href="#">
+                                        <p>Política de Privacidade</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menuItemComum" href="#">
+                                        <p>Termos de Serviço</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="areaConteudo criarPost">
+            <form>
+                <div class="criarTituloPost">
+                    <div>
+                        <label>O título aparecerá aqui!</label>
+                        <button type="button"><img src="imgs/criarPost/criarFecharBt.svg"alt="icone de x para voltar para pagina anterior" /></button>
+                    </div>
+                    <input type="text" name="tituloPost" />
+                </div>
+                <div class="criarLadoLadoPost">
+                    <div class="criarPostEsquerda">
+                        <img id="imgFundo"/>
+                        <button onclick="SelecionarArquivoImg('imagemPost', 'imgFundo')" type="button">
+                            <img src="imgs/criarPost/criarUploadImagem.svg" />
+                            Faça upload de um arquivo ou o arraste até aqui
+                        </button>
+                        <input type="file" id="imagemPost" name="imagemPost" />
+                    </div>
+                    <div class="criarPostDireita">
+                        <div class="campoCriarPostComum">
+                            <label>Descrição...</label>
+                            <textarea name="descricaoPost"></textarea>
+                        </div>
+                        <div class="campoCriarPostComum">
+                            <label>Adicionar...</label>
+                            <figure>
+                                <img src="imgs/criarPost/iconeTags.svg" />
+                                <figcaption>Tags</figcaption>
+                            </figure>
+                            <hr />
+                            <figure>
+                                <img src="imgs/criarPost/iconeSoftwaresUsados.svg" />
+                                <figcaption>Softwares Usados</figcaption>
+                            </figure>
+                        </div>
+                        <div class="campoCriarPostComum">
+                            <label>Anexar Imagens</label>
+                            <button class="botaoComum fundoBtBranco" type="button">
+                                <img src="imgs/criarPost/iconeClipe.svg" />
+                                Anexar Imagem
+                            </button>
+                            <p>Anexe imagens do processo da sua arte</p>
+                            <input type="file" name="imagensPost" />
+                        </div>
+
+                        <div class="criarPostEnviarArea">
+                            <input type="submit" value="Postar" />
+                            <button type="button">
+                                Salvar rascunho 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="criarPostSensivel">
+                    <label for="postSensivel">  Sua arte possui conteúdo sensível?</label>
+                    <input type="checkbox" name="postSensivel" id="postSensivel"/>
+                </div>
+            </form>
+
+            <div class="modal">
+                <div>
+                    <figure>
+                        <img src="imgs/criarPost/iconeDiretrizModal.svg" />
+                    </figure>
+                    <button><img src="imgs/criarPost/fecharModalDiretriz.svg" /></button>
+                </div>
+                <h3> Conheça nossas diretrizes de Postagens</h3>
+                <p>
+                    Antes de postar, recomendamos que você se familiarize com nossas regras para garantir que tudo ocorra com respeito, 
+                    inclusão e diversidade. Assim, todos podem compartilhar suas criações em um ambiente acolhedor e positivo.
+                </p>
+                <ul>
+                    <li><button>Sair</button></li>
+                    <li><a href="">Ver</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="rodape">
+            <div>
+                <ul>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Equipe</a></li>
+                    <li><a href="#">Ajuda</a></li>
+                </ul>
+                <ul class="listaPlataformas">
+                    <li><a href="#"><img src="imgs/footer/iconeGithub.svg" alt="logomarca do github" /></a></li>
+                    <li><a href="#"><img src="imgs/footer/iconeFigma.svg" alt="logomarca do figma" /></a></li>
+                </ul>
+            </div>
+            <figure>
+                <img src="imgs/entrar/logoOdoVermelha.png" alt="logomarca olhos dos oleos com abreviatura e signo" />
+            </figure>
+            <ul>
+                <li><a href="#">Política de Privacidade</a></li>
+                <li><a href="#">Termos de uso</a></li>
+                <li><a href="#">Mapa do Site</a></li>
+                <li><a href="#">Dúvidas Frequentes</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
