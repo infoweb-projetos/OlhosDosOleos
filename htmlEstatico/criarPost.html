@@ -142,23 +142,26 @@
                 </div>
             </form>
 
-            <div class="modal">
-                <div>
-                    <figure>
-                        <img src="imgs/criarPost/iconeDiretrizModal.svg" />
-                    </figure>
-                    <button><img src="imgs/criarPost/fecharModalDiretriz.svg" /></button>
+            <div id="modalDiretrizPostArea" class="modalAvisoArea">
+                <div id="modalDiretrizPost" class="modalAviso" style="opacity: 1;">
+                    <div>
+                        <figure>
+                            <img src="imgs/criarPost/iconeDiretrizModal.svg" />
+                        </figure>
+                        <button onclick="AbrirFecharModal('modalDiretrizPost', 'block', 'modalDiretrizPostArea')"><img src="imgs/criarPost/fecharModalDiretriz.svg" /></button>
+                    </div>
+                    <h3> Conheça nossas diretrizes de Postagens</h3>
+                    <p>
+                        Antes de postar, recomendamos que você se familiarize com nossas regras para garantir que tudo ocorra com respeito, 
+                        inclusão e diversidade. Assim, todos podem compartilhar suas criações em um ambiente acolhedor e positivo.
+                    </p>
+                    <ul >
+                        <li><button onclick="AbrirFecharModal('modalDiretrizPost', 'block', 'modalDiretrizPostArea')">Sair</button></li>
+                        <li><a href="">Ver</a></li>
+                    </ul>
                 </div>
-                <h3> Conheça nossas diretrizes de Postagens</h3>
-                <p>
-                    Antes de postar, recomendamos que você se familiarize com nossas regras para garantir que tudo ocorra com respeito, 
-                    inclusão e diversidade. Assim, todos podem compartilhar suas criações em um ambiente acolhedor e positivo.
-                </p>
-                <ul>
-                    <li><button>Sair</button></li>
-                    <li><a href="">Ver</a></li>
-                </ul>
             </div>
+            
         </div>
         <div class="rodape">
             <div>
