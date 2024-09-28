@@ -1,0 +1,43 @@
+.rodape{
+    box-sizing: border-box;
+    width: 100%;
+    border-top: 3px solid ;
+    border-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet) 1;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-top: 1em;
+}
+.rodape ul{
+    box-sizing: border-box;
+    display: flex;
+}
+.rodape ul li{
+    box-sizing: border-box;
+    margin: 0 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rodape > div{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.rodape figure{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 1.5em 0;
+}
+.rodape > ul{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.rodape a{
+    color: #4B4B4B;
+}
+.rodape .listaPlataformas{
+    border-left: 1px solid black;
+}

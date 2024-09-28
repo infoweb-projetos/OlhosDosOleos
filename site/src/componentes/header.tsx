@@ -87,10 +87,10 @@ const HeaderSite: React.FC = () => {
                         (
                             <ul>
                                 <li>
-                                    <a href="#" className="botaoComum fundoBtVermelho ">
+                                    <Link to="/postar" className="botaoComum fundoBtVermelho ">
                                         <img src="imgs/header/maisIcone.png" alt="Icone de entrar." />
                                         <p>Criar</p>
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a href="#" className="marginEsquerda centralizado"><img src="imgs/header/notificacaoIcone.png" alt="Icone de notificação." /></a>

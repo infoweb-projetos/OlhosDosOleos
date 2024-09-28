@@ -103,6 +103,7 @@ input[type="submit"], button{
     opacity: 0;
     transition-property: opacity;
     transition-duration: 500ms;
+    display: none;
 }
 .menuVermelho a, .menuVermelho button{
     color: #FFFFFF;
@@ -133,4 +134,17 @@ input[type="submit"], button{
 .menuItemComum img{
     margin-right: 8px;
 
+}
+
+/* Organização padrão */
+.organizacaoPadrao{
+    min-height: 100vh;
+    padding-top: 90px; /* altura do header */
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
+.areaConteudo{
+    height: 100%;
 }

@@ -1,0 +1,303 @@
+.feed {
+    width: 100%;
+}
+
+.feed .espacamentoFeedComum {
+    padding: 0 1%;
+}
+
+.feed > h1 {
+    color: var(--corPrincipal);
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 2.5em;
+}
+
+.feed > h1 > b {
+    color: #699AB9;
+    text-align: center;
+}
+
+.feed form select.botaoComum {
+    padding: 4px;
+    cursor: pointer;
+    font-size: 90%;
+    outline: none;
+}
+.feed form select.botaoComum  option{
+    background-color: #FFFFFF;
+    color: var(--corPrincipal);
+}
+
+.feed form button.botaoComum {
+    padding: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 90%;
+}
+
+.menuCategoriasFiltro{
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+    overflow-x: auto;
+    padding: 0.3em 0;
+}
+/* Personalizando barrinha */
+.menuCategoriasFiltro::-webkit-scrollbar {
+    height: 4px;
+}
+
+.menuCategoriasFiltro::-webkit-scrollbar-thumb {
+    background-color: var(--corPrincipal); 
+    border-radius: 6px;
+}
+.menuCategoriasFiltro::-webkit-scrollbar-thumb:hover{
+    cursor:grab;
+}
+
+
+.menuCategoriasFiltro li{
+    display: flex;
+    align-items: center;
+    margin: 0 1em;
+}
+.menuCategoriasFiltro li a{
+    display: flex;
+    align-items: center;
+    color: var(--corPrincipal);
+}
+
+.areaOrdernarRapido {
+    left: 0;
+    bottom: 2em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    box-sizing: border-box;
+}
+
+.areaOrdernarRapido ul {
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    border-radius: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.3em;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+
+}
+
+.areaOrdernarRapido ul button {
+    cursor: pointer;
+    border: none;
+    border-radius: 1em;
+    padding: 0.5em 1em;
+    background-color: transparent;
+    font-size: 100%;
+    transition-duration: 500ms;
+    transition-property: background-color, color;
+    transition-timing-function: linear;
+    margin: 0 0.4em;
+
+}
+
+.areaOrdernarRapido ul button:hover {
+    background-color: var(--corPrincipal);
+    color: white;
+}
+
+.feed .btVoltarTopo {
+    background-color: transparent;
+    position: fixed;
+    border: none;
+    left: 0.5em;
+    bottom: 2em;
+    cursor: pointer;
+}
+
+.feed .postsArea {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 1.4em 0;
+}
+
+.feed .postFeed {
+    margin: 0 1%;
+    margin-bottom: 1em;
+    width: 23%;
+    box-sizing: border-box;
+}
+
+.feed .postFeed>figure {
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.feed .postFeed>figure a {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.feed .postFeed>figure a img {
+    width: 100%;
+    height: 40vh;
+    border-radius: 8px;
+    transition-duration: 200ms;
+    transition-property: box-shadow;
+    transition-timing-function: linear;
+}
+
+.feed .postFeed>figure a img:hover {
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.4);
+}
+
+.feed .postFeed>figure a figcaption {
+    position: absolute;
+    color: #FFFFFF;
+    padding-left: 9px;
+    padding-bottom: 9px;
+}
+
+.feed .postFeed>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.feed .postFeed>div figure a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--corPrincipal);
+}
+
+.feed .postFeed > div figure a img {
+    margin-right: 3px;
+}
+
+.feed .postFeed>div button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--corPrincipal);
+}
+
+.feed .postFeed>div button img {
+    margin-left: 3px;
+}
+
+
+.areaCarroselNovosUsuarios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.areaCarroselNovosUsuarios > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.areaCarroselNovosUsuarios .areaTextoCarrosel p {
+    display: flex;
+    align-items: center;
+    font-size: 120%;
+}
+
+.areaCarroselNovosUsuarios .areaTextoCarrosel p img {
+    margin-left: 7px;
+}
+
+/* Carrosel */
+/* Container do carrossel */
+.carrosel {
+    position: relative;
+    margin: auto;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    margin-top: 0.5em;
+    box-sizing: border-box;
+}
+/* Estilo das imagens */
+.imagemCarrosel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+.carroselSlide {
+    width: 23%;
+    /* Exibe 3 imagens ao mesmo tempo */
+    min-width: 23%;
+    margin: 0 1%;
+    /* Define o tamanho mínimo de cada slide */
+    height: 40vh;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+.carroselSlide img{
+    width: 100%;
+    border-radius: 8px;
+    height: 40vh;
+    transition-duration: 200ms;
+    transition-property: box-shadow;
+    transition-timing-function: linear;
+}
+.carroselSlide img:hover{
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.4);
+}
+/* Botões de navegação */
+.ante,
+.prox {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 2;
+}
+.ante {
+    left: 0.5em;
+}
+.prox {
+    right: 0.5em;
+}
+
+
+@media screen and (max-width: 1000px) {
+    .feed .postFeed {
+        width: 31.33%;
+    }
+    .carroselSlide {
+        width: 31.33%;
+        height: 40vh;
+        min-width: 31.33%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .feed .postFeed {
+        width: 48%;
+    }
+    .carroselSlide {
+        width: 48%;
+        min-width: 48%;
+    }
+}
