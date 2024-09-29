@@ -3,11 +3,42 @@ import RodapeSite from '../componentes/rodape';
 import '../estilos/criarPost.css';
 import { AbrirFecharModal } from '../scripts/modal';
 import { AtribuirImagem } from '../scripts/atribuirImagem';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Usuario } from '../interfaces/Usuario';
 
 const CriarPost: React.FC = () => {
+    const navegar = useNavigate();
+    const [usuario, setUsuario] = useState<Usuario | null>(null);
+    useEffect(() => {
+        const token = localStorage.getItem('tokenODO');
+        if (!token) {
+            navegar('/');
+        }
+        else {
+            axios.get('http://localhost:3000/usuarios/perfil', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                const usu = response.data.dados;
+                setUsuario(usu);
+            })
+            .catch(error => {
+                console.log('Token inválido ou expirado');
+                localStorage.removeItem('tokenODO');
+                navegar('/');
+            });
+        }
+    }, [navegar]);
+
+
     const VoltarPagAnterior = () =>{
         window.history.back();
     }
+
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
