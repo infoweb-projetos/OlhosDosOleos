@@ -7,10 +7,21 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
+import { CriarPostDados } from '../interfaces/Post';
+import { VerificaToken } from '../scripts/uteis';
 
 const CriarPost: React.FC = () => {
     const navegar = useNavigate();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
+    const [dados, setDados] = useState<CriarPostDados>({
+        usuarioid: 0,
+        imagemPost: undefined,
+        tituloPost: '',
+        descricaoPost: undefined,
+        postSensivel: false,
+        rascunho: false,
+    })
+
     useEffect(() => {
         const token = localStorage.getItem('tokenODO');
         if (!token) {
@@ -22,20 +33,86 @@ const CriarPost: React.FC = () => {
                     'Authorization': `Bearer ${token}`
                 }
             })
-            .then(response => {
-                const usu = response.data.dados;
-                setUsuario(usu);
-            })
-            .catch(error => {
-                console.log('Token inválido ou expirado');
-                localStorage.removeItem('tokenODO');
-                navegar('/');
-            });
+                .then(response => {
+                    const usu = response.data.dados;
+                    setUsuario(usu);
+                })
+                .catch(error => {
+                    console.log('Token inválido ou expirado');
+                    localStorage.removeItem('tokenODO');
+                    navegar('/');
+                });
         }
     }, [navegar]);
 
+    const AoMudarValorInput = (elemento: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value, type, checked, files } = elemento.target;
+        if (type == 'checkbox') {
+            setDados({
+                ...dados,
+                [name]: checked,
+            });
+        }
+        else if (type == 'file') {
+            setDados({
+                ...dados,
+                [name]: files ? files : undefined,
+            });
+        }
+        else {
+            setDados({
+                ...dados,
+                [name]: value,
+            });
+        }
+    }
 
-    const VoltarPagAnterior = () =>{
+    const Criar = async (ehRascunho: boolean) => {
+        const token = await VerificaToken();
+        if (!token) navegar('/');
+        if (!usuario) return console.log("Erro ao vincular com usuario");
+        dados.usuarioid = usuario.id;
+        dados.rascunho = ehRascunho;
+        console.log( dados.rascunho);
+        console.log(ehRascunho);
+
+        const data = new FormData();
+        if (!dados.tituloPost) return console.log("Coloque um titulo");
+        data.append('titulo', dados.tituloPost);
+        data.append('descricao', dados.descricaoPost ?? '');
+        data.append('rascunho', (dados.rascunho ?? false).toString());
+        data.append('sensivel', (dados.postSensivel ?? false).toString());
+        data.append('usuarioid', dados.usuarioid.toString());
+        data.append('categoriaid', 'Arte Digital');
+        if (dados.imagemPost) {
+            data.append('imagem', dados.imagemPost[0]);
+        }
+        else return console.log("Anexe imagem.");
+        // dados.processo.forEach((file, index) => {
+        //     data.append(`processo`, file);
+        // });
+
+        try {
+            const response = await axios.post('http://localhost:3000/posts/criar', data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            console.log('Resposta da API:', response.data);
+        } catch (error) {
+            console.error('Erro ao enviar dados:', error);
+            if (axios.isAxiosError(error) && error.response) {
+                console.error('Resposta do servidor:', error.response.data);
+            }
+        }
+    }
+
+    const AoEnviar = (e: React.FormEvent) => {
+        return e.preventDefault();
+    };
+
+    const VoltarPagAnterior = () => {
         window.history.back();
     }
 
@@ -43,13 +120,13 @@ const CriarPost: React.FC = () => {
         <div className='organizacaoPadrao'>
             <HeaderSite />
             <div className="areaConteudo  criarPost">
-                <form>
+                <form onSubmit={AoEnviar}>
                     <div className="criarTituloPost">
                         <div>
                             <label>O título aparecerá aqui!</label>
                             <button onClick={VoltarPagAnterior} type="button"><img src="imgs/criarPost/criarFecharBt.svg" alt="icone de x para voltar para pagina anterior" /></button>
                         </div>
-                        <input type="text" name="tituloPost" />
+                        <input value={dados.tituloPost} onChange={AoMudarValorInput} type="text" name="tituloPost" />
                     </div>
                     <div className="criarLadoLadoPost">
                         <div className="criarPostEsquerda">
@@ -58,12 +135,12 @@ const CriarPost: React.FC = () => {
                                 <img src="imgs/criarPost/criarUploadImagem.svg" />
                                 Faça upload de um arquivo ou o arraste até aqui
                             </button>
-                            <input type="file" id="imagemPost" name="imagemPost" />
+                            <input type="file" onChange={AoMudarValorInput} id="imagemPost" name="imagemPost" />
                         </div>
                         <div className="criarPostDireita">
                             <div className="campoCriarPostComum">
                                 <label>Descrição...</label>
-                                <textarea name="descricaoPost"></textarea>
+                                <textarea value={dados.descricaoPost} onChange={AoMudarValorInput} name="descricaoPost"></textarea>
                             </div>
                             <div className="campoCriarPostComum">
                                 <label>Adicionar...</label>
@@ -88,8 +165,9 @@ const CriarPost: React.FC = () => {
                             </div>
 
                             <div className="criarPostEnviarArea">
-                                <input type="submit" value="Postar" />
-                                <button type="button">
+                                <input type="submit" onClick={() => Criar(false)} value="Postar" />
+
+                                <button onClick={() => Criar(true)} type="button">
                                     Salvar rascunho
                                 </button>
                             </div>
@@ -97,17 +175,17 @@ const CriarPost: React.FC = () => {
                     </div>
                     <div className="criarPostSensivel">
                         <label htmlFor="postSensivel">  Sua arte possui conteúdo sensível?</label>
-                        <input type="checkbox" name="postSensivel" id="postSensivel" />
+                        <input  checked={dados.postSensivel} onChange={AoMudarValorInput} type="checkbox" name="postSensivel" id="postSensivel" />
                     </div>
                 </form>
 
                 <div id="modalDiretrizPostArea" className="modalAvisoArea">
-                    <div id="modalDiretrizPost" className="modalAviso" style={{opacity:1,}}>
+                    <div id="modalDiretrizPost" className="modalAviso" style={{ opacity: 1, }}>
                         <div>
                             <figure>
                                 <img src="imgs/criarPost/iconeDiretrizModal.svg" />
                             </figure>
-                            <button onClick={() => {AbrirFecharModal('modalDiretrizPost'); AbrirFecharModal('modalDiretrizPostArea', 'flex');}}><img src="imgs/criarPost/fecharModalDiretriz.svg" /></button>
+                            <button onClick={() => { AbrirFecharModal('modalDiretrizPost'); AbrirFecharModal('modalDiretrizPostArea', 'flex'); }}><img src="imgs/criarPost/fecharModalDiretriz.svg" /></button>
                         </div>
                         <h3> Conheça nossas diretrizes de Postagens</h3>
                         <p>

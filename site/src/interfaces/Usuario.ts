@@ -4,6 +4,7 @@ export interface Usuario {
     face?: string;
     id: number;
     imagem?: ArrayBuffer;
+    imagemUrl?: string;
     imagemtipo?: string;
     banner?: ArrayBuffer;
     bannertipo?: string;

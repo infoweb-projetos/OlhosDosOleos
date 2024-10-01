@@ -1,13 +1,54 @@
 import HeaderSite from '../componentes/header';
 import RodapeSite from '../componentes/rodape';
 import '../estilos/feed.css';
-import { useEffect} from 'react';
-import {CarroselComum} from '../scripts/carrossel'
+import { useEffect, useState } from 'react';
+import { CarroselComum } from '../scripts/carrossel'
+import axios from 'axios';
+import { Post } from '../interfaces/Post';
+import { Link } from 'react-router-dom';
 
 
 const Feed: React.FC = () => {
+    const [posts, setPosts] = useState<Array<Post>>([]);
     useEffect(() => {
-        CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselFeedUsuarios', 'listaImagensCarroselFeedUsuario')
+        CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselFeedUsuarios', 'listaImagensCarroselFeedUsuario');
+
+        axios.get('http://localhost:3000/posts/listar', {})
+            .then(response => {
+                const postsBD = response.data.dados;
+
+                const postLista: Array<Post> = postsBD.map((p: any) => {
+                    const obj: Post = {
+                        titulo: p.titulo,
+                        usuario: p.usuario,
+                        usuarioid: p.usuarioid,
+                        sensivel: p.sensivel,
+                        rascunho: p.rascunho,
+                        imagemUrl: ''
+                    };
+
+                    if (p.imagem && p.imagemtipo) {
+                        const blob = new Blob([new Uint8Array(p.imagem.data)], { type: p.imagemtipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        obj.imagemUrl = urlImagem;
+                    }
+
+                    if (obj.usuario && obj.usuario && obj.usuario.imagem && obj.usuario.imagemtipo) {
+                        const blob = new Blob([new Uint8Array(obj.usuario.imagem.data)], { type: obj.usuario.imagemtipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        obj.usuario.imagemUrl = urlImagem;
+                    } else {
+                        if (obj.usuario) obj.usuario.imagemUrl = "/imgs/verPerfil/perfil.png";
+                    }
+
+                    return obj;
+                });
+                setPosts(postLista);
+            })
+            .catch(error => {
+                console.log(error);
+                navegar('/');
+            });
     });
     return (
         <div className='organizacaoPadrao'>
@@ -100,132 +141,46 @@ const Feed: React.FC = () => {
                             <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
                             <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
                         </div>
-    
+
                         <button className="prox" id="proxBtn"><img src="/imgs/feed/setaCarroselUsuarioDireita.svg" /></button>
                     </div>
                 </div>
 
                 <ul className="postsArea">
-                    <li className="postFeed">
-                        <figure>
-                            <a href="">
-                                <img src="imgs/temp/postFeed.png" />
-                                <figcaption>Titulo</figcaption>
-                            </a>
-                        </figure>
-                        <div>
-                            <figure>
-                                <a href="">
-                                    <img src="imgs/feed/iconePerfilFeedPadrao.svg" />
-                                    Nome
-                                </a>
-                            </figure>
-                            <button>
-                                100 mil
-                                <img src="imgs/feed/iconeLikeFeed.svg" />
-                            </button>
-                        </div>
-                    </li>
-                    <li className="postFeed">
-                        <figure>
-                            <a href="">
-                                <img src="imgs/temp/postFeed.png" />
-                                <figcaption>Titulo</figcaption>
-                            </a>
-                        </figure>
-                        <div>
-                            <figure>
-                                <a href="">
-                                    <img src="imgs/feed/iconePerfilFeedPadrao.svg" />
-                                    Nome
-                                </a>
-                            </figure>
-                            <button>
-                                100 mil
-                                <img src="imgs/feed/iconeLikeFeed.svg" />
-                            </button>
-                        </div>
-                    </li>
-                    <li className="postFeed">
-                        <figure>
-                            <a href="">
-                                <img src="imgs/temp/postFeed.png" />
-                                <figcaption>Titulo</figcaption>
-                            </a>
-                        </figure>
-                        <div>
-                            <figure>
-                                <a href="">
-                                    <img src="imgs/feed/iconePerfilFeedPadrao.svg" />
-                                    Nome
-                                </a>
-                            </figure>
-                            <button>
-                                100 mil
-                                <img src="imgs/feed/iconeLikeFeed.svg" />
-                            </button>
-                        </div>
-                    </li>
-                    <li className="postFeed">
-                        <figure>
-                            <a href="">
-                                <img src="imgs/temp/postFeed.png" />
-                                <figcaption>Titulo</figcaption>
-                            </a>
-                        </figure>
-                        <div>
-                            <figure>
-                                <a href="">
-                                    <img src="imgs/feed/iconePerfilFeedPadrao.svg" />
-                                    Nome
-                                </a>
-                            </figure>
-                            <button>
-                                100 mil
-                                <img src="imgs/feed/iconeLikeFeed.svg" />
-                            </button>
-                        </div>
-                    </li>
-                    <li className="postFeed">
-                        <figure>
-                            <a href="">
-                                <img src="imgs/temp/postFeed.png" />
-                                <figcaption>Titulo</figcaption>
-                            </a>
-                        </figure>
-                        <div>
-                            <figure>
-                                <a href="">
-                                    <img src="imgs/feed/iconePerfilFeedPadrao.svg" />
-                                    Nome
-                                </a>
-                            </figure>
-                            <button>
-                                100 mil
-                                <img src="imgs/feed/iconeLikeFeed.svg" />
-                            </button>
-                        </div>
-                    </li>
-                    <li className="postFeed">
-                        <figure>
-                            <a href="">
-                                <img src="imgs/temp/postFeed.png" />
-                                <figcaption>Titulo</figcaption>
-                            </a>
-                        </figure>
-                        <div>
-                            <figure>
-                                <a href="">
-                                    <img src="imgs/feed/iconePerfilFeedPadrao.svg" />
-                                    Nome
-                                </a>
-                            </figure>
-                            <button>
-                                100 mil
-                                <img src="imgs/feed/iconeLikeFeed.svg" />
-                            </button>
-                        </div>
-                    </li>
+                    {posts.length === 0 ?
+                    (
+                        <li></li>
+                    ) :
+                    (
+                        posts.map((post) => 
+                        (
+                            !post.rascunho ? 
+                            (
+                            <li className="postFeed">
+                                <figure>
+                                    <Link to="">
+                                        <img src={post.imagemUrl} />
+                                        <figcaption>{post.titulo}</figcaption>
+                                    </Link>
+                                </figure>
+                                <div>
+                                    <figure>
+                                        <Link to="">
+                                            <img src={post.usuario?.imagemUrl} />
+                                            {post.usuario?.nome}
+                                        </Link>
+                                    </figure>
+                                    <button>
+                                        100 mil
+                                        <img src="imgs/feed/iconeLikeFeed.svg" />
+                                    </button>
+                                </div>
+                            </li>
+                            ) 
+                            : 
+                            (<li></li>)
+                        ))
+                    )}
                 </ul>
 
                 <div className="areaOrdernarRapido">

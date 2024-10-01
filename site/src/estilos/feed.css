@@ -180,6 +180,9 @@
 
 .feed .postFeed > div figure a img {
     margin-right: 3px;
+    width: 34px;
+    height: 34px;
+    border-radius: 100%;
 }
 
 .feed .postFeed>div button {
