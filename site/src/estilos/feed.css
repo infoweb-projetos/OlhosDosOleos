@@ -274,7 +274,7 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
-    z-index: 2;
+    z-index: 4;
 }
 .ante {
     left: 0.5em;

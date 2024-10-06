@@ -5,51 +5,92 @@ import { useEffect, useState } from 'react';
 import { CarroselComum } from '../scripts/carrossel'
 import axios from 'axios';
 import { Post } from '../interfaces/Post';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Usuario } from '../interfaces/Usuario';
 
 
 const Feed: React.FC = () => {
     const [posts, setPosts] = useState<Array<Post>>([]);
+    const [ultimosPosts, setUltimosPosts] = useState<Array<Post>>([]);
+    const [ultimosUsuarios, setUltimosUsuarios] = useState<Array<Usuario>>([]);
+    const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
+    const navegar = useNavigate();
     useEffect(() => {
-        CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselFeedUsuarios', 'listaImagensCarroselFeedUsuario');
-
         axios.get('http://localhost:3000/posts/listar', {})
-            .then(response => {
-                const postsBD = response.data.dados;
+        .then(response => {
+            const postsBD = response.data.dados;
 
-                const postLista: Array<Post> = postsBD.map((p: any) => {
-                    const obj: Post = {
-                        titulo: p.titulo,
-                        usuario: p.usuario,
-                        usuarioid: p.usuarioid,
-                        sensivel: p.sensivel,
-                        rascunho: p.rascunho,
-                        imagemUrl: ''
-                    };
+            const postLista: Array<Post> = postsBD.map((p: any) => {
+                const obj: Post = {
+                    titulo: p.titulo,
+                    usuario: p.usuario,
+                    usuarioid: p.usuarioid,
+                    sensivel: p.sensivel,
+                    rascunho: p.rascunho,
+                    imagemUrl: ''
+                };
 
-                    if (p.imagem && p.imagemtipo) {
-                        const blob = new Blob([new Uint8Array(p.imagem.data)], { type: p.imagemtipo });
-                        const urlImagem = URL.createObjectURL(blob);
-                        obj.imagemUrl = urlImagem;
-                    }
+                if (p.imagem && p.imagemtipo) {
+                    const blob = new Blob([new Uint8Array(p.imagem.data)], { type: p.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    obj.imagemUrl = urlImagem;
+                }
 
-                    if (obj.usuario && obj.usuario && obj.usuario.imagem && obj.usuario.imagemtipo) {
-                        const blob = new Blob([new Uint8Array(obj.usuario.imagem.data)], { type: obj.usuario.imagemtipo });
-                        const urlImagem = URL.createObjectURL(blob);
-                        obj.usuario.imagemUrl = urlImagem;
-                    } else {
-                        if (obj.usuario) obj.usuario.imagemUrl = "/imgs/verPerfil/perfil.png";
-                    }
+                if (obj.usuario && obj.usuario && obj.usuario.imagem && obj.usuario.imagemtipo) {
+                    const blob = new Blob([new Uint8Array(obj.usuario.imagem.data)], { type: obj.usuario.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    obj.usuario.imagemUrl = urlImagem;
+                } else {
+                    if (obj.usuario) obj.usuario.imagemUrl = "/imgs/verPerfil/perfil.png";
+                }
 
-                    return obj;
-                });
-                setPosts(postLista);
-            })
-            .catch(error => {
-                console.log(error);
-                navegar('/');
+                return obj;
             });
-    });
+            setUltimosPosts(postLista.slice(0, postLista.length > 9 ? 9 : postLista.length));
+            if (postLista.length > 9){
+                setPosts(postLista.slice(9));
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            navegar('/');
+        });
+        UltimosUsuarios();
+        if (ultimosUsuarios.length > 0 && !carroselAtivo) {
+            CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselFeedUsuarios', 'listaImagensCarroselFeedUsuario');
+            ativacaoCarrossel(true);
+        }
+    }, [ultimosPosts, posts, ultimosUsuarios]);
+
+    const UltimosUsuarios = async  () =>{
+        axios.get('http://localhost:3000/usuarios/ultimos', {})
+        .then(response => {
+            const usuariosBD = response.data.dados;
+            const usuariosLista: Array<Usuario> = usuariosBD.map((u: any) => {
+                const obj: Usuario = {
+                    tipoid: u.tipoid,
+                    id: u.id,
+                    imagemUrl: ''
+                };
+
+                if (u.imagem && u.imagemtipo) {
+                    const blob = new Blob([new Uint8Array(u.imagem.data)], { type: u.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    obj.imagemUrl = urlImagem;
+                }
+                else {
+                    obj.imagemUrl = "/imgs/verPerfil/perfil.png";
+                }
+
+                return obj;
+            });
+            setUltimosUsuarios(usuariosLista);
+        })
+        .catch(error => {
+            console.log(error);
+            navegar('/');
+        });
+    }
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
@@ -95,26 +136,53 @@ const Feed: React.FC = () => {
                     </li>
                 </ul>
                 <ul className="postsArea">
-                    <li className="postFeed">
-                        <figure>
-                            <a href="">
-                                <img src="imgs/temp/postFeed.png" />
-                                <figcaption>Titulo</figcaption>
-                            </a>
-                        </figure>
-                        <div>
-                            <figure>
-                                <a href="">
-                                    <img src="imgs/feed/iconePerfilFeedPadrao.svg" />
-                                    Nome
-                                </a>
-                            </figure>
-                            <button>
-                                100 mil
-                                <img src="imgs/feed/iconeLikeFeed.svg" />
-                            </button>
-                        </div>
-                    </li>
+                {
+                        ultimosPosts.length === 0 ?
+                        (
+                            <li></li>
+                        ) :
+                        (
+                            ultimosPosts.map((post, index) => 
+                            (
+                                !post.rascunho ? 
+                                (
+                                <li key={index} className="postFeed">
+                                    <figure className='postArea'>
+                                        <Link to="">
+                                            <img  className={ post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} />
+                                            <figcaption>{post.titulo}</figcaption>
+                                        </Link>
+                                        {
+                                            post.sensivel ?
+                                            (
+                                            <div className='divSensivel'>
+                                                <img src="/imgs/verPerfil/olhoSensivel.svg" alt="Icone indicando conteudo sensivel." />
+                                            </div>
+                                            )
+                                            :
+                                            (null)
+                                        }
+                                        
+                                    </figure>
+                                    <div>
+                                        <figure>
+                                            <Link to="">
+                                                <img src={post.usuario?.imagemUrl} />
+                                                {post.usuario?.nome}
+                                            </Link>
+                                        </figure>
+                                        <button>
+                                            100 mil
+                                            <img src="imgs/feed/iconeLikeFeed.svg" />
+                                        </button>
+                                    </div>
+                                </li>
+                                ) 
+                                : 
+                                (<li key={index}></li>)
+                            ))
+                        )
+                    }
                 </ul>
                 <div className="areaCarroselNovosUsuarios">
                     <div className="espacamentoFeedComum">
@@ -131,15 +199,17 @@ const Feed: React.FC = () => {
                     <div className="carrosel" id='carroselFeedUsuarios'>
                         <button className="ante" id="anteBtn"><img src="imgs/feed/setaCarroselUsuarioEsquerda.svg" /></button>
                         <div id="listaImagensCarroselFeedUsuario" className="imagemCarrosel">
-                            <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
-                            <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
-                            <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
-                            <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
-                            <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
-                            <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
-                            <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
-                            <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
-                            <a href="" className="carroselSlide"><img src="imgs/feed/fotoUsuarioNovoFeed.png" alt="" /></a>
+                            {
+                                ultimosUsuarios.length > 0 ?
+                                (
+                                    ultimosUsuarios.map((usuario, index) => 
+                                    (
+                                        <a href="" key={index} className="carroselSlide"><img src={usuario.imagemUrl} alt="" /></a>
+                                    ))
+                                )
+                                :
+                                (null)
+                            }
                         </div>
 
                         <button className="prox" id="proxBtn"><img src="/imgs/feed/setaCarroselUsuarioDireita.svg" /></button>
@@ -147,40 +217,53 @@ const Feed: React.FC = () => {
                 </div>
 
                 <ul className="postsArea">
-                    {posts.length === 0 ?
-                    (
-                        <li></li>
-                    ) :
-                    (
-                        posts.map((post) => 
+                    {
+                        posts.length === 0 ?
                         (
-                            !post.rascunho ? 
+                            <li></li>
+                        ) :
+                        (
+                            posts.map((post, index) => 
                             (
-                            <li className="postFeed">
-                                <figure>
-                                    <Link to="">
-                                        <img src={post.imagemUrl} />
-                                        <figcaption>{post.titulo}</figcaption>
-                                    </Link>
-                                </figure>
-                                <div>
-                                    <figure>
+                                !post.rascunho ? 
+                                (
+                                <li key={index} className="postFeed">
+                                    <figure className='postArea'>
                                         <Link to="">
-                                            <img src={post.usuario?.imagemUrl} />
-                                            {post.usuario?.nome}
+                                            <img  className={ post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} />
+                                            <figcaption>{post.titulo}</figcaption>
                                         </Link>
+                                        {
+                                            post.sensivel ?
+                                            (
+                                            <div className='divSensivel'>
+                                                <img src="/imgs/verPerfil/olhoSensivel.svg" alt="Icone indicando conteudo sensivel." />
+                                            </div>
+                                            )
+                                            :
+                                            (null)
+                                        }
+                                        
                                     </figure>
-                                    <button>
-                                        100 mil
-                                        <img src="imgs/feed/iconeLikeFeed.svg" />
-                                    </button>
-                                </div>
-                            </li>
-                            ) 
-                            : 
-                            (<li></li>)
-                        ))
-                    )}
+                                    <div>
+                                        <figure>
+                                            <Link to="">
+                                                <img src={post.usuario?.imagemUrl} />
+                                                {post.usuario?.nome}
+                                            </Link>
+                                        </figure>
+                                        <button>
+                                            100 mil
+                                            <img src="imgs/feed/iconeLikeFeed.svg" />
+                                        </button>
+                                    </div>
+                                </li>
+                                ) 
+                                : 
+                                (<li key={index}></li>)
+                            ))
+                        )
+                    }
                 </ul>
 
                 <div className="areaOrdernarRapido">

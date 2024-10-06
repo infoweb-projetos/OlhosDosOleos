@@ -3,12 +3,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
+import { Post } from '../interfaces/Post';
 
 const Feed: React.FC = () => {
     const navegar = useNavigate();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [imagemUrl, setImagemUrl] = useState<string>("/imgs/verPerfil/perfil.png");
     const [bannerUrl, setBannerUrl] = useState<string | undefined>(undefined);
+    const [posts, setPosts] = useState<Array<Post>>([]);
 
     const [painelPerfilCor, setPainelPerfilCor] = useState<string>('');
 
@@ -51,45 +53,88 @@ const Feed: React.FC = () => {
                     'Authorization': `Bearer ${token}`
                 }
             })
-                .then(response => {
-                    const usu = response.data.dados;
-                    setUsuario(usu);
-                    console.log(usu);
+            .then(response => {
+                const usu = response.data.dados;
+                setUsuario(usu);
+                console.log(usu);
 
-                    if (usu.imagem && usu.imagem.data && usu.imagemtipo) {
-                        const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
-                        const urlImagem = URL.createObjectURL(blob);
-                        setImagemUrl(urlImagem);
-                    } else {
-                        setImagemUrl("/imgs/verPerfil/perfil.png"); // Ou uma imagem padrão
-                    }
+                if (usu.imagem && usu.imagem.data && usu.imagemtipo) {
+                    const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    setImagemUrl(urlImagem);
+                } else {
+                    setImagemUrl("/imgs/verPerfil/perfil.png"); // Ou uma imagem padrão
+                }
 
-                    if (usu.banner && usu.banner.data && usu.bannertipo) {
-                        const blob = new Blob([new Uint8Array(usu.banner.data)], { type: usu.bannertipo });
-                        const urlImagem = URL.createObjectURL(blob);
-                        setBannerUrl(urlImagem);
-                        setImgBtBanner('/imgs/verPerfil/editarBanner.svg');
-                        setEstiloBtBanner({
-                            top: "90%",
-                            left: "3%"
-                        });
-                    } else {
-                        setBannerUrl(undefined);
-                        setImgBtBanner('/imgs/verPerfil/add_image.svg');
-                        setEstiloBtBanner({});
-                    }
+                if (usu.banner && usu.banner.data && usu.bannertipo) {
+                    const blob = new Blob([new Uint8Array(usu.banner.data)], { type: usu.bannertipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    setBannerUrl(urlImagem);
+                    setImgBtBanner('/imgs/verPerfil/editarBanner.svg');
+                    setEstiloBtBanner({
+                        top: "90%",
+                        left: "3%"
+                    });
+                } else {
+                    setBannerUrl(undefined);
+                    setImgBtBanner('/imgs/verPerfil/add_image.svg');
+                    setEstiloBtBanner({});
+                }
 
-                    if (usu.cor1) setPainelPerfilCor("#" + usu.cor1);
-                })
-                .catch(error => {
-                    console.log(token);
-                    console.log(error);
-                    console.log('Token inválido ou expirado');
-                    localStorage.removeItem('tokenODO');
-                    navegar('/');
-                });
+                if (usu.cor1) setPainelPerfilCor("#" + usu.cor1);
+            })
+            .catch(error => {
+                console.log(token);
+                console.log(error);
+                console.log('Token inválido ou expirado');
+                localStorage.removeItem('tokenODO');
+                navegar('/');
+            });
+            MeusPosts(token);
         }
     }, [navegar]);
+
+    const MeusPosts = async (token: string) => {
+        axios.get('http://localhost:3000/posts/meus', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            const postsBD = response.data.dados;
+            const postLista: Array<Post> = postsBD.map((p: any) => {
+                const obj: Post = {
+                    titulo: p.titulo,
+                    usuario: p.usuario,
+                    usuarioid: p.usuarioid,
+                    sensivel: p.sensivel,
+                    rascunho: p.rascunho,
+                    imagemUrl: ''
+                };
+
+                if (p.imagem && p.imagemtipo) {
+                    const blob = new Blob([new Uint8Array(p.imagem.data)], { type: p.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    obj.imagemUrl = urlImagem;
+                }
+
+                if (obj.usuario && obj.usuario && obj.usuario.imagem && obj.usuario.imagemtipo) {
+                    const blob = new Blob([new Uint8Array(obj.usuario.imagem.data)], { type: obj.usuario.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    obj.usuario.imagemUrl = urlImagem;
+                } else {
+                    if (obj.usuario) obj.usuario.imagemUrl = "/imgs/verPerfil/perfil.png";
+                }
+
+                return obj;
+            });
+            setPosts(postLista);
+        })
+        .catch(error => {
+            console.log(error);
+            navegar('/');
+        });
+    }
 
     return (
         <div className="paginaPerfil">
@@ -119,75 +164,103 @@ const Feed: React.FC = () => {
                     <div className="portfolio-section">
                         <h1 className="dmSansThin">Portfólio</h1>
                         <div className="portfolio-grid">
-                            <div className="new-project-card">
-                                <a href="" className="new-project-button">
-                                    <span className="new-project-icon dmSansThin">+</span>
-                                    <span className="new-project-text dmSansThin">Criar um Projeto</span>
-                                </a>
-                                <p className="new-project-description dmSans">
-                                    Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
-                                </p>
-                            </div>
-                            <div className="project-card guiaCondutor">
-                                <p className="dmSansThin">Lista de verificação de perfil</p>
-                                <ul>
-                                    <li>
-                                        <a className="bordaInferiror" href="#">
-                                            <div>
-                                                <canvas className="circuloBrancoVazio"></canvas>
-                                                <span className="dmSansThin">Adicionar Localização</span>
-                                            </div>
-                                            <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="bordaInferiror" href="#">
-                                            <div>
-                                                <canvas className="circuloBrancoVazio"></canvas>
-                                                <span className="dmSansThin">Adicionar Contatos</span>
-                                            </div>
-                                            <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="bordaInferiror" href="#">
-                                            <div>
-                                                <canvas className="circuloBrancoVazio"></canvas>
-                                                <span className="dmSansThin">Adicionar Biografia</span>
-                                            </div>
-                                            <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div>
-                                                <canvas className="circuloBrancoVazio"></canvas>
-                                                <span className="dmSansThin">Adicionar Foto de Perfil</span>
-                                            </div>
-                                            <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                        </a>
-                                    </li>
-                                </ul>
-                                <a href=""><b className="bordaInferiror dmSansThin">Não mostrar novamente</b></a>
-                            </div>
-                            <div className="project-card imagemPortifolio">
-                                <a href="">
-                                    <img src="/imgs/temp/imgPortifolio.png" alt="Obra do artista." />
-                                </a>
-                            </div>
-                            <div className="project-card imagemPortifolio">
-                                <a href="">
-                                    <img src="/imgs/temp/imgPortifolio.png" alt="Obra do artista." />
-                                </a>
-                            </div>
-                            <div className="project-card imagemPortifolio">
-                                <a href="">
-                                    <img className="conteudoSensivel" src="/imgs/temp/imgPortifolio.png" alt="Obra do artista." />
-                                    <div>
-                                        <img src="/imgs/verPerfil/olhoSensivel.svg" alt="Icone indicando conteudo sensivel." />
-                                    </div>
-                                </a>
-                            </div>
+                            {
+                                posts.length < 1 ?
+                                (
+                                <div className="new-project-card">
+                                    <a href="" className="new-project-button">
+                                        <span className="new-project-icon dmSansThin">+</span>
+                                        <span className="new-project-text dmSansThin">Criar um Projeto</span>
+                                    </a>
+                                    <p className="new-project-description dmSans">
+                                        Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
+                                    </p>
+                                </div>
+                                )
+                                :
+                                (null)
+                            }
+
+                            {
+                                posts.length < 1 ?
+                                (
+                                <div className="project-card guiaCondutor">
+                                    <p className="dmSansThin">Lista de verificação de perfil</p>
+                                    <ul>
+                                        <li>
+                                            <a className="bordaInferiror" href="#">
+                                                <div>
+                                                    <canvas className="circuloBrancoVazio"></canvas>
+                                                    <span className="dmSansThin">Adicionar Localização</span>
+                                                </div>
+                                                <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a className="bordaInferiror" href="#">
+                                                <div>
+                                                    <canvas className="circuloBrancoVazio"></canvas>
+                                                    <span className="dmSansThin">Adicionar Contatos</span>
+                                                </div>
+                                                <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a className="bordaInferiror" href="#">
+                                                <div>
+                                                    <canvas className="circuloBrancoVazio"></canvas>
+                                                    <span className="dmSansThin">Adicionar Biografia</span>
+                                                </div>
+                                                <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <div>
+                                                    <canvas className="circuloBrancoVazio"></canvas>
+                                                    <span className="dmSansThin">Adicionar Foto de Perfil</span>
+                                                </div>
+                                                <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <a href=""><b className="bordaInferiror dmSansThin">Não mostrar novamente</b></a>
+                                </div> 
+                                )
+                                :
+                                (null)
+                            }
+                            
+
+                            
+                            {
+                                posts.length < 1 ?
+                                (
+                                    null
+                                )
+                                :
+                                (
+                                    posts.map((post, index) => 
+                                    (
+                                        <div key={index} className="project-card imagemPortifolio">
+                                            <a href="">
+                                                <img className={ post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} alt="Obra do artista." />
+                                                {
+                                                post.sensivel ?
+                                                (
+                                                <div>
+                                                    <img src="/imgs/verPerfil/olhoSensivel.svg" alt="Icone indicando conteudo sensivel." />
+                                                </div>
+                                                )
+                                                :
+                                                (null)
+                                                }
+                                                
+                                            </a>
+                                        </div>
+                                    ))
+                                )
+                            }
                         </div>
                     </div>
 

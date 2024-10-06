@@ -19,3 +19,4 @@ export const VerificaToken = async () : Promise<string | undefined> => {
         return undefined;
     }
 }
+

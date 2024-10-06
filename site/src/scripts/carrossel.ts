@@ -8,7 +8,7 @@ export function CarroselComum(idAnteBtn  : string, idProxBtn  : string, classeIt
     // Função para detectar quantas imagens estão visíveis
     function calcularImagensVisiveis(): number {
         const elementos = document.getElementById(idCarrosel);
-        if (elementos) {
+        if (elementos && slides.length > 0) {
             const larguraCarrosel = elementos.clientWidth; // Largura do contêiner
             const larguraSlide = slides[0].clientWidth; // Largura de cada slide
             const imagensVisiveis = Math.floor(larguraCarrosel / larguraSlide); // Quantidade de imagens visíveis

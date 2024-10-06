@@ -20,7 +20,8 @@ const CriarPost: React.FC = () => {
         descricaoPost: undefined,
         postSensivel: false,
         rascunho: false,
-    })
+    });
+    const [qtdPost, setQtdPost] = useState<number>(1);
 
     useEffect(() => {
         const token = localStorage.getItem('tokenODO');
@@ -28,6 +29,7 @@ const CriarPost: React.FC = () => {
             navegar('/');
         }
         else {
+            VerificarPost(token);
             axios.get('http://localhost:3000/usuarios/perfil', {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -44,6 +46,18 @@ const CriarPost: React.FC = () => {
                 });
         }
     }, [navegar]);
+
+    const VerificarPost = async (token : string) => {
+        axios.get('http://localhost:3000/posts/meus', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            const postsBD = response.data.dados;
+            setQtdPost(postsBD.length)
+        })
+    }
 
     const AoMudarValorInput = (elemento: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type, checked, files } = elemento.target;
@@ -100,6 +114,7 @@ const CriarPost: React.FC = () => {
                 },
             });
             console.log('Resposta da API:', response.data);
+            navegar(0);
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
             if (axios.isAxiosError(error) && error.response) {
@@ -178,26 +193,33 @@ const CriarPost: React.FC = () => {
                         <input  checked={dados.postSensivel} onChange={AoMudarValorInput} type="checkbox" name="postSensivel" id="postSensivel" />
                     </div>
                 </form>
-
-                <div id="modalDiretrizPostArea" className="modalAvisoArea">
-                    <div id="modalDiretrizPost" className="modalAviso" style={{ opacity: 1, }}>
-                        <div>
-                            <figure>
-                                <img src="imgs/criarPost/iconeDiretrizModal.svg" />
-                            </figure>
-                            <button onClick={() => { AbrirFecharModal('modalDiretrizPost'); AbrirFecharModal('modalDiretrizPostArea', 'flex'); }}><img src="imgs/criarPost/fecharModalDiretriz.svg" /></button>
+                {
+                    qtdPost > 0 ?
+                    (null)
+                    :
+                    (
+                    <div id="modalDiretrizPostArea" className="modalAvisoArea">
+                        <div id="modalDiretrizPost" className="modalAviso" style={{ opacity: 1, }}>
+                            <div>
+                                <figure>
+                                    <img src="imgs/criarPost/iconeDiretrizModal.svg" />
+                                </figure>
+                                <button onClick={() => { AbrirFecharModal('modalDiretrizPost'); AbrirFecharModal('modalDiretrizPostArea', 'flex'); }}><img src="imgs/criarPost/fecharModalDiretriz.svg" /></button>
+                            </div>
+                            <h3> Conheça nossas diretrizes de Postagens</h3>
+                            <p>
+                                Antes de postar, recomendamos que você se familiarize com nossas regras para garantir que tudo ocorra com respeito,
+                                inclusão e diversidade. Assim, todos podem compartilhar suas criações em um ambiente acolhedor e positivo.
+                            </p>
+                            <ul >
+                                <li><button onClick={VoltarPagAnterior}>Sair</button></li>
+                                <li><a href="">Ver</a></li>
+                            </ul>
                         </div>
-                        <h3> Conheça nossas diretrizes de Postagens</h3>
-                        <p>
-                            Antes de postar, recomendamos que você se familiarize com nossas regras para garantir que tudo ocorra com respeito,
-                            inclusão e diversidade. Assim, todos podem compartilhar suas criações em um ambiente acolhedor e positivo.
-                        </p>
-                        <ul >
-                            <li><button onClick={VoltarPagAnterior}>Sair</button></li>
-                            <li><a href="">Ver</a></li>
-                        </ul>
                     </div>
-                </div>
+                    )
+                }
+                
             </div>
             <RodapeSite />
         </div>

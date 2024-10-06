@@ -136,6 +136,19 @@ input[type="submit"], button{
 
 }
 
+.postArea{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.divSensivel{
+    position: absolute;
+}
+.conteudoSensivel{
+    filter: blur(9px);
+}
+
 /* Organização padrão */
 .organizacaoPadrao{
     min-height: 100vh;
