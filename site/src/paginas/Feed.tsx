@@ -46,9 +46,9 @@ const Feed: React.FC = () => {
 
                 return obj;
             });
-            setUltimosPosts(postLista.slice(0, postLista.length > 9 ? 9 : postLista.length));
-            if (postLista.length > 9){
-                setPosts(postLista.slice(9));
+            setUltimosPosts(postLista.slice(0, postLista.length > 8 ? 8 : postLista.length));
+            if (postLista.length > 8){
+                setPosts(postLista.slice(8));
             }
         })
         .catch(error => {
@@ -166,7 +166,7 @@ const Feed: React.FC = () => {
                                     </figure>
                                     <div>
                                         <figure>
-                                            <Link to="">
+                                            <Link to={`/perfil/${post.usuario?.id}`}>
                                                 <img src={post.usuario?.imagemUrl} />
                                                 {post.usuario?.nome}
                                             </Link>
@@ -204,7 +204,9 @@ const Feed: React.FC = () => {
                                 (
                                     ultimosUsuarios.map((usuario, index) => 
                                     (
-                                        <a href="" key={index} className="carroselSlide"><img src={usuario.imagemUrl} alt="" /></a>
+                                        <Link to={`/perfil/${usuario.id}`} key={index} className="carroselSlide">
+                                            <img src={usuario.imagemUrl} alt="" />
+                                        </Link>
                                     ))
                                 )
                                 :

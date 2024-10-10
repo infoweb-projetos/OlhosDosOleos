@@ -463,7 +463,7 @@ body {
   margin: 0 auto;
   margin-top: 0.5em;
   padding: 7px 4em;
-  visibility: hidden;
+  /* visibility: hidden; */
   /* sq quiser ver botão e so comentar o visibility */
 }
 
@@ -522,4 +522,8 @@ body {
   justify-content: space-between;
   align-items: center;
   color: black;
+}
+
+.paginaPerfil .visibilidadeOculta{
+  visibility: hidden;
 }

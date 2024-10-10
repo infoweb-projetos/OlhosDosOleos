@@ -1,11 +1,11 @@
 import HeaderSite from '../componentes/header';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
 import { Post } from '../interfaces/Post';
 
-const Feed: React.FC = () => {
+const Perfil: React.FC = () => {
     const navegar = useNavigate();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [imagemUrl, setImagemUrl] = useState<string>("/imgs/verPerfil/perfil.png");
@@ -17,13 +17,17 @@ const Feed: React.FC = () => {
     const [imgBtBanner, setImgBtBanner] = useState<string>("/imgs/verPerfil/add_image.svg");
     const arquivoInputRef = useRef<HTMLInputElement | null>(null);
     const [estiloBtBanner, setEstiloBtBanner] = useState<{}>({});
+
+    const [ehMeuPerfil, setEhMeuPerfil] = useState<boolean>(true);
+    const { perfilid } = useParams();
+
     const btEnviarBanner = () => {
         arquivoInputRef.current?.click();
     };
     const aoMudarValorInputArquivo = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const token = localStorage.getItem('tokenODO');
         const arquivo = event.target.files?.[0];
-        if (arquivo) {
+        if (arquivo && ehMeuPerfil) {
             const formData = new FormData();
             formData.append('banner', arquivo);
             try {
@@ -44,58 +48,90 @@ const Feed: React.FC = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('tokenODO');
-        if (!token) {
-            navegar('/');
-        }
-        else {
-            axios.get('http://localhost:3000/usuarios/perfil', {
+
+        if(token){   
+            axios.get('http://localhost:3000/autenticacao/verificatoken', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
             .then(response => {
-                const usu = response.data.dados;
-                setUsuario(usu);
-                console.log(usu);
-
-                if (usu.imagem && usu.imagem.data && usu.imagemtipo) {
-                    const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
-                    const urlImagem = URL.createObjectURL(blob);
-                    setImagemUrl(urlImagem);
-                } else {
-                    setImagemUrl("/imgs/verPerfil/perfil.png"); // Ou uma imagem padrão
-                }
-
-                if (usu.banner && usu.banner.data && usu.bannertipo) {
-                    const blob = new Blob([new Uint8Array(usu.banner.data)], { type: usu.bannertipo });
-                    const urlImagem = URL.createObjectURL(blob);
-                    setBannerUrl(urlImagem);
-                    setImgBtBanner('/imgs/verPerfil/editarBanner.svg');
-                    setEstiloBtBanner({
-                        top: "90%",
-                        left: "3%"
-                    });
-                } else {
-                    setBannerUrl(undefined);
-                    setImgBtBanner('/imgs/verPerfil/add_image.svg');
-                    setEstiloBtBanner({});
-                }
-
-                if (usu.cor1) setPainelPerfilCor("#" + usu.cor1);
+                console.log(response);
             })
             .catch(error => {
-                console.log(token);
-                console.log(error);
-                console.log('Token inválido ou expirado');
                 localStorage.removeItem('tokenODO');
-                navegar('/');
+                console.log(error);
+                navegar(0);
             });
-            MeusPosts(token);
         }
-    }, [navegar]);
 
-    const MeusPosts = async (token: string) => {
-        axios.get('http://localhost:3000/posts/meus', {
+        if (perfilid && Number(perfilid) > 0) {
+            setEhMeuPerfil(false);
+            axios.get(`http://localhost:3000/usuarios/soueu/${perfilid}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                setEhMeuPerfil(response.data? Boolean(response.data?.ehMeuPerfil) : false);
+            })
+            .catch(error => {
+                setEhMeuPerfil(false);
+            });
+        }
+        else setEhMeuPerfil(true);
+        
+        MontarPerfil(token, perfilid);
+        MeusPosts(token, perfilid);
+    }, []);
+
+    const MontarPerfil = async (token : string | null, id : string | undefined) => {
+        const url = id ? `http://localhost:3000/usuarios/outroperfil/${id}` : 'http://localhost:3000/usuarios/perfil';
+        console.log(url);
+        axios.get(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            const usu = response.data.dados;
+            setUsuario(usu);
+
+            if (usu.imagem && usu.imagem.data && usu.imagemtipo) {
+                const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
+                const urlImagem = URL.createObjectURL(blob);
+                setImagemUrl(urlImagem);
+            } else {
+                setImagemUrl("/imgs/verPerfil/perfil.png"); // Ou uma imagem padrão
+            }
+
+            if (usu.banner && usu.banner.data && usu.bannertipo) {
+                const blob = new Blob([new Uint8Array(usu.banner.data)], { type: usu.bannertipo });
+                const urlImagem = URL.createObjectURL(blob);
+                setBannerUrl(urlImagem);
+                setImgBtBanner('/imgs/verPerfil/editarBanner.svg');
+                setEstiloBtBanner({
+                    top: "90%",
+                    left: "3%"
+                });
+            } else {
+                setBannerUrl(undefined);
+                setImgBtBanner('/imgs/verPerfil/add_image.svg');
+                setEstiloBtBanner({});
+            }
+
+            if (usu.cor1) setPainelPerfilCor("#" + usu.cor1);
+            console.log("fial");
+        })
+        .catch(error => {
+            console.log(error);
+            console.log('Token inválido ou expirado');
+            navegar('/');
+        });
+    }
+    const MeusPosts = async (token : string | null, id : string | undefined) => {
+        const url = id ? `http://localhost:3000/posts/usuario/${id}` : 'http://localhost:3000/posts/meus'
+        axios.get(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -141,12 +177,20 @@ const Feed: React.FC = () => {
             <HeaderSite />
             <form action="" className="banner ">
                 <img className="esconda" alt="Banner Image" src={bannerUrl} id="imgBanner" />
-                <button style={estiloBtBanner}  onClick={btEnviarBanner} type="button" className="add-banner-btn">
-                    <img src={imgBtBanner} alt="Add Banner" />
-                </button>
+                {
+                    ehMeuPerfil ?
+                    (
+                    <button style={estiloBtBanner}  onClick={btEnviarBanner} type="button" className="add-banner-btn">
+                        <img src={imgBtBanner} alt="Add Banner" />
+                    </button>
+
+                    )
+                    :
+                    (null)
+                }
                 <input type="file" id="inputImgBanner"  ref={arquivoInputRef} onChange={aoMudarValorInputArquivo}/>
                 {
-                    !usuario?.banner ? 
+                    !usuario?.banner && ehMeuPerfil? 
                     ( 
                     <div className="banner-text">
                         Adicionar uma imagem de banner<br />
@@ -165,7 +209,7 @@ const Feed: React.FC = () => {
                         <h1 className="dmSansThin">Portfólio</h1>
                         <div className="portfolio-grid">
                             {
-                                posts.length < 1 ?
+                                posts.length < 1  && ehMeuPerfil?
                                 (
                                 <div className="new-project-card">
                                     <a href="" className="new-project-button">
@@ -182,7 +226,7 @@ const Feed: React.FC = () => {
                             }
 
                             {
-                                posts.length < 1 ?
+                                posts.length < 1 && ehMeuPerfil ?
                                 (
                                 <div className="project-card guiaCondutor">
                                     <p className="dmSansThin">Lista de verificação de perfil</p>
@@ -271,7 +315,11 @@ const Feed: React.FC = () => {
                             <div className="profile-info">
                                 <h2 className="dmSansThin"> {usuario ? usuario.nome : ""}</h2>
                                 <p className="dmSansThin"> {usuario?.tipoid ? usuario.tipoid : ""}</p>
-                                <a href="" className="dmSansThin botaoComum fundoBtVermelho"> <img src="/imgs/header/maisIcone.png" />Seguir</a>
+
+                                <a href="" className={`dmSansThin botaoComum ${ehMeuPerfil ? "visibilidadeOculta" : ""} fundoBtVermelho`}> 
+                                <img src="/imgs/header/maisIcone.png" />Seguir
+                                </a>
+
                                 <div className='seguidoresArea'>
                                     <div className='seguidoresLinha '>
                                         <p><b className='dmSansThin'>Seguidores: </b></p>
@@ -355,17 +403,24 @@ const Feed: React.FC = () => {
                                 </tbody>
                             </table>
                         </div>
-
-                        <div className="profile-actions">
-                            <a href=""><img className="button-icon" src="/imgs/verPerfil/edit_icon.svg" alt="Editar" />Editar Informações do
-                                perfil</a>
-                            <a href="" className="no-padding branco"><img className="button-icon" src="/imgs/verPerfil/personalize_icon.svg"
-                                alt="Personalizar" />Personalizar perfil</a>
-                        </div>
+                        {
+                            ehMeuPerfil ?
+                            (
+                            <div className="profile-actions">
+                                <a href=""><img className="button-icon" src="/imgs/verPerfil/edit_icon.svg" alt="Editar" />Editar Informações do
+                                    perfil</a>
+                                <a href="" className="no-padding branco"><img className="button-icon" src="/imgs/verPerfil/personalize_icon.svg"
+                                    alt="Personalizar" />Personalizar perfil</a>
+                            </div>
+                            )
+                            :
+                            (null)
+                        }
+                      
                     </div>
                 </div>
             </div>
         </div>
     );
 }
-export default Feed;
+export default Perfil;
