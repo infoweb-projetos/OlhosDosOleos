@@ -1,11 +1,11 @@
 import HeaderSite from '../componentes/header';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
 import { Post } from '../interfaces/Post';
 
-const MeuPerfil: React.FC = () => {
+const Perfil: React.FC = () => {
     const navegar = useNavigate();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [imagemUrl, setImagemUrl] = useState<string>("/imgs/verPerfil/perfil.png");
@@ -19,6 +19,7 @@ const MeuPerfil: React.FC = () => {
     const [estiloBtBanner, setEstiloBtBanner] = useState<{}>({});
 
     const [ehMeuPerfil, setEhMeuPerfil] = useState<boolean>(false);
+    const { perfilid } = useParams();
 
     const btEnviarBanner = () => {
         arquivoInputRef.current?.click();
@@ -48,10 +49,7 @@ const MeuPerfil: React.FC = () => {
     useEffect(() => {
         const token = localStorage.getItem('tokenODO');
 
-        if (!token) navegar('/');
-
         if(token){   
-            setEhMeuPerfil(true);
             axios.get('http://localhost:3000/autenticacao/verificatoken', {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -66,17 +64,31 @@ const MeuPerfil: React.FC = () => {
                 navegar(0);
             });
         }
-        if (!usuario) MontarPerfil(token);
-        if (posts.length < 1) MeusPosts(token);
+
+        if (perfilid && Number(perfilid) > 0) {
+            axios.get(`http://localhost:3000/usuarios/soueu/${perfilid}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (response.data) {
+                    if (response.data.ehMeuPerfil) navegar('/meuperfil');
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+        
+        if (!usuario) MontarPerfil(perfilid);
+        if (posts.length < 1) MeusPosts(perfilid);
     }, []);
 
-    const MontarPerfil = async (token : string | null) => {
-        const url = 'http://localhost:3000/usuarios/perfil';
-        axios.get(url, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+    const MontarPerfil = async (id : string | undefined) => {
+        const url = `http://localhost:3000/usuarios/outroperfil/${id}`;
+        console.log(url);
+        axios.get(url, {})
         .then(response => {
             const usu = response.data.dados;
             setUsuario(usu);
@@ -113,16 +125,12 @@ const MeuPerfil: React.FC = () => {
         .catch(error => {
             console.log(error);
             console.log('Token inválido ou expirado');
-            setEhMeuPerfil(false)
         });
     }
-    const MeusPosts = async (token : string | null) => {
-        const url = 'http://localhost:3000/posts/meus'
-        axios.get(url, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+    const MeusPosts = async (id : string | undefined) => {
+        const url = `http://localhost:3000/posts/usuario/${id}`;
+        console.log(url);
+        axios.get(url, { })
         .then(response => {
             const postsBD = response.data.dados;
             if (!postsBD && !posts){
@@ -158,7 +166,6 @@ const MeuPerfil: React.FC = () => {
         })
         .catch(error => {
             console.log(error);
-            setEhMeuPerfil(false)
         });
     }
 
@@ -413,4 +420,4 @@ const MeuPerfil: React.FC = () => {
         </div>
     );
 }
-export default MeuPerfil;
+export default Perfil;
