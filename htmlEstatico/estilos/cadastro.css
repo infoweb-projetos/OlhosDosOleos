@@ -325,6 +325,9 @@
 .pagCadastro #cadEtapa5 > button:hover{
     background-color: #a80639;
 }
+.pagCadastro #cadEtapa5 > span{
+    text-align: center;
+}
 /* Barra de progresso */
 .pagCadastro .cadEtapaProgresso{
     display: flex;

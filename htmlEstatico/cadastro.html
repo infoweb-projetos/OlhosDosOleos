@@ -18,29 +18,29 @@
                 <figure>
                     <img src="imgs/entrar/logoOdoVermelha.png"/>
                 </figure>
-                <h1>Criar Conta</h1>
+                <h1 class="dmSans">Criar Conta</h1>
                 <div class="cadEtapaProgresso">
-                    <p id="etapaNumero1" class="etapaNumero etapaNumeroVermelho">1</p>
+                    <p id="etapaNumero1" class="etapaNumero etapaNumeroVermelho dmSans">1</p>
                     <canvas id="etapaBarraVermelha" class="cadBarraVermelhaMetade"></canvas>
-                    <p id="etapaNumero2" class="etapaNumero">2</p>
+                    <p id="etapaNumero2" class="etapaNumero dmSans">2</p>
                     <canvas id="etapaBarraAzul"></canvas>
-                    <p id="etapaNumero3" class="etapaNumero">3</p>
+                    <p id="etapaNumero3" class="etapaNumero dmSans">3</p>
                     <canvas id="etapaBarraVerde"></canvas>
-                    <p id="etapaNumero4" class="etapaNumero">4</p>
+                    <p id="etapaNumero4" class="etapaNumero dmSans">4</p>
                     <canvas id="etapaBarraAmarela"></canvas>
-                    <p id="etapaNumero5" class="etapaNumero">5</p>
+                    <p id="etapaNumero5" class="etapaNumero dmSans">5</p>
                 </div>
 
                 <hr />
 
                 <form action="">
                     <div class="cadEtapa cadEtapaAtiva" id="cadEtapa1">
-                        <h2>Informações essenciais</h2>
-                        <p>Complete seu cadastro para começar a compartilhar sua arte com o mundo!</p>
+                        <h2 class="dmSans">Informações essenciais</h2>
+                        <p class="dmSans">Complete seu cadastro para começar a compartilhar sua arte com o mundo!</p>
                         <div class="cadCampoComum cadCampoMetadinha">
-                            <label>Nome</label>
+                            <label class="dmSans">Nome</label>
                             <div>
-                                <input type="text" name="" placeholder="digite seu nome" >
+                                <input type="text" class="dmSans" name="" placeholder="digite seu nome" >
                                 <figure>
                                     <img src="imgs/cadastro/nomeCad.svg" />
                                 </figure>
@@ -48,27 +48,27 @@
                             </div>
                         </div>
                         <div class="cadCampoComum cadCampoMetadinha">
-                            <label>Email</label>
+                            <label class="dmSans">Email</label>
                             <div>
-                                <input type="email" placeholder="digite seu email">
+                                <input type="email" class="dmSans" placeholder="digite seu email">
                                 <figure>
                                     <img src="imgs/cadastro/emailCad.svg" />
                                 </figure>
                             </div>
                         </div>
                         <div class="cadCampoComum cadCampoMetadinha">
-                            <label>Nome de Usuario</label>
+                            <label class="dmSans">Nome de Usuario</label>
                             <div>
-                                <input type="text" placeholder="digite o nome de seu usuario">
+                                <input type="text" class="dmSans" placeholder="digite o nome de seu usuario">
                                 <figure>
                                     <img src="imgs/cadastro/nomeUsuarioCad.svg" />
                                 </figure>
                             </div>
                         </div>
                         <div class="cadCampoComum cadCampoMetadinha">
-                            <label>Senha</label>
+                            <label class="dmSans">Senha</label>
                             <div>
-                                <input type="text" placeholder="digite sua senha">
+                                <input type="text" class="dmSans" placeholder="digite sua senha">
                                 <figure>
                                     <img src="imgs/cadastro/senhaCad.svg" />
                                 </figure>
@@ -77,11 +77,11 @@
 
                         <a href="" class="botaoComum google">
                             <img src="imgs/entrar/googleIcone.png" />
-                            <p>Entre com o Google</p>
+                            <p class="dmSans">Entre com o Google</p>
                         </a>
 
                         <div class="cadEtapaBotoes flexDireita">
-                            <button class="btVermelhoPreenchido" type="button" class="btVermelhoPreenchido"  
+                            <button type="button" class="btVermelhoPreenchido dmSans"  
                             onclick="TrocaEtapa('cadEtapa1', 'cadEtapa2', false, 1, 'etapaNumero1', 'etapaNumero2', 
                             'etapaBarraVermelha', 'etapaBarraAzul' )">
                                 Prosseguir
@@ -92,10 +92,10 @@
                         <h2>Informações de localização</h2>
                         <p>Informe sua localização para ajudar a contextualizar sua arte e facilitar a conexão com sua comunidade</p>
 
-                        <div class="cadCampoComum ">
-                            <label>Estado</label>
+                        <div class="cadCampoComum">
+                            <label class="dmSans">Estado</label>
                             <div>
-                                <select>
+                                <select class="dmSans">
                                     <option>Valor</option>
                                     <option>Valor 2</option>
                                 </select>
@@ -104,10 +104,10 @@
                                 </figure>
                             </div>
                         </div>
-                        <div class="cadCampoComum ">
-                            <label>Cidade</label>
+                        <div class="cadCampoComum">
+                            <label class="dmSans">Cidade</label>
                             <div>
-                                <select>
+                                <select class="dmSans">
                                     <option>Valor</option>
                                     <option>Valor 2</option>
                                 </select>
@@ -118,139 +118,138 @@
                         </div>
                         
                         <div class="cadEtapaBotoes">
-                            <button class="btAzul" onclick="TrocaEtapa('cadEtapa2', 'cadEtapa1', true, 2, 'etapaNumero2', 'etapaNumero1', 
+                            <button class="btAzul dmSans" onclick="TrocaEtapa('cadEtapa2', 'cadEtapa1', true, 2, 'etapaNumero2', 'etapaNumero1', 
                             'etapaBarraAzul', 'etapaBarraVermelha')" type="button">Voltar</button>
-                            <button class="btAzulPreenchido"
+                            <button class="btAzulPreenchido dmSans"
                             onclick="TrocaEtapa('cadEtapa2', 'cadEtapa3', false, 2, 'etapaNumero2', 'etapaNumero3', 
                             'etapaBarraAzul', 'etapaBarraVerde')" type="button">Prosseguir</button>
                         </div>
                     </div>
                     <div class="cadEtapa" id="cadEtapa3">
-                        <h2>Informações de contato</h2>
-                        <p>Compartilhe suas redes sociais e contatos para facilitar a comunicação com outros artistas e possíveis compradores</p>
+                        <h2 class="dmSans">Informações de contato</h2>
+                        <p class="dmSans">Compartilhe suas redes sociais e contatos para facilitar a comunicação com outros artistas e possíveis compradores</p>
                         <div class="cadCampoComum cadCampoMetadinha">
-                            <label>Intagram</label>
+                            <label class="dmSans">Intagram</label>
                             <div>
-                                <input type="text" placeholder="copie e cole o link aqui">
+                                <input type="text" class="dmSans" placeholder="copie e cole o link aqui">
                                 <figure>
                                     <img src="imgs/cadastro/instaCad.png" />
                                 </figure>
                             </div>
                         </div>
                         <div class="cadCampoComum cadCampoMetadinha">
-                            <label>WhatsApp</label>
+                            <label class="dmSans">WhatsApp</label>
                             <div>
-                                <input type="text" placeholder="copie e cole o link aqui">
+                                <input type="text" class="dmSans" placeholder="copie e cole o link aqui">
                                 <figure>
                                     <img src="imgs/cadastro/zapCad.svg" />
                                 </figure>
                             </div>       
                         </div>
                         <div class="cadCampoComum cadCampoMetadinha">
-                            <label>Facebook</label>
+                            <label class="dmSans">Facebook</label>
                             <div>
-                                <input type="text"placeholder="copie e cole o link aqui">
+                                <input type="text" class="dmSans" placeholder="copie e cole o link aqui">
                                 <figure>
                                     <img src="imgs/cadastro/faceCad.svg" />
                                 </figure>
                             </div>
                         </div>
                         <div class="cadCampoComum cadCampoMetadinha">
-                            <label>Youtube</label>
+                            <label class="dmSans">Youtube</label>
                             <div>
-                                <input type="text"placeholder="copie e cole o link aqui">
+                                <input type="text" class="dmSans" placeholder="copie e cole o link aqui">
                                 <figure>
                                     <img src="imgs/cadastro/youtubeCad.svg" />
                                 </figure>
                             </div>
                         </div>
                         <div class="cadEtapaBotoes">
-                            <button class="btVerde" onclick="TrocaEtapa('cadEtapa3', 'cadEtapa2', true, 3, 'etapaNumero3', 'etapaNumero2', 
+                            <button class="btVerde dmSans" onclick="TrocaEtapa('cadEtapa3', 'cadEtapa2', true, 3, 'etapaNumero3', 'etapaNumero2', 
                             'etapaBarraVerde', 'etapaBarraAzul')" type="button">Voltar</button>
-                            <button class="btVerdePreenchido" onclick="TrocaEtapa('cadEtapa3', 'cadEtapa4', false, 3, 'etapaNumero3', 'etapaNumero4', 
+                            <button class="btVerdePreenchido dmSans" onclick="TrocaEtapa('cadEtapa3', 'cadEtapa4', false, 3, 'etapaNumero3', 'etapaNumero4', 
                             'etapaBarraVerde', 'etapaBarraAmarela')" type="button">Prosseguir</button>
                         </div>
                     </div>
                     <div class="cadEtapa" id="cadEtapa4">
-                        <h2>Informações de Personalização e Apresentação</h2>
-                        <p>Mostre quem você é! Deixe sua marca e torne seu perfil único!</p>
+                        <h2 class="dmSans">Informações de Personalização e Apresentação</h2>
+                        <p class="dmSans">Mostre quem você é! Deixe sua marca e torne seu perfil único!</p>
                         <div class="areaFoto"> 
-                            <label>Minha foto</label>
+                            <label class="dmSans">Minha foto</label>
                             <figure>
                                 <img src="imgs/verPerfil/perfil.png"/>
                             </figure>
                             <input type="file" />
                         </div>
                         <div class="divCores">
-                            <label>Minhas cores</label>
+                            <label class="dmSans">Minhas cores</label>
                             <ul>
                                 <li>
                                     <input type="color" />
                                     <div>
-                                        <p>Cor</p>
-                                        <span>#</span>
+                                        <p class="dmSans">Cor</p>
+                                        <span class="dmSans">#</span>
                                     </div>
                                 </li>
                                 <li>
                                     <input type="color" />
                                     <div>
-                                        <p>Cor</p>
-                                        <span>#</span>
+                                        <p class="dmSans">Cor</p>
+                                        <span class="dmSans">#</span>
                                     </div>
                                 </li>
                                 <li>
                                     <input type="color" />
                                     <div>
-                                        <p>Cor</p>
-                                        <span>#</span>
+                                        <p class="dmSans">Cor</p>
+                                        <span class="dmSans">#</span>
                                     </div>
                                 </li>
                                 <li>
                                     <input type="color" />
                                     <div>
-                                        <p>Cor</p>
-                                        <span>#</span>
+                                        <p class="dmSans">Cor</p>
+                                        <span class="dmSans">#</span>
                                     </div>
                                 </li>
                             </ul>
                         </div>
                         <div  class="cadCampoComum cadCampoMetadinha">
-                            <label>Biografia</label>
-                            <textarea></textarea>
+                            <label class="dmSans">Biografia</label>
+                            <textarea class="dmSans"></textarea>
                         </div>
                         <div  class="cadCampoComum cadCampoMetadinha">
-                            <label>Sou um artista...</label>
+                            <label class="dmSans">Sou um artista...</label>
                             <div>
-                                <select>
+                                <select class="dmSans">
                                     <option>Valor</option>
                                     <option>Valor 2</option>
                                 </select>
                             </div>
-                          
                         </div>
                         <div class="cadEtapaBotoes">
-                            <button class="btAmarelo" onclick="TrocaEtapa('cadEtapa4', 'cadEtapa3', true, 4, 'etapaNumero4', 'etapaNumero3', 
+                            <button class="btAmarelo dmSans" 
+                            onclick="TrocaEtapa('cadEtapa4', 'cadEtapa3', true, 4, 'etapaNumero4', 'etapaNumero3', 
                             'etapaBarraAmarela', 'etapaBarraVerde')" type="button">Voltar</button>
-                            <button class="btAmareloPreenchido" onclick="TrocaEtapa('cadEtapa4', 'cadEtapa5', false, 4, 'etapaNumero4', 'etapaNumero5', 
+                            <button class="btAmareloPreenchido dmSans" 
+                            onclick="TrocaEtapa('cadEtapa4', 'cadEtapa5', false, 4, 'etapaNumero4', 'etapaNumero5', 
                             'etapaBarraAmarela', '')" type="button">Prosseguir</button>
                         </div>
                     </div>
                     <div class="cadEtapa" id="cadEtapa5">
-                        <h2>Você conseguiu! Agora, finalize e prepare-se para mostrar sua arte ao mundo!</h2>
+                        <h2 class="dmSans">Você conseguiu! Agora, finalize e prepare-se para mostrar sua arte ao mundo!</h2>
                         <figure>
                             <img src="imgs/cadastro/cadEnviar.png" />
                         </figure>
-                        <button >Enviar</button>
-                        <span>Não se preocupe, você ainda poderá mudar as informações coletadas aqui no seu perfil!</span>
-                       
-                        <div class="cadEtapaBotoes">
-                            <button  class="btVermelho" onclick="TrocaEtapa('cadEtapa5', 'cadEtapa4', true, 5, 'etapaNumero5', 'etapaNumero4', 
+                        <button class="dmSans">Enviar</button>
+                        <span class="dmSans">Não se preocupe, você ainda poderá mudar as informações coletadas aqui no seu perfil!</span>
+                        <div class="cadEtapaBotoes dmSans">
+                            <button class="btVermelho dmSans" onclick="TrocaEtapa('cadEtapa5', 'cadEtapa4', true, 5, 'etapaNumero5', 'etapaNumero4', 
                             '', 'etapaBarraAmarela')" type="button">Voltar</button>
                         </div>
                     </div>
                 </form>
             </div>
-           
             <figure>
                 <img src="imgs/entrar/banner.png" />
             </figure>
