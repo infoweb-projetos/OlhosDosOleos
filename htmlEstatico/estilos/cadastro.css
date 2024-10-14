@@ -1,3 +1,12 @@
+.pagCadastro  .figureHeaderCadastrar{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    padding: 0.7em 1em;
+    box-sizing: border-box;
+}
 .pagCadastro  .google{
     margin-top: 1em !important;
     margin-bottom: 1.3em;
@@ -17,6 +26,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 .pagCadastro .formCadCompleto{
     display: flex;
@@ -143,6 +153,7 @@
     box-sizing: border-box;
     outline: none;
     height: 100%;
+    background-color: white
 }
 .pagCadastro .formCadCompleto .cadFormArea .cadCampoMetadinha{
     width: 46%;
