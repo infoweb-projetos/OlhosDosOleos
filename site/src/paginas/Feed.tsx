@@ -1,7 +1,7 @@
 import HeaderSite from '../componentes/header';
 import RodapeSite from '../componentes/rodape';
 import '../estilos/feed.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CarroselComum } from '../scripts/carrossel'
 import axios from 'axios';
 import { Post } from '../interfaces/Post';
@@ -15,12 +15,42 @@ const Feed: React.FC = () => {
     const [ultimosUsuarios, setUltimosUsuarios] = useState<Array<Usuario>>([]);
     const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
     const navegar = useNavigate();
+
+    const UltimosUsuarios = useCallback(async  () =>{
+        axios.get('https://olhosdosoleosbackend-production.up.railway.app/usuarios/ultimos', {})
+        .then(response => {
+            const usuariosBD = response.data.dados;
+            const usuariosLista: Array<Usuario> = usuariosBD.map((u: Usuario) => {
+                const obj: Usuario = {
+                    tipoid: u.tipoid,
+                    id: u.id,
+                    imagemUrl: ''
+                };
+                if (u.imagem && u.imagemtipo) {
+                    const blob = new Blob([u.imagem], { type: u.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    obj.imagemUrl = urlImagem;
+                }
+                else {
+                    obj.imagemUrl = "/imgs/verPerfil/perfil.png";
+                }
+
+                return obj;
+            });
+            setUltimosUsuarios(usuariosLista);
+        })
+        .catch(error => {
+            console.log(error);
+            navegar('/');
+        });
+    }, [navegar])
+
     useEffect(() => {
-        axios.get('http://localhost:3000/posts/listar', {})
+        axios.get('https://olhosdosoleosbackend-production.up.railway.app/posts/listar', {})
         .then(response => {
             const postsBD = response.data.dados;
 
-            const postLista: Array<Post> = postsBD.map((p: any) => {
+            const postLista: Array<Post> = postsBD.map((p: Post) => {
                 const obj: Post = {
                     titulo: p.titulo,
                     usuario: p.usuario,
@@ -31,13 +61,13 @@ const Feed: React.FC = () => {
                 };
 
                 if (p.imagem && p.imagemtipo) {
-                    const blob = new Blob([new Uint8Array(p.imagem.data)], { type: p.imagemtipo });
+                    const blob = new Blob([p.imagem], { type: p.imagemtipo });
                     const urlImagem = URL.createObjectURL(blob);
                     obj.imagemUrl = urlImagem;
                 }
 
                 if (obj.usuario && obj.usuario && obj.usuario.imagem && obj.usuario.imagemtipo) {
-                    const blob = new Blob([new Uint8Array(obj.usuario.imagem.data)], { type: obj.usuario.imagemtipo });
+                    const blob = new Blob([obj.usuario.imagem], { type: obj.usuario.imagemtipo });
                     const urlImagem = URL.createObjectURL(blob);
                     obj.usuario.imagemUrl = urlImagem;
                 } else {
@@ -60,37 +90,9 @@ const Feed: React.FC = () => {
             CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselFeedUsuarios', 'listaImagensCarroselFeedUsuario');
             ativacaoCarrossel(true);
         }
-    }, [ultimosPosts, posts, ultimosUsuarios]);
+    }, [ultimosPosts, posts, ultimosUsuarios, UltimosUsuarios, carroselAtivo, navegar]);
 
-    const UltimosUsuarios = async  () =>{
-        axios.get('http://localhost:3000/usuarios/ultimos', {})
-        .then(response => {
-            const usuariosBD = response.data.dados;
-            const usuariosLista: Array<Usuario> = usuariosBD.map((u: any) => {
-                const obj: Usuario = {
-                    tipoid: u.tipoid,
-                    id: u.id,
-                    imagemUrl: ''
-                };
-
-                if (u.imagem && u.imagemtipo) {
-                    const blob = new Blob([new Uint8Array(u.imagem.data)], { type: u.imagemtipo });
-                    const urlImagem = URL.createObjectURL(blob);
-                    obj.imagemUrl = urlImagem;
-                }
-                else {
-                    obj.imagemUrl = "/imgs/verPerfil/perfil.png";
-                }
-
-                return obj;
-            });
-            setUltimosUsuarios(usuariosLista);
-        })
-        .catch(error => {
-            console.log(error);
-            navegar('/');
-        });
-    }
+   
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />

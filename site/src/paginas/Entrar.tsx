@@ -26,7 +26,7 @@ const Entrar: React.FC = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:3000/autenticacao/login', dados, {
+            const response = await axios.post('https://olhosdosoleosbackend-production.up.railway.app/autenticacao/login', dados, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -35,9 +35,12 @@ const Entrar: React.FC = () => {
             //alert(response.data);
             localStorage.setItem('tokenODO', response.data.acessToken);
             navegar('/')
-        } catch (error : any) {
-            alert(error.response.data.message);
-            //console.log(error);
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                alert(error.response?.data.message);
+            } else {
+                console.error('Erro inesperado:', error);
+            }
         }
     }
 

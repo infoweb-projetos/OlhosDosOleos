@@ -1,5 +1,5 @@
 import HeaderSite from '../componentes/header';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
@@ -16,7 +16,7 @@ const MeuPerfil: React.FC = () => {
 
     const [imgBtBanner, setImgBtBanner] = useState<string>("/imgs/verPerfil/add_image.svg");
     const arquivoInputRef = useRef<HTMLInputElement | null>(null);
-    const [estiloBtBanner, setEstiloBtBanner] = useState<{}>({});
+    const [estiloBtBanner, setEstiloBtBanner] = useState({});
 
     const [ehMeuPerfil, setEhMeuPerfil] = useState<boolean>(false);
 
@@ -31,7 +31,7 @@ const MeuPerfil: React.FC = () => {
             formData.append('banner', arquivo);
             try {
                 // Enviar o arquivo com Axios
-                const response = await axios.patch('http://localhost:3000/usuarios/banner', formData, {
+                const response = await axios.patch('https://olhosdosoleosbackend-production.up.railway.app/usuarios/banner', formData, {
                     headers: {
                       'Authorization': `Bearer ${token}`,
                       'Content-Type': 'multipart/form-data',
@@ -45,33 +45,8 @@ const MeuPerfil: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-        const token = localStorage.getItem('tokenODO');
-
-        if (!token) navegar('/');
-
-        if(token){   
-            setEhMeuPerfil(true);
-            axios.get('http://localhost:3000/autenticacao/verificatoken', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                localStorage.removeItem('tokenODO');
-                console.log(error);
-                navegar(0);
-            });
-        }
-        if (!usuario) MontarPerfil(token);
-        if (posts.length < 1) MeusPosts(token);
-    }, []);
-
-    const MontarPerfil = async (token : string | null) => {
-        const url = 'http://localhost:3000/usuarios/perfil';
+    const MontarPerfil = useCallback(async(token : string | null) => {
+        const url = 'https://olhosdosoleosbackend-production.up.railway.app/usuarios/perfil';
         axios.get(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -83,7 +58,7 @@ const MeuPerfil: React.FC = () => {
 
             if (!usu && !usuario){
                 return;
-            };
+            }
 
             if (usu.imagem && usu.imagem.data && usu.imagemtipo) {
                 const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
@@ -115,9 +90,9 @@ const MeuPerfil: React.FC = () => {
             console.log('Token inválido ou expirado');
             setEhMeuPerfil(false)
         });
-    }
-    const MeusPosts = async (token : string | null) => {
-        const url = 'http://localhost:3000/posts/meus'
+    }, [usuario]);
+    const MeusPosts = useCallback(async (token : string | null) => {
+        const url = 'https://olhosdosoleosbackend-production.up.railway.app/posts/meus'
         axios.get(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -127,8 +102,8 @@ const MeuPerfil: React.FC = () => {
             const postsBD = response.data.dados;
             if (!postsBD && !posts){
                 return;
-            };
-            const postLista: Array<Post> = postsBD.map((p: any) => {
+            }
+            const postLista: Array<Post> = postsBD.map((p: Post) => {
                 const obj: Post = {
                     titulo: p.titulo,
                     usuario: p.usuario,
@@ -139,13 +114,13 @@ const MeuPerfil: React.FC = () => {
                 };
 
                 if (p.imagem && p.imagemtipo) {
-                    const blob = new Blob([new Uint8Array(p.imagem.data)], { type: p.imagemtipo });
+                    const blob = new Blob([p.imagem], { type: p.imagemtipo });
                     const urlImagem = URL.createObjectURL(blob);
                     obj.imagemUrl = urlImagem;
                 }
 
                 if (obj.usuario && obj.usuario && obj.usuario.imagem && obj.usuario.imagemtipo) {
-                    const blob = new Blob([new Uint8Array(obj.usuario.imagem.data)], { type: obj.usuario.imagemtipo });
+                    const blob = new Blob([obj.usuario.imagem], { type: obj.usuario.imagemtipo });
                     const urlImagem = URL.createObjectURL(blob);
                     obj.usuario.imagemUrl = urlImagem;
                 } else {
@@ -160,7 +135,32 @@ const MeuPerfil: React.FC = () => {
             console.log(error);
             setEhMeuPerfil(false)
         });
-    }
+    }, [posts])
+
+    useEffect(() => {
+        const token = localStorage.getItem('tokenODO');
+
+        if (!token) navegar('/');
+
+        if(token){   
+            setEhMeuPerfil(true);
+            axios.get('https://olhosdosoleosbackend-production.up.railway.app/autenticacao/verificatoken', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                localStorage.removeItem('tokenODO');
+                console.log(error);
+                navegar(0);
+            });
+        }
+        if (!usuario) MontarPerfil(token);
+        if (posts.length < 1) MeusPosts(token);
+    }, [MeusPosts, MontarPerfil, navegar, posts.length, usuario]);
 
     return (
         <div className="paginaPerfil">

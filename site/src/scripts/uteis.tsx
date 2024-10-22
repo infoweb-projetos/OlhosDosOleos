@@ -7,7 +7,7 @@ export const VerificaToken = async () : Promise<string | undefined> => {
         return undefined;
     }
     try {
-        await axios.get('http://localhost:3000/autenticacao/verificatoken', {
+        await axios.get('https://olhosdosoleosbackend-production.up.railway.app/autenticacao/verificatoken', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
