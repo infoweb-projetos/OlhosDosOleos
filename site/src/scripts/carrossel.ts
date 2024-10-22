@@ -40,5 +40,5 @@ export function CarroselComum(idAnteBtn  : string, idProxBtn  : string, classeIt
     if (anteBtn) anteBtn.addEventListener('click', anteSlide);
     mostrarSlide(slideAtual);
     //passar slide sozinho a cada 7 segundos
-    const intervaloSlideAutomatico = setInterval(proxSlide, 7000);
+    setInterval(proxSlide, 7000);
 }
