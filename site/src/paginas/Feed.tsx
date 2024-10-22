@@ -27,7 +27,7 @@ const Feed: React.FC = () => {
                     imagemUrl: ''
                 };
                 if (u.imagem && u.imagemtipo) {
-                    const blob = new Blob([u.imagem], { type: u.imagemtipo });
+                    const blob = new Blob([ new Uint8Array(u.imagem.data)], { type: u.imagemtipo });
                     const urlImagem = URL.createObjectURL(blob);
                     obj.imagemUrl = urlImagem;
                 }
@@ -61,13 +61,13 @@ const Feed: React.FC = () => {
                 };
 
                 if (p.imagem && p.imagemtipo) {
-                    const blob = new Blob([p.imagem], { type: p.imagemtipo });
+                    const blob = new Blob([new Uint8Array(p.imagem.data)], { type: p.imagemtipo });
                     const urlImagem = URL.createObjectURL(blob);
                     obj.imagemUrl = urlImagem;
                 }
 
                 if (obj.usuario && obj.usuario && obj.usuario.imagem && obj.usuario.imagemtipo) {
-                    const blob = new Blob([obj.usuario.imagem], { type: obj.usuario.imagemtipo });
+                    const blob = new Blob([ new Uint8Array(obj.usuario.imagem.data)], { type: obj.usuario.imagemtipo });
                     const urlImagem = URL.createObjectURL(blob);
                     obj.usuario.imagemUrl = urlImagem;
                 } else {

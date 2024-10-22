@@ -3,7 +3,7 @@ import { Usuario } from "./Usuario";
 export interface Post {
     id?: number;
     usuarioid: number;
-    imagem?: ArrayBuffer;
+    imagem?:  { type: string; data: Array<number> };
     imagemUrl?: string;
     imagemtipo?: string;
     titulo: string;

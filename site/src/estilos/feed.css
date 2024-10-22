@@ -238,6 +238,8 @@
 }
 /* Estilo das imagens */
 .imagemCarrosel {
+    min-width: 100%;
+    box-sizing: border-box;
     display: flex;
     transition: transform 0.5s ease-in-out;
 }

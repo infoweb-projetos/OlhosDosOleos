@@ -3,10 +3,10 @@ export interface Usuario {
     email?: string;
     face?: string;
     id: number;
-    imagem?: ArrayBuffer;
+    imagem?: { type: string; data: Array<number> };
     imagemUrl?: string;
     imagemtipo?: string;
-    banner?: ArrayBuffer;
+    banner?: { type: string; data: Array<number> };
     bannertipo?: string;
     insta?: string;
     localizacao?: string;
