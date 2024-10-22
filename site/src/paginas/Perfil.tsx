@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
 import { Post } from '../interfaces/Post';
+import {api} from '../apiUrl.ts';
 
 const Perfil: React.FC = () => {
     const navegar = useNavigate();
@@ -33,7 +34,7 @@ const Perfil: React.FC = () => {
             formData.append('banner', arquivo);
             try {
                 // Enviar o arquivo com Axios
-                const response = await axios.patch('https://olhosdosoleosbackend-production.up.railway.app/usuarios/banner', formData, {
+                const response = await axios.patch(api + 'usuarios/banner', formData, {
                     headers: {
                       'Authorization': `Bearer ${token}`,
                       'Content-Type': 'multipart/form-data',
@@ -135,7 +136,7 @@ const Perfil: React.FC = () => {
         const token = localStorage.getItem('tokenODO');
 
         if(token){   
-            axios.get('https://olhosdosoleosbackend-production.up.railway.app/autenticacao/verificatoken', {
+            axios.get(api + 'autenticacao/verificatoken', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
 import { Post } from '../interfaces/Post';
+import {api} from '../apiUrl.ts';
 
 const MeuPerfil: React.FC = () => {
     const navegar = useNavigate();
@@ -31,7 +32,7 @@ const MeuPerfil: React.FC = () => {
             formData.append('banner', arquivo);
             try {
                 // Enviar o arquivo com Axios
-                const response = await axios.patch('https://olhosdosoleosbackend-production.up.railway.app/usuarios/banner', formData, {
+                const response = await axios.patch(api + 'usuarios/banner', formData, {
                     headers: {
                       'Authorization': `Bearer ${token}`,
                       'Content-Type': 'multipart/form-data',
@@ -46,7 +47,7 @@ const MeuPerfil: React.FC = () => {
     };
 
     const MontarPerfil = useCallback(async(token : string | null) => {
-        const url = 'https://olhosdosoleosbackend-production.up.railway.app/usuarios/perfil';
+        const url = api + 'usuarios/perfil';
         axios.get(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -92,7 +93,7 @@ const MeuPerfil: React.FC = () => {
         });
     }, [usuario]);
     const MeusPosts = useCallback(async (token : string | null) => {
-        const url = 'https://olhosdosoleosbackend-production.up.railway.app/posts/meus'
+        const url = api + 'posts/meus'
         axios.get(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -144,7 +145,7 @@ const MeuPerfil: React.FC = () => {
 
         if(token){   
             setEhMeuPerfil(true);
-            axios.get('https://olhosdosoleosbackend-production.up.railway.app/autenticacao/verificatoken', {
+            axios.get(api + 'autenticacao/verificatoken', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

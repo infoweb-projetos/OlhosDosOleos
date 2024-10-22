@@ -1,0 +1,441 @@
+.pagCadastro  .figureHeaderCadastrar{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    padding: 0.7em 1em;
+    box-sizing: border-box;
+}
+.pagCadastro  .google{
+    margin-top: 1em !important;
+    margin-bottom: 1.3em;
+    display: flex;
+    align-items: center; 
+    margin: 0 auto;
+}
+.pagCadastro  .google p{
+    margin: 0 !important;
+    color: black !important;
+}
+
+.pagCadastro .flexDireita{
+    justify-content: flex-end !important;
+}
+.pagCadastro{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #FFFFFF;
+}
+.pagCadastro .formCadCompleto{
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    align-content: flex-start;
+    width: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+.pagCadastro .formCadCompleto .cadFormArea{
+    width: 36%;
+    box-sizing: border-box;
+    padding: 10px 1.5em;
+}
+.pagCadastro .formCadCompleto .cadFormArea > h1, .pagCadastro .formCadCompleto .cadFormArea > figure{
+    margin: 0 auto;
+    text-align: center;
+}
+.pagCadastro .formCadCompleto .cadFormArea > form{
+    width: 100%;
+}
+.pagCadastro .formCadCompleto > figure{
+    box-sizing: border-box;
+}
+.pagCadastro .formCadCompleto > figure img{
+    height: 95vh;
+}
+
+.pagCadastro .formCadCompleto .cadFormArea > h1{
+    font-size: 140%;
+    margin-top: 10px;
+    margin-bottom: 1.5em;
+}
+
+.pagCadastro .formCadCompleto .cadFormArea hr{
+    height: 1px;           
+    background-color: #D9DBE9; 
+    border: none;          
+    margin: 1.5em 0;
+}
+
+.pagCadastro .formCadCompleto .cadFormArea form h2, .pagCadastro .formCadCompleto .cadFormArea form p, 
+.pagCadastro .formCadCompleto .cadFormArea form label, .pagCadastro .formCadCompleto .cadFormArea form span{
+    color:#170F49;
+}
+
+.pagCadastro .formCadCompleto .cadFormArea form h2{
+    font-size: 120%;
+    margin-bottom: 3px;
+}
+.pagCadastro .formCadCompleto .cadFormArea form p{
+    font-size: 90%;
+    margin-bottom: 1.5em;
+}
+.pagCadastro .formCadCompleto .cadFormArea form label{
+    font-size: 95%;
+    width: 100%;
+    text-align: left;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.pagCadastro .formCadCompleto .cadFormArea .cadEtapa{
+    display: none;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.pagCadastro .formCadCompleto .cadFormArea .cadEtapaAtiva{
+    display: flex;
+}
+
+.pagCadastro .formCadCompleto .cadFormArea .cadCampoComum{
+    box-sizing: border-box;  
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;  
+    margin-bottom: 1em;
+    width: 100%;
+}
+.pagCadastro .formCadCompleto .cadFormArea .cadCampoComum > div{
+    display: flex;
+    align-items: stretch;
+    box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.pagCadastro .formCadCompleto .cadFormArea .cadCampoComum > div figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.pagCadastro .formCadCompleto .cadFormArea .cadCampoComum textarea{
+    display: flex;
+    align-items: flex-start;
+    box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    resize: none;
+    height: 10vh;
+}
+
+.pagCadastro .formCadCompleto .cadFormArea .cadCampoComum > div figure{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pagCadastro .formCadCompleto .cadFormArea .cadCampoComum > div img{
+    height: 19px;
+}
+.pagCadastro .formCadCompleto .cadFormArea .cadCampoComum input, .pagCadastro .formCadCompleto .cadFormArea .cadCampoComum select{
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    margin-right: 10px;
+    padding: 3px;
+    box-sizing: border-box;
+    outline: none;
+    height: 100%;
+    background-color: white
+}
+.pagCadastro .formCadCompleto .cadFormArea .cadCampoMetadinha{
+    width: 46%;
+    box-sizing: border-box;
+}
+
+.pagCadastro .cadEtapaBotoes{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+.pagCadastro .cadEtapaBotoes button{
+    background-color: transparent;
+    border: none;
+    border: 2px solid transparent; 
+    padding: 0.6em 2.5em; 
+    transition: background-color, border-color, color;
+    transition-timing-function: linear;
+    transition-duration: 100ms;
+    border-radius: 10px;
+    font-size: 90%;
+    font-weight: 700;
+}
+.pagCadastro .cadEtapaBotoes button:hover{
+    cursor: pointer;
+}
+.pagCadastro .cadEtapaBotoes .btVermelhoPreenchido, .pagCadastro .cadEtapaBotoes .btAzulPreenchido, .pagCadastro .cadEtapaBotoes .btVerdePreenchido,
+.pagCadastro .cadEtapaBotoes .btAmareloPreenchido{
+    color: white;
+} 
+.pagCadastro .cadEtapaBotoes .btVermelhoPreenchido{
+    background-color: #E30048;
+    border-color: #E30048; 
+}
+.pagCadastro .cadEtapaBotoes .btVermelhoPreenchido:hover{
+    background-color: #a80639;
+    border-color: #a80639; 
+}
+.pagCadastro .cadEtapaBotoes .btAzulPreenchido{
+    background-color: #699AB9;
+    border-color: #699AB9; 
+}
+.pagCadastro .cadEtapaBotoes .btAzulPreenchido:hover{
+    background-color: #50758d;
+    border-color: #50758d; 
+}
+.pagCadastro  .cadEtapaBotoes .btVerdePreenchido{
+    background-color: #2FA776;
+    border-color: #2FA776; 
+}
+.pagCadastro .cadEtapaBotoes .btVerdePreenchido:hover{
+    background-color: #248a61;
+    border-color: #248a61; 
+}
+.pagCadastro  .cadEtapaBotoes .btAmareloPreenchido{
+    background-color: #FFC82B;
+    border-color: #FFC82B; 
+}
+.pagCadastro .cadEtapaBotoes .btAmareloPreenchido:hover{
+    background-color: #c99d25;
+    border-color: #c99d25; 
+}
+
+.pagCadastro .cadEtapaBotoes .btVermelho{
+    color: #E30048;
+    border-color: #E30048; 
+}
+.pagCadastro .cadEtapaBotoes .btVermelho:hover{
+    color: #a80639;
+    border-color: #a80639; 
+}
+.pagCadastro .cadEtapaBotoes .btAzul{
+    color: #699AB9;
+    border-color: #699AB9; 
+}
+.pagCadastro .cadEtapaBotoes .btAzul:hover{
+    color: #50758d;
+    border-color: #50758d; 
+}
+.pagCadastro .cadEtapaBotoes .btVerde{
+    color: #2FA776;
+    border-color: #2FA776; 
+}
+.pagCadastro .cadEtapaBotoes .btVerde:hover{
+    color: #248a61;
+    border-color: #248a61; 
+}
+.pagCadastro .cadEtapaBotoes .btAmarelo{
+    color: #FFC82B;
+    border-color: #FFC82B; 
+}
+.pagCadastro .cadEtapaBotoes .btAmarelo:hover{
+    color: #c99d25;
+    border-color: #c99d25; 
+}
+
+.pagCadastro #cadEtapa4 .areaFoto{
+    width: 25%;
+    box-sizing: border-box;
+    margin-bottom: 1em;
+}
+.pagCadastro #cadEtapa4 .areaFoto:hover{
+    cursor: pointer;
+}
+.pagCadastro #cadEtapa4 .areaFoto img{
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+}
+.pagCadastro #cadEtapa4  input[type="file"]{
+    display: none;
+}
+
+.pagCadastro #cadEtapa4 .divCores{
+    box-sizing: border-box;
+    width: 74%;
+    margin-bottom: 1em;
+}
+.pagCadastro #cadEtapa4 .divCores ul{
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.pagCadastro #cadEtapa4 .divCores ul li{
+    width: 24%;
+    background-color: white;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 4);
+    border-radius: 6px;
+    padding-bottom: 4px;
+    box-sizing: border-box;
+
+}
+.pagCadastro #cadEtapa4 .divCores ul li span{
+    display: block;
+    margin-bottom: 0;
+    margin: 0 4px;
+}
+.pagCadastro #cadEtapa4 .divCores ul li p{
+    margin-bottom: 0;
+    font-weight: 700;
+    margin: 0 4px;
+}
+
+.pagCadastro #cadEtapa4  input[type="color"] {
+    margin: 0;               /* Remove qualquer margem */
+    padding: 0;              /* Remove qualquer padding */
+    border: none;            /* Remove bordas */
+    outline: none;           /* Remove o contorno padrão de foco */
+    width: 100%;            
+    height: 60px;       
+    appearance: none;        /* Remove estilo padrão */
+    background-color: transparent; /* Garante fundo transparente se não houver cor */
+    box-sizing: border-box;   /* Garante que o padding e border não aumentem o tamanho total */
+    cursor: pointer;          /* Mostra cursor de ponteiro */
+    border-top-left-radius:6px;
+    border-top-right-radius: 6px;
+}
+/* Estiliza o campo color picker para parecer preenchido */
+.pagCadastro #cadEtapa4  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+.pagCadastro #cadEtapa4  input[type="color"]::-webkit-color-swatch {
+    border: none;            /* Remove borda padrão interna */
+}
+
+.pagCadastro #cadEtapa5 figure{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.pagCadastro #cadEtapa5 > button{
+    background-color: #E30048;
+    color: white;
+    padding: 1em 2em;
+    border: none;
+    border-radius: 2em;
+    margin: 2em auto ;
+}
+.pagCadastro #cadEtapa5 > button:hover{
+    background-color: #a80639;
+}
+.pagCadastro #cadEtapa5 > span{
+    text-align: center;
+}
+/* Barra de progresso */
+.pagCadastro .cadEtapaProgresso{
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+.pagCadastro .cadEtapaProgresso  p{
+    background-color: #EFF0F6;
+    transition-property: background-color, color;
+    transition-timing-function: linear;
+    transition-duration: 500ms;
+    padding: 5px 10px;
+    border-radius: 100%;
+}
+
+.pagCadastro #etapaBarraVermelha{
+    background-image: linear-gradient(to right, #E30048 0%, #EFF0F6 100%);
+}
+.pagCadastro #etapaBarraAzul{
+    background-image: linear-gradient(to right, #699AB9 0%, #EFF0F6 100%);
+}
+.pagCadastro #etapaBarraVerde{
+    background-image: linear-gradient(to right, #2FA776 0%, #EFF0F6 100%);
+}
+.pagCadastro #etapaBarraAmarela{
+    background-image: linear-gradient(to right, #FFC82B 0%, #EFF0F6 100%);
+}
+.pagCadastro .cadEtapaProgresso canvas {
+    width: 100%;
+    height: 7px;
+    margin: 0 4px;
+    box-sizing: border-box;
+    background-color: #EFF0F6;
+    border-radius: 10px;
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    transition: background-size 200ms linear;
+}
+
+.pagCadastro .cadEtapaProgresso .cadBarraVermelhaMetade {
+    background-image: linear-gradient(to right, #E30048 100%, #EFF0F6 50%) !important;
+    background-size: 50% 100%;
+}
+.pagCadastro .cadEtapaProgresso .cadBarraVermelhaCompleta {
+    background-image: linear-gradient(to right, #E30048 100%, #EFF0F6 100%) !important;
+    background-size: 100% 100%;
+}
+.pagCadastro .cadEtapaProgresso .cadBarraAzulMetade {
+    background-image: linear-gradient(to right, #699AB9 100%, #EFF0F6 50%) !important;
+    background-size: 50% 100%;
+}
+.pagCadastro .cadEtapaProgresso .cadBarraAzulCompleta {
+    background-image: linear-gradient(to right, #699AB9 100%, #EFF0F6 100%) !important;
+    background-size: 100% 100%;
+}
+.pagCadastro .cadEtapaProgresso .cadBarraVerdeMetade {
+    background-image: linear-gradient(to right, #2FA776 100%, #EFF0F6 50%) !important;
+    background-size: 50% 100%;
+}
+.pagCadastro .cadEtapaProgresso .cadBarraVerdeCompleta {
+    background-image: linear-gradient(to right, #2FA776 100%, #EFF0F6 100%) !important;
+    background-size: 100% 100%;
+}
+.pagCadastro .cadEtapaProgresso .cadBarraAmarelaMetade {
+    background-image: linear-gradient(to right, #FFC82B 100%, #EFF0F6 50%) !important;
+    background-size: 50% 100%;
+}
+.pagCadastro .cadEtapaProgresso .cadBarraAmarelaCompleta {
+    background-image: linear-gradient(to right, #FFC82B 100%, #EFF0F6 100%) !important;
+    background-size: 100% 100%;
+}
+
+.pagCadastro .cadEtapaProgresso .etapaNumeroVermelho, .pagCadastro .cadEtapaProgresso .etapaNumeroAzul,
+.pagCadastro .cadEtapaProgresso .etapaNumeroVerde, .pagCadastro .cadEtapaProgresso .etapaNumeroAmarelo{
+    color: white;
+} 
+.pagCadastro .cadEtapaProgresso .etapaNumeroVermelho{
+    
+    background-color: #E30048;
+}
+.pagCadastro .cadEtapaProgresso .etapaNumeroAzul{
+    background-color: #699AB9;
+}
+.pagCadastro .cadEtapaProgresso .etapaNumeroVerde{
+    background-color: #2FA776;
+}
+.pagCadastro .cadEtapaProgresso .etapaNumeroAmarelo{
+    background-color: #FFC82B;
+}

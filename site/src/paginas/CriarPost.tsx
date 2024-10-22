@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
 import { CriarPostDados } from '../interfaces/Post';
 import { VerificaToken } from '../scripts/uteis';
+import {api} from '../apiUrl.ts';
 
 const CriarPost: React.FC = () => {
     const navegar = useNavigate();
@@ -30,7 +31,7 @@ const CriarPost: React.FC = () => {
         }
         else {
             VerificarPost(token);
-            axios.get('https://olhosdosoleosbackend-production.up.railway.app/usuarios/perfil', {
+            axios.get(api + 'usuarios/perfil', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -49,7 +50,7 @@ const CriarPost: React.FC = () => {
     }, [navegar]);
 
     const VerificarPost = async (token: string) => {
-        axios.get('https://olhosdosoleosbackend-production.up.railway.app/posts/meus', {
+        axios.get(api + 'posts/meus', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -103,12 +104,9 @@ const CriarPost: React.FC = () => {
             data.append('imagem', dados.imagemPost[0]);
         }
         else return console.log("Anexe imagem.");
-        // dados.processo.forEach((file, index) => {
-        //     data.append(`processo`, file);
-        // });
 
         try {
-            const response = await axios.post('https://olhosdosoleosbackend-production.up.railway.app/posts/criar', data, {
+            const response = await axios.post(api + 'posts/criar', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`,

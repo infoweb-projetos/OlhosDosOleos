@@ -2,6 +2,7 @@ import { useState} from 'react';
 import axios from 'axios';
 import '../estilos/entrar.css';
 import { useNavigate, Link } from 'react-router-dom';
+import {api} from '../apiUrl.ts';
 
 const Entrar: React.FC = () => {
     const navegar = useNavigate();
@@ -26,7 +27,7 @@ const Entrar: React.FC = () => {
         };
 
         try {
-            const response = await axios.post('https://olhosdosoleosbackend-production.up.railway.app/autenticacao/login', dados, {
+            const response = await axios.post(api + 'autenticacao/login', dados, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -71,9 +72,9 @@ const Entrar: React.FC = () => {
                     </a>
                     <div>
                         <input className="botaoComum fundoBtVermelho" type="submit" value="Entrar" onClick={EntrarClique} />
-                        <a className="linkSimples dmSans" href="#">
+                        <Link className="linkSimples dmSans" to="/cadastro">
                             Ainda não possui uma conta? <mark className="dmSans">Registre-se  <b className="dmSans">aqui</b></mark>
-                        </a>
+                        </Link>
                     </div>
                 </form>
                 <figure>

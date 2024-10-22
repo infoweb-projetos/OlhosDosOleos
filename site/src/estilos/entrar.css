@@ -1,5 +1,5 @@
 body{
-    background-color: #EEEEEE;
+    background-color: #FFFFFF !important;
 }
 #entrarPag .figureHeader {
     display: flex;
@@ -98,8 +98,6 @@ body{
 
 #entrarPag .formCompleto > figure img {
     height: 670px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
 }
 
 #entrarPag form {

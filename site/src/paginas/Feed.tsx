@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Post } from '../interfaces/Post';
 import { Link, useNavigate } from 'react-router-dom';
 import { Usuario } from '../interfaces/Usuario';
+import {api} from '../apiUrl.ts';
 
 
 const Feed: React.FC = () => {
@@ -17,7 +18,7 @@ const Feed: React.FC = () => {
     const navegar = useNavigate();
 
     const UltimosUsuarios = useCallback(async  () =>{
-        axios.get('https://olhosdosoleosbackend-production.up.railway.app/usuarios/ultimos', {})
+        axios.get(api + 'usuarios/ultimos', {})
         .then(response => {
             const usuariosBD = response.data.dados;
             const usuariosLista: Array<Usuario> = usuariosBD.map((u: Usuario) => {
@@ -46,7 +47,7 @@ const Feed: React.FC = () => {
     }, [navegar])
 
     useEffect(() => {
-        axios.get('https://olhosdosoleosbackend-production.up.railway.app/posts/listar', {})
+        axios.get(api + 'posts/listar', {})
         .then(response => {
             const postsBD = response.data.dados;
 

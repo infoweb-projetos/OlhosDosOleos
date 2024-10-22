@@ -48,10 +48,10 @@ const HeaderSite: React.FC = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <a href="#" className="botaoComum fundoBtVermelho">
+                                    <Link to="/cadastro" className="botaoComum fundoBtVermelho">
                                         <img src="/imgs/header/signIn-icon.svg" alt="Icone de cadastrar-se." />
                                         <p>Cadastre-se</p>
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li onClick={AbrirFecharOpcoes} className="submenu">
                                     <button className="marginEsquerda"><img src="/imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></button>
