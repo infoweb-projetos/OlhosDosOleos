@@ -1,0 +1,389 @@
+.pagEditarPerfil .selecionado{
+    color: var(--corPrincipal);
+}
+.pagEditarPerfil .btComumEditarPerfil{
+    background-color: var(--corPrincipal);
+    border: none;
+    text-decoration: none;
+    color: #FFFFFF;
+    padding: 10px 1em;
+    box-sizing: border-box;
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    margin-bottom: 1em;
+    border-radius: 1em;
+    margin-top: 1em;
+}
+.pagEditarPerfil{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.pagEditarPerfil > p{
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.pagEditarPerfil  > ul{
+    border-radius: 10px;
+    border: 2px solid #D2D2D2;
+    width: 20%;
+    box-sizing: border-box;
+    margin-right: 2%;
+}
+
+.pagEditarPerfil  > ul.editarPerfilDadosSectionsUl > li:nth-child(1), 
+.pagEditarPerfil  > ul.editarPerfilDadosSectionsUl li:nth-child(2), 
+.pagEditarPerfil  > ul.editarPerfilDadosSectionsUl li:nth-child(3),
+.pagEditarPerfil  > ul.editarPerfilPersoSectionsUl > li:nth-child(1){
+    border-bottom: 2px solid #D2D2D2;
+}
+
+.pagEditarPerfil  > ul li a{
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    color: #170F49;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+.pagEditarPerfil > div{
+    width: 75%;
+    box-sizing: border-box;
+    
+}
+.pagEditarPerfil > div > ul{
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.5);
+    border-top: 1px solid #D2D2D2;
+    border-left: 1px solid #D2D2D2;
+    border-right: 1px solid #D2D2D2;
+    width: fit-content;
+    box-sizing: border-box;
+    display: flex;
+}
+.pagEditarPerfil > div > ul li:nth-child(1){
+    border-right: 2px solid #D2D2D2;
+}
+.pagEditarPerfil > div > ul li button{
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+}
+.pagEditarPerfil > div > form{
+    border-top-right-radius: 1em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    border: 2px solid #D2D2D2;
+    padding: 10px;
+}
+.pagEditarPerfil > div > form > div button{
+    font-size: 120%;
+}
+.pagEditarPerfil > div h2{
+    color: #170F49;
+    width: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+.pagEditarPerfil .editarPerfilFormSecao{
+    display: flex;
+    box-sizing: border-box;
+    padding: 0 2em;
+}
+.pagEditarPerfil .editarPerfilFormSecaoDireitaEsquerda{
+    justify-content: space-between;
+}
+.pagEditarPerfil .editarPerfilFormSecaoDireita{
+    justify-content: flex-end;
+}
+.pagEditarPerfil .editarPerfilAreaCampo{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 55vw;
+    box-sizing: border-box;
+}
+.pagEditarPerfil .editarPerfilAreaCampoCompleto{
+    width: 100%;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+.pagEditarPerfil  .editarPerfilCampo{
+   width: 40%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0 1%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+.pagEditarPerfil .editarPerfilAreaCampoCompleto .editarPerfilCampo:nth-child(1){
+    margin-left: 0;
+    margin-right: 1%;
+}
+.pagEditarPerfil .editarPerfilAreaCampoCompleto  .editarPerfilCampo{
+    width: 45%;
+}
+.pagEditarPerfil .editarPerfilCampo label{
+    margin-left: auto;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.pagEditarPerfil .editarPerfilCampo input, .pagEditarPerfil .editarPerfilCampo select{
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 5px 0;
+    box-sizing: border-box;
+}
+.pagEditarPerfil .divInputIcone  img{
+    width: 30px;
+    height: 30px;
+}
+.pagEditarPerfil .editarPerfilCampo .divInputIcone, .pagEditarPerfil .divInputIcone div select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 2px solid #EFF0F6;
+    border-radius: 10px;
+    padding: 2px 5px ;
+    box-sizing: border-box;
+}
+.pagEditarPerfil .editarPerfilCampo > select{
+    width: 100%;
+    border: 2px solid #EFF0F6;
+    border-radius: 10px;
+    padding: 7px 5px ;
+    box-sizing: border-box;
+}
+.pagEditarPerfil .editarPerfilCampo img{
+    padding: 5px;
+    box-sizing: border-box;
+
+}
+
+.pagEditarPerfil .editarPerfilAreaFoto {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+.pagEditarPerfil .editarPerfilAreaFoto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 2px solid #EFF0F6;
+    padding-right: 6.6em;
+    box-sizing: border-box;
+}
+.pagEditarPerfil .editarPerfilAreaFoto figure{
+    text-align: center;
+}
+.pagEditarPerfil .editarPerfilAreaFoto img{
+    width: 130px;
+    height: 130px;
+    border-radius: 100%;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.5);
+    margin-bottom: 5px;
+}
+.pagEditarPerfil .escondido{
+    display: none;
+}
+
+
+.pagEditarPerfil .editarPerfilAreaCampo .editarPerfilTipo{
+    width: 25%;
+}
+.pagEditarPerfil .editarPerfilAreaCampo .editarPerfilDesc{
+    width: 100%;
+}
+.pagEditarPerfil .editarPerfilAreaCampo .editarPerfilDesc textarea{
+    width: 100%;
+    border: 2px solid #EFF0F6;
+    border-radius: 10px;
+    padding: 2px 5px ;
+    box-sizing: border-box;
+    outline: none;
+    resize: none;
+    height: 80px;
+    box-sizing: border-box;
+    padding: 3px;
+}
+
+.pagEditarPerfil .editarPerfilFormSecaoBanner p{
+
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 2em;
+    color: #989692;
+}
+.pagEditarPerfil .editarPerfilFormSecaoBanner > div {
+    width: 100%;
+    padding: 0 2em;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pagEditarPerfil .editarPerfilFormSecaoBanner > div  > img{
+    width: 100%;
+    height: 30vh;
+    border-radius: 1em;
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.5);
+    margin: 5px 0;
+}
+.pagEditarPerfil .editarPerfilFormSecaoBanner > div  > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: absolute;
+}
+.pagEditarPerfil .editarPerfilFormSecaoBanner > div  > div img{
+    width: 50px;
+    height: 50px;
+}
+.pagEditarPerfil .editarPerfilFormSecaoBanner > div  > div span{
+    width: 100%;
+    text-align: center;
+    color: #989692;
+}
+.pagEditarPerfil .editarPerfilFormSecaoBanner > span{
+    width: fit-content;
+    padding: 0 0em;
+    display: block;
+    margin-left: auto;
+    margin-right: 2em;
+    align-items: center;
+    color: #989692;
+    border-bottom: 1px solid #989692;
+}
+.pagEditarPerfil .editarPerfilFormSecaoBanner > span img{
+    width: 15px;
+    height: 15px;
+}
+
+
+.pagEditarPerfil .editarPerfilFormSecaoCores{
+    display: flex;
+    padding: 0 2em;
+    box-sizing: border-box;
+    justify-content: space-between;
+    margin-top:1.2em;
+    
+}
+.pagEditarPerfil .editarPerfilDadosCores{
+    margin-left: 4em;
+}
+
+.pagEditarPerfil .editarPerfilDadosCores ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pagEditarPerfil .editarPerfilDadosCores ul li{
+    background-color: white;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 4);
+    border-radius: 6px;
+    padding-bottom: 4px;
+    box-sizing: border-box;
+    width: 20%;
+}
+.pagEditarPerfil .editarPerfilDadosCores ul li div{
+    margin: 0 10px;
+}
+.pagEditarPerfil .editarPerfilFormSecaoCores input[type="color"] {
+    margin: 0;              
+    padding: 0;              
+    border: none;           
+    outline: none;        
+    width: 100%;            
+    height: 60px;       
+    appearance: none;        
+    background-color: transparent; 
+    box-sizing: border-box;  
+    cursor: pointer;          
+    border-top-left-radius:6px;
+    border-top-right-radius: 6px;
+}
+.pagEditarPerfil .editarPerfilFormSecaoCores input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+.pagEditarPerfil .editarPerfilFormSecaoCores input[type="color"]::-webkit-color-swatch {
+    border: none;            
+}
+.pagEditarPerfil .editarPerfilDadosCores > p{
+    color: #989692;
+}
+.pagEditarPerfil .editarPerfilDadosCores > p{
+    color: #000000;
+    font-weight: normal;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.pagEditarPerfil .editarPerfilPerfilAba{
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items:flex-start;
+    align-content: flex-start;
+    width: 30%;
+    border-radius: 1em;
+    flex-wrap: wrap;
+    height: 50vh;
+}
+.pagEditarPerfil .editarPerfilPerfilAba  > figure{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+   width: 100%;
+   margin-bottom: 4.3em;
+}
+.pagEditarPerfil .editarPerfilPerfilAba  > figure img{
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.5);
+    position: absolute;
+    margin-bottom: -1.5em;
+    background-color: #FFFFFF;
+   
+}
+.pagEditarPerfil .editarPerfilPerfilAba h2, .pagEditarPerfil .editarPerfilPerfilAba span, .pagEditarPerfil .editarPerfilPerfilAba p{
+    width: 100%;
+    text-align: center;
+}
+.pagEditarPerfil .editarPerfilPerfilAba p{
+    font-weight:700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pagEditarPerfil .editarPerfilPerfilAba p img{
+    width: 20px;
+    height: 20px;
+}
+.pagEditarPerfil .editarPerfilPerfilAba {
+    text-align: center;
+}
+.pagEditarPerfil .editarPerfilPerfilAba span{
+    margin-top: 2px;
+    margin-bottom: 0.6em;
+}
+.pagEditarPerfil .cursorPointer:hover{
+    cursor: pointer;
+}

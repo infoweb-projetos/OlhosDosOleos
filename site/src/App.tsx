@@ -5,6 +5,7 @@ import MeuPerfil from './paginas/MeuPerfil';
 import Perfil from './paginas/Perfil';
 import CriarPost from './paginas/CriarPost';
 import Cadastro from './paginas/Cadastro';
+import EditarPerfil from './paginas/EditarPefil';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,8 @@ const App: React.FC = () => {
         <Route path="/entrar"  element={<Entrar />} />
         <Route path="/cadastro"  element={<Cadastro />} />
         <Route path="/meuperfil"  element={<MeuPerfil />} />
+        <Route path="/editar"  element={<EditarPerfil />} />
+        <Route path="/editar/perfil"  element={<EditarPerfil />} />
         <Route path="/perfil/:perfilid"  element={<Perfil />} />
         <Route path="/postar"  element={<CriarPost />} />
       </Routes>

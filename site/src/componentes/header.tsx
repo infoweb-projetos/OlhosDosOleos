@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { AbrirFecharModal } from '../scripts/modal';
 import '../estilos/verPerfil.css';
+import React, { useState, useEffect } from 'react';
 
 const HeaderSite: React.FC = () => {
     const navegar = useNavigate();
@@ -19,9 +20,28 @@ const HeaderSite: React.FC = () => {
         localStorage.removeItem('tokenODO');
         navegar('/entrar');
     }
+
+    const [isVisible, setIsVisible] = useState(true);
+    const rolarTela = () => {
+        const posicaoRolagemAtual = window.pageYOffset;
+    
+        if (posicaoRolagemAtual > 50) {
+          setIsVisible(false);
+        } else {
+          setIsVisible(true);
+        }
+      };
+    
+      useEffect(() => {
+        window.addEventListener('scroll', rolarTela);
+        return () => {
+          window.removeEventListener('scroll', rolarTela);
+        };
+      }, []);
+    
     return (
         <div>
-            <div className="header">
+            <div className={`header ${!isVisible ? 'headerEscondido trasicaoEsconder' : ' transicaoMostrar'}`} >
                 <div className="headerEsquerda">
                     <Link className="headerLogo" to="/"><img src="/imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante." /></Link>
                     <ul>
