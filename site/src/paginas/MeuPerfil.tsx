@@ -398,10 +398,10 @@ const MeuPerfil: React.FC = () => {
                             ehMeuPerfil ?
                             (
                             <div className="profile-actions">
-                                <a href=""><img className="button-icon" src="/imgs/verPerfil/edit_icon.svg" alt="Editar" />Editar Informações do
-                                    perfil</a>
-                                <a href="" className="no-padding branco"><img className="button-icon" src="/imgs/verPerfil/personalize_icon.svg"
-                                    alt="Personalizar" />Personalizar perfil</a>
+                                <Link to="/editar/perfil"><img className="button-icon" src="/imgs/verPerfil/edit_icon.svg" alt="Editar" />Editar Informações do
+                                    perfil</Link>
+                                <Link to="editar/perfil" className="no-padding branco"><img className="button-icon" src="/imgs/verPerfil/personalize_icon.svg"
+                                    alt="Personalizar" />Personalizar perfil</Link>
                             </div>
                             )
                             :

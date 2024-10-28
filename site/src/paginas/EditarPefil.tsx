@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import HeaderSite from '../componentes/header';
 import RodapeSite from '../componentes/rodape';
 import '../estilos/editarPerfil.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { AtribuirImagem } from '../scripts/atribuirImagem';
+import axios from 'axios';
+import { api } from '../apiUrl';
+import { Cidade, Estado, TipoArtista } from '../interfaces/Enums';
+import { Usuario } from '../interfaces/Usuario';
 
 
 const EditarPerfil: React.FC = () => {
-    useNavigate();
+    const navegar = useNavigate();
     const [ehTabDados, setEhTabDados] = useState<boolean>(true);
     const [ehTabLocalizacao, setEhTabLocalizacao] = useState<boolean>(false);
     const [ehTabEssencial, setEhTabEssencial] = useState<boolean>(false);
@@ -24,13 +28,216 @@ const EditarPerfil: React.FC = () => {
         setEhTabBanner(false);
     }
 
-    const [cor, setCor] = useState<string | null>(null);
-    const [cor2, setCor2] = useState<string | null>(null);
-    const [cor3, setCor3] = useState<string | null>(null);
-    const [cor4, setCor4] = useState<string | null>(null);
+    const [usuario, setUsuario] = useState<Usuario | undefined>(undefined);
+    const [nome, setNome] = useState<string>("");
+    const [nomeUsuario, setNomeUsuario] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [senha, setSenha] = useState<string>("");
+    const [estado, setEstado] = useState<number>(0);
+    const [cidade, setCidade] = useState<number>(0);
+    const [youtube, setYoutube] = useState<string>("");
+    const [whats, setWhats] = useState<string>("");
+    const [insta, setInsta] = useState<string>("");
+    const [face, setFace] = useState<string>("");
+    const [tipo, setTipo] = useState<string>("");
+    const [descricao, setDescricao] = useState<string>("");
+    const [foto, setFoto] = useState<FileList | null>(null);
+    const [fotoUrl, setFotoUrl] = useState<string | undefined>("/imgs/verPerfil/perfil.png");
+    const [listaTipoArtista, setlistaTipoArtista] = useState<Array<TipoArtista>>([]);
+    const [listaEstados, setlistaEstados] = useState<Array<Estado>>([]);
+    const [listaCidades, setlistaCidades] = useState<Array<Cidade>>([]);
+    const [cor, setCor] = useState<string>("#000000");
+    const [cor2, setCor2] = useState<string>("#000000");
+    const [cor3, setCor3] = useState<string>("#000000");
+    const [cor4, setCor4] = useState<string>("#000000");
+    const [banner, setBanner] = useState<FileList | null>(null);
     const [bannerUrl, setBannerUrl] = useState<string | undefined>(undefined);
-    const LimparBanner = () =>{
-        setBannerUrl(undefined);
+    const LimparBanner = () => {
+        setBannerUrl(undefined); 
+        setBanner(null); 
+        const input = document.getElementById('editarPerfilBannerInput') as HTMLInputElement;
+        if (input) {
+            input.files = null;
+        }
+    }
+    const ListarTipos = useCallback(async () => {
+        await axios.get(api + 'tiposartista/listar', {})
+            .then(response => {
+                const listaBD = response.data.dados;
+                setlistaTipoArtista(listaBD);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, []);
+    const ListarEstados = useCallback(async () => {
+        await axios.get(api + 'estados/listar', {})
+            .then(response => {
+                const listaBD = response.data.dados;
+                setlistaEstados(listaBD);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, []);
+    const ListarCidades = useCallback(async () => {
+        await axios.get(api + 'cidades/listar', {})
+            .then(response => {
+                const listaBD = response.data.dados;
+                setlistaCidades(listaBD);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, []);
+
+    const CarregarUsuario = useCallback(async (token: string | null) => {
+        const url = api + 'usuarios/perfil';
+        axios.get(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                const usu = response.data.dados;
+                setUsuario(usu);
+
+                if (!usu && !usuario) {
+                    return;
+                }
+                if (usu){
+                    if (usu.nome) setNome(usu.nome);
+                    if (usu.usuario) setNomeUsuario(usu.usuario);
+                    if (usu.senha) setSenha(usu.senha);
+                    if (usu.email) setEmail(usu.email);
+                    if (usu.cidadeid) setCidade(usu.cidadeid);
+                    if (usu.estadoid) setEstado(usu.estadoid);
+                    if (usu.tipoid) setTipo(usu.tipoid);
+                    if (usu.insta) setInsta(usu.insta);
+                    if (usu.face) setFace(usu.face);
+                    if (usu.zap) setWhats(usu.zap);
+                    if (usu.youtube) setYoutube(usu.youtube);
+                    if (usu.biografia) setDescricao(usu.biografia);
+    
+                    if (usu.cor1) setCor("#" + usu.cor1);
+                    if (usu.cor2) setCor2("#" + usu.cor2);
+                    if (usu.cor3) setCor3("#" + usu.cor3);
+                    if (usu.cor4) setCor4("#" + usu.cor4);
+                }
+               
+
+                if (usu.imagem && usu.imagem.data && usu.imagemtipo) {
+                    const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    setFotoUrl(urlImagem);
+                } else {
+                    setFotoUrl("/imgs/verPerfil/perfil.png"); // Ou uma imagem padrão
+                }
+
+                if (usu.banner && usu.banner.data && usu.bannertipo) {
+                    const blob = new Blob([new Uint8Array(usu.banner.data)], { type: usu.bannertipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    setBannerUrl(urlImagem);
+                } else {
+                    setBannerUrl(undefined);
+                }
+
+                if (usu.cor1) setCor("#" + usu.cor1);
+            })
+            .catch(error => {
+                console.log(error);
+                console.log('Token inválido ou expirado');
+            });
+    }, [usuario]);
+
+    useEffect(() => {
+        ListarEstados();
+        ListarCidades();
+        ListarTipos();
+
+        const token = localStorage.getItem('tokenODO');
+
+        if (!token) navegar('/');
+
+        if (token) {
+            axios.get(api + 'autenticacao/verificatoken', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    localStorage.removeItem('tokenODO');
+                    console.log(error);
+                    navegar("/");
+                });
+            CarregarUsuario(token);
+        }
+    }, []);
+
+    const EnviarDados = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        const data = new FormData();
+        if (nome) data.append('nome', nome);
+        if (nomeUsuario) data.append('usuario', nomeUsuario);
+        if (email) data.append('email', email);
+        if (senha) data.append('senha', senha);
+        if (estado) data.append('estadoid', estado.toString());
+        if (cidade) data.append('cidadeid', cidade.toString());
+        if (youtube) data.append('youtube', youtube);
+        if (whats) data.append('zap', whats);
+        if (insta) data.append('insta', insta);
+        if (face) data.append('face', face);
+        if (tipo) data.append('tipoid', tipo);
+        if (descricao) data.append('biografia', descricao);
+        if (foto && foto.length > 0) data.append('imagem', foto[0]);
+
+        try {
+            const response = await axios.patch(api + 'usuarios/atualizar', data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log('Resposta da API:', response.data);
+            navegar("/editar/perfil");
+        } catch (error) {
+            console.error('Erro ao enviar dados:', error);
+            if (axios.isAxiosError(error) && error.response) {
+                console.error('Resposta do servidor:', error.response.data);
+            }
+        }
+
+        navegar(0);
+    }
+    const EnviarPersonalizacao = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        const data = new FormData();
+
+        if (cor) data.append('cor1', cor.replace('#', ''));
+        if (cor2) data.append('cor2', cor2.replace('#', ''));
+        if (cor3) data.append('cor3', cor3.replace('#', ''));
+        if (cor4) data.append('cor4', cor4.replace('#', ''));
+        if (banner && banner.length > 0) data.append('banner', banner[0]);
+
+        try {
+            const response = await axios.patch(api + 'usuarios/atualizar', data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log('Resposta da API:', response.data);
+            navegar("/editar/perfil");
+        } catch (error) {
+            console.error('Erro ao enviar dados:', error);
+            if (axios.isAxiosError(error) && error.response) {
+                console.error('Resposta do servidor:', error.response.data);
+            }
+        }
+        navegar(0);
     }
     return (
         <div className='organizacaoPadrao'>
@@ -83,37 +290,37 @@ const EditarPerfil: React.FC = () => {
                                         <div className='editarPerfilFormSecao editarPerfilFormSecaoDireitaEsquerda'>
                                             <div className='editarPerfilAreaFoto '>
                                                 <figure className='cursorPointer' onClick={() => AtribuirImagem('editarPerfilInput', 'editarPerfilImagem')}>
-                                                    <img src="/imgs/verPerfil/perfil.png" id='editarPerfilImagem' />
+                                                    <img src={fotoUrl} id='editarPerfilImagem' />
                                                     <figcaption>Upload</figcaption>
                                                 </figure>
-                                                <input type='file' className='escondido' id='editarPerfilInput' />
+                                                <input type='file'  onChange={(e) => setFoto(e.target.files ? e.target.files : null)} className='escondido' id='editarPerfilInput' />
                                             </div>
                                             <div className='editarPerfilAreaCampo'>
                                                 <div className='editarPerfilCampo'>
                                                     <label>Nome</label>
                                                     <div className='divInputIcone'>
-                                                        <input type='text' />
+                                                        <input value={nome} onChange={(e) => setNome(e.target.value)} type='text' />
                                                         <img src='/imgs/cadastro/nomeCad.svg' />
                                                     </div>
                                                 </div>
                                                 <div className='editarPerfilCampo'>
                                                     <label>Email</label>
                                                     <div className='divInputIcone'>
-                                                        <input type='text' />
+                                                        <input value={email} onChange={(e) => setEmail(e.target.value)} type='text' />
                                                         <img src='/imgs/cadastro/emailCad.svg' />
                                                     </div>
                                                 </div>
                                                 <div className='editarPerfilCampo'>
                                                     <label>Usuario</label>
                                                     <div className='divInputIcone'>
-                                                        <input type='text' />
+                                                        <input value={nomeUsuario} onChange={(e) => setNomeUsuario(e.target.value)} type='text' />
                                                         <img src='/imgs/cadastro/nomeUsuarioCad.svg' />
                                                     </div>
                                                 </div>
                                                 <div className='editarPerfilCampo'>
                                                     <label>Senha</label>
                                                     <div className='divInputIcone'>
-                                                        <input type='text' />
+                                                        <input value={senha} onChange={(e) => setSenha(e.target.value)} type='text' />
                                                         <img src='/imgs/cadastro/senhaCad.svg' />
                                                     </div>
                                                 </div>
@@ -125,9 +332,18 @@ const EditarPerfil: React.FC = () => {
                                                 <div className='editarPerfilCampo'>
                                                     <label>Estado</label>
                                                     <div className='divInputIcone'>
-                                                        <select>
-                                                            <option>a</option>
-                                                            <option>b</option>
+                                                        <select value={estado  == 0 ? undefined : estado} onChange={(e) => setEstado(Number(e.target.value))}>
+                                                            <option value={undefined} >
+                                                                ----
+                                                            </option>
+                                                            {(
+                                                                listaEstados.map((estado, index) =>
+                                                                (
+                                                                    <option value={estado.id} key={index}>
+                                                                        {estado.nome}
+                                                                    </option>
+                                                                ))
+                                                            )}
                                                         </select>
                                                         <img src='/imgs/cadastro/estadoCad.svg' />
                                                     </div>
@@ -135,9 +351,18 @@ const EditarPerfil: React.FC = () => {
                                                 <div className='editarPerfilCampo'>
                                                     <label>Cidade</label>
                                                     <div className='divInputIcone'>
-                                                        <select>
-                                                            <option>a</option>
-                                                            <option>b</option>
+                                                        <select value={cidade == 0 ? undefined : cidade} onChange={(e) => setCidade(Number(e.target.value))}>
+                                                            <option value={undefined} >
+                                                                ----
+                                                            </option>
+                                                            {(
+                                                                listaCidades.map((cidade, index) =>
+                                                                (
+                                                                    <option value={cidade.id} key={index}>
+                                                                        {cidade.nome}
+                                                                    </option>
+                                                                ))
+                                                            )}
                                                         </select>
                                                         <img src='/imgs/cadastro/cidadeCad.svg' />
                                                     </div>
@@ -151,28 +376,28 @@ const EditarPerfil: React.FC = () => {
                                                 <div className='editarPerfilCampo'>
                                                     <label>Instagram</label>
                                                     <div className='divInputIcone'>
-                                                        <input type='text' />
+                                                        <input value={insta} onChange={(e) => setInsta(e.target.value)} type='text' />
                                                         <img src='/imgs/cadastro/instaCad.png' />
                                                     </div>
                                                 </div>
                                                 <div className='editarPerfilCampo'>
                                                     <label>WhatsApp</label>
                                                     <div className='divInputIcone'>
-                                                        <input type='text' />
+                                                        <input value={whats} onChange={(e) => setWhats(e.target.value)} type='text' />
                                                         <img src='/imgs/cadastro/zapCad.svg' />
                                                     </div>
                                                 </div>
                                                 <div className='editarPerfilCampo'>
                                                     <label>Facebook</label>
                                                     <div className='divInputIcone'>
-                                                        <input type='text' />
+                                                        <input value={face} onChange={(e) => setFace(e.target.value)} type='text' />
                                                         <img src='/imgs/cadastro/faceCad.svg' />
                                                     </div>
                                                 </div>
                                                 <div className='editarPerfilCampo'>
                                                     <label>YouTube</label>
                                                     <div className='divInputIcone'>
-                                                        <input type='text' />
+                                                        <input value={youtube} onChange={(e) => setYoutube(e.target.value)} type='text' />
                                                         <img src='/imgs/cadastro/youtubeCad.svg' />
                                                     </div>
                                                 </div>
@@ -183,19 +408,28 @@ const EditarPerfil: React.FC = () => {
                                             <div className='editarPerfilAreaCampo editarPerfilAreaCampoCompleto'>
                                                 <div className='editarPerfilCampo editarPerfilDesc'>
                                                     <label>Descrição</label>
-                                                    <textarea></textarea>
+                                                    <textarea value={descricao} onChange={(e) => setDescricao(e.target.value)}>{descricao}</textarea>
                                                 </div>
                                                 <div className='editarPerfilCampo editarPerfilTipo'>
                                                     <label>Sou um Artista</label>
-                                                    <select>
-                                                        <option>a</option>
-                                                        <option>b</option>
+                                                    <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
+                                                        <option value={undefined} >
+                                                            ----
+                                                        </option>
+                                                        {(
+                                                            listaTipoArtista.map((tipo, index) =>
+                                                            (
+                                                                <option value={tipo.nome} key={index}>
+                                                                    {tipo.nome}
+                                                                </option>
+                                                            ))
+                                                        )}
                                                     </select>
                                                 </div>
 
                                             </div>
                                         </div>
-                                        <button className='btComumEditarPerfil'>Salvar</button>
+                                        <button onClick={EnviarDados} className='btComumEditarPerfil'>Salvar</button>
                                     </div>
                                 )
                                 :
@@ -205,19 +439,26 @@ const EditarPerfil: React.FC = () => {
                                         <div className='editarPerfilFormSecaoBanner'>
                                             <p>Dimensões ideais 3200 x 410px</p>
                                             <div className='cursorPointer' onClick={() => AtribuirImagem('editarPerfilBannerInput', 'editarPerfilBanner')}>
-                                                <img src={bannerUrl} className='editarPerfilBannerImg' id='editarPerfilBanner' />
+                                                
+                                                {
+                                                    bannerUrl ? 
+                                                    (<img src={bannerUrl} className='editarPerfilBannerImg' id='editarPerfilBanner' /> )
+                                                    : 
+                                                    (<img className='editarPerfilBannerImg' id='editarPerfilBanner' />)
+                                                }
+                                                
                                                 <div >
                                                     <img src='/imgs/verPerfil/add_image.svg' className='editarPerfilBannerImgICone' />
                                                     <span>Fazer Upload</span>
                                                 </div>
-                                                <input type='file' className='escondido' id='editarPerfilBannerInput' />
+                                                <input  onChange={(e) => setBanner(e.target.files ? e.target.files : null)} type='file' className='escondido' id='editarPerfilBannerInput' />
                                             </div>
                                             <span onClick={LimparBanner} className='cursorPointer'>Remover imagem<img src='/imgs/editarPerfil/iconeExcluirBanner.svg' /></span>
 
                                         </div>
                                         <h2 id='editarPerfilCorTitulo'>Cor de Fundo</h2>
                                         <div className='editarPerfilFormSecaoCores'>
-                                            <div style={{backgroundColor: cor ? cor : ""}} className='editarPerfilPerfilAba'>
+                                            <div style={{ backgroundColor: cor ? cor : "" }} className='editarPerfilPerfilAba'>
                                                 <figure>
                                                     <img src='/imgs/verPerfil/perfil.png' />
                                                 </figure>
@@ -229,28 +470,28 @@ const EditarPerfil: React.FC = () => {
                                                 <p>Escolher...</p>
                                                 <ul>
                                                     <li>
-                                                        <input onChange={(e) => setCor(e.target.value)} type="color" />
+                                                        <input value={cor} onChange={(e) => setCor(e.target.value)} type="color" />
                                                         <div>
                                                             <p className="dmSans">Cor</p>
                                                             <span className="dmSans">{cor ? cor : "#"}</span>
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        <input onChange={(e) => setCor2(e.target.value)} type="color" />
+                                                        <input value={cor2} onChange={(e) => setCor2(e.target.value)} type="color" />
                                                         <div>
                                                             <p className="dmSans">Cor</p>
                                                             <span className="dmSans">{cor2 ? cor2 : "#"}</span>
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        <input onChange={(e) => setCor3(e.target.value)} type="color" />
+                                                        <input value={cor3} onChange={(e) => setCor3(e.target.value)} type="color" />
                                                         <div>
                                                             <p className="dmSans">Cor</p>
                                                             <span className="dmSans">{cor3 ? cor3 : "#"}</span>
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        <input onChange={(e) => setCor4(e.target.value)} type="color" />
+                                                        <input value={cor4} onChange={(e) => setCor4(e.target.value)} type="color" />
                                                         <div>
                                                             <p className="dmSans">Cor</p>
                                                             <span className="dmSans">{cor4 ? cor4 : "#"}</span>
@@ -263,7 +504,7 @@ const EditarPerfil: React.FC = () => {
                                                 </p>
                                             </div>
                                         </div>
-                                        <button className='btComumEditarPerfil'>Salvar</button>
+                                        <button onClick={EnviarPersonalizacao} className='btComumEditarPerfil'>Salvar</button>
                                     </div>
                                 )
                         }

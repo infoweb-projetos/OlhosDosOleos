@@ -10,6 +10,7 @@ export interface Usuario {
     bannertipo?: string;
     insta?: string;
     localizacao?: string;
+    localizacaoid?: string;
     nome?: string;
     senha?: string;
     tipoid?: string;
@@ -18,4 +19,8 @@ export interface Usuario {
     zap?: string;
     cidadeid? : number;
     estadoid? : number;
+    cor1?: string;
+    cor2?: string;
+    cor3?:string;
+    cor4?:string;
 }

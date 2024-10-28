@@ -128,10 +128,10 @@ const HeaderSite: React.FC = () => {
                                             </Link>
                                         </li>
                                         <li>
-                                            <a className="menuItemComum" href="#">
+                                            <Link className="menuItemComum" to="/editar/perfil">
                                                 <img src="/imgs/header/editarHeader.svg" alt="Lapis." />
                                                 <p>Editar perfil</p>
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li>
                                             <a className="menuItemComum" href="#">

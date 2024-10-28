@@ -49,7 +49,7 @@ const Perfil: React.FC = () => {
     };
 
     const MontarPerfil = useCallback (async (id : string | undefined) => {
-        const url = `https://olhosdosoleosbackend-production.up.railway.app/usuarios/outroperfil/${id}`;
+        const url = api + `usuarios/outroperfil/${id}`;
         console.log(url);
         axios.get(url, {})
         .then(response => {
@@ -91,7 +91,7 @@ const Perfil: React.FC = () => {
         });
     }, [usuario])
     const MeusPosts = useCallback(async (id : string | undefined) => {
-        const url = `https://olhosdosoleosbackend-production.up.railway.app/posts/usuario/${id}`;
+        const url = api + `posts/usuario/${id}`;
         console.log(url);
         axios.get(url, { })
         .then(response => {
@@ -152,7 +152,7 @@ const Perfil: React.FC = () => {
         }
 
         if (perfilid && Number(perfilid) > 0) {
-            axios.get(`https://olhosdosoleosbackend-production.up.railway.app/usuarios/soueu/${perfilid}`, {
+            axios.get(api + `usuarios/soueu/${perfilid}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
