@@ -12,6 +12,8 @@ import { Usuario } from '../interfaces/Usuario';
 
 const EditarPerfil: React.FC = () => {
     const navegar = useNavigate();
+    const [tokenAtual, atualizarTokenAtual] = useState<string>("");
+    const [ehRemoverBanner, setEhRemoverBanner] = useState<boolean>(false);
     const [ehTabDados, setEhTabDados] = useState<boolean>(true);
     const [ehTabLocalizacao, setEhTabLocalizacao] = useState<boolean>(false);
     const [ehTabEssencial, setEhTabEssencial] = useState<boolean>(false);
@@ -52,13 +54,15 @@ const EditarPerfil: React.FC = () => {
     const [cor4, setCor4] = useState<string>("#000000");
     const [banner, setBanner] = useState<FileList | null>(null);
     const [bannerUrl, setBannerUrl] = useState<string | undefined>(undefined);
-    const LimparBanner = () => {
+    const LimparBanner = async () => {
         setBannerUrl(undefined); 
         setBanner(null); 
         const input = document.getElementById('editarPerfilBannerInput') as HTMLInputElement;
         if (input) {
             input.files = null;
         }
+        setEhRemoverBanner(true);
+        
     }
     const ListarTipos = useCallback(async () => {
         await axios.get(api + 'tiposartista/listar', {})
@@ -165,20 +169,22 @@ const EditarPerfil: React.FC = () => {
                     'Authorization': `Bearer ${token}`
                 }
             })
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => {
-                    localStorage.removeItem('tokenODO');
-                    console.log(error);
-                    navegar("/");
-                });
+            .then(response => {
+                console.log(response);
+                atualizarTokenAtual(token);
+            })
+            .catch(error => {
+                localStorage.removeItem('tokenODO');
+                console.log(error);
+                navegar("/");
+            });
             CarregarUsuario(token);
         }
     }, []);
 
     const EnviarDados = async (event: React.FormEvent) => {
         event.preventDefault();
+        if(!tokenAtual) navegar(0);
 
         const data = new FormData();
         if (nome) data.append('nome', nome);
@@ -196,12 +202,19 @@ const EditarPerfil: React.FC = () => {
         if (foto && foto.length > 0) data.append('imagem', foto[0]);
 
         try {
-            const response = await axios.patch(api + 'usuarios/atualizar', data, {
+            await axios.patch(api + 'usuarios/atualizar', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${tokenAtual}`,
                 },
+            })
+            .then(response => {
+                navegar(0);
+                console.log("Atualizar: " + response);
+            })
+            .catch(error => {
+                console.log(error);
             });
-            console.log('Resposta da API:', response.data);
             navegar("/editar/perfil");
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
@@ -214,6 +227,30 @@ const EditarPerfil: React.FC = () => {
     }
     const EnviarPersonalizacao = async (event: React.FormEvent) => {
         event.preventDefault();
+        if(!tokenAtual) navegar(0);
+
+        if(ehRemoverBanner){
+            try {
+                await axios.patch(api + 'usuarios/removerbanner', {}, {
+                    headers: {
+                        'Authorization': `Bearer ${tokenAtual}`
+                    }
+                })
+                .then(response => {
+                    console.log("removerbanner: " + response);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+                navegar("/editar/perfil");
+            } catch (error) {
+                console.error('Erro ao enviar dados:', error);
+                if (axios.isAxiosError(error) && error.response) {
+                    console.error('Resposta do servidor:', error.response.data);
+                }
+            }
+        }
+       
 
         const data = new FormData();
 
@@ -224,12 +261,19 @@ const EditarPerfil: React.FC = () => {
         if (banner && banner.length > 0) data.append('banner', banner[0]);
 
         try {
-            const response = await axios.patch(api + 'usuarios/atualizar', data, {
+            await axios.patch(api + 'usuarios/atualizar', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${tokenAtual}`,
                 },
+            })
+            .then(response => {
+                navegar(0);
+                console.log("Atualizar: " + response);
+            })
+            .catch(error => {
+                console.log(error);
             });
-            console.log('Resposta da API:', response.data);
             navegar("/editar/perfil");
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
@@ -332,7 +376,7 @@ const EditarPerfil: React.FC = () => {
                                                 <div className='editarPerfilCampo'>
                                                     <label>Estado</label>
                                                     <div className='divInputIcone'>
-                                                        <select value={estado  == 0 ? undefined : estado} onChange={(e) => setEstado(Number(e.target.value))}>
+                                                        <select onChange={(e) => setEstado(Number(e.target.value))} value={estado  == 0 ? undefined : estado} >
                                                             <option value={undefined} >
                                                                 ----
                                                             </option>
@@ -351,7 +395,7 @@ const EditarPerfil: React.FC = () => {
                                                 <div className='editarPerfilCampo'>
                                                     <label>Cidade</label>
                                                     <div className='divInputIcone'>
-                                                        <select value={cidade == 0 ? undefined : cidade} onChange={(e) => setCidade(Number(e.target.value))}>
+                                                        <select onChange={(e) => setCidade(Number(e.target.value))} value={cidade == 0 ? undefined : cidade} >
                                                             <option value={undefined} >
                                                                 ----
                                                             </option>
@@ -438,7 +482,7 @@ const EditarPerfil: React.FC = () => {
                                         <h2 id='editarPerfilBannerTitulo'>Banner</h2>
                                         <div className='editarPerfilFormSecaoBanner'>
                                             <p>Dimensões ideais 3200 x 410px</p>
-                                            <div className='cursorPointer' onClick={() => AtribuirImagem('editarPerfilBannerInput', 'editarPerfilBanner')}>
+                                            <div className='cursorPointer' onClick={() => {AtribuirImagem('editarPerfilBannerInput', 'editarPerfilBanner'); setEhRemoverBanner(false);}}>
                                                 
                                                 {
                                                     bannerUrl ? 
@@ -460,11 +504,10 @@ const EditarPerfil: React.FC = () => {
                                         <div className='editarPerfilFormSecaoCores'>
                                             <div style={{ backgroundColor: cor ? cor : "" }} className='editarPerfilPerfilAba'>
                                                 <figure>
-                                                    <img src='/imgs/verPerfil/perfil.png' />
+                                                    <img src={fotoUrl} />
                                                 </figure>
-                                                <h3 className="dmSans">Nome</h3>
-                                                <span className="dmSans">tipo de artista</span>
-                                                <p className="dmSansThin"><img src='/imgs/verPerfil/location_icon.png' />localização</p>
+                                                <h3 className="dmSans">{nome}</h3>
+                                                <span className="dmSans">{tipo}</span>
                                             </div>
                                             <div className='editarPerfilDadosCores'>
                                                 <p>Escolher...</p>
