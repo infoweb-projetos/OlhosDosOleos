@@ -32,7 +32,7 @@ no React um css aplicado a uma pagina fica para todas, então para evitar confli
 ```
 
 ### Pagina padrão com Header e Footer
-A pagina [estruturaPadrão](htmlEstatico/estruturaPadrao.html) pode ser usuada par copiar e colar para mostrar outra pagina. mas adicione na seguinte div: 
+A pagina [estruturaPadrão](estruturaPadrao.html) pode ser usuada par copiar e colar para mostrar outra pagina. mas adicione na seguinte div: 
 ``` html
 <div id="" class="areaConteudo">
   <!-- Conteudo aqui, imagine isso aqui como o body / main -->
