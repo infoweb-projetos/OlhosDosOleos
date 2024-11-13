@@ -2,13 +2,13 @@
 Essa pasta é o projeto Vite React.
 É utilizado Axios para requisições ao banco, typescript e o React-Routes para gerencias as pagians e aqui que devem ser executados os comandos ```npm```
 
-### [index.html](site/index.html) na Raiz do Projeto React
+### [index.html](index.html) na Raiz do Projeto React
 Nesse html é inserido as paginas tsx(React). Nele tambem foi definido o icone e titulo do site.
 
-### Pasta [src](site/src)
+### Pasta [src](src)
 E onde fica construção da nossa interface com React.
 
-### Pasta [public](site/public)
+### Pasta [public](public)
 No momento, só possui nosas imagens. no react essa pas é referenciada como "/" no inicio do caminho. Exemplo: ```/imgs/header/sairHeader.svg```
 
 ### Rodar projeto
