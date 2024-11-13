@@ -4,18 +4,18 @@
 ### Arquivos importantes da Raiz do Src
 Arquivo | Descrição 
 :---- | :--- 
-[main.tsx](src/main.tsx) | é onde coloqeui o CSS universal. É quem exibe o App.tsx
-[App.tsx](src/App.tsx) | é onde fica estrutura de rotas, troca de paginas do site. Se quiser adicionar uma pagina, é aqui que deve mexer para deixar ela online.
-[apiUrl.ts](src/apiUrl.ts) | arquivo que contem a URL atual da API. Era necessario para que em produção não desse problema, mas, como excedi a cota gratis, só serve para diminuir codigo e não ter que ficar copiando e colando https://linkgrande/. Já tem comentarios no arquivo que indicam em qual situação deve estar descomentada.
+[main.tsx](main.tsx) | é onde coloqeui o CSS universal. É quem exibe o App.tsx
+[App.tsx](App.tsx) | é onde fica estrutura de rotas, troca de paginas do site. Se quiser adicionar uma pagina, é aqui que deve mexer para deixar ela online.
+[apiUrl.ts](apiUrl.ts) | arquivo que contem a URL atual da API. Era necessario para que em produção não desse problema, mas, como excedi a cota gratis, só serve para diminuir codigo e não ter que ficar copiando e colando https://linkgrande/. Já tem comentarios no arquivo que indicam em qual situação deve estar descomentada.
 
 ### Pastas da Raiz do Src
 Pasta | Descrição 
 :---- | :--- 
-[paginas](src/paginas) | Onde ficam as paginas exibidas no site e que são organizadas no App.tsx.
-[componentes](src/componentes) | Trechos de React que se repetem em outras telas frequentemente separados em um arquivo a parte para diminuir o codigo.
-[interfaces](src/interfaces) | Classes que uso para que a API carregue os dados das tabelas neles.
-[estilos](src/estilos) | E aqui que fica todo o CSS criado e as fontes que baixei para usar no projeto.
-[scripts](src/scripts) | É onde fica todos os scripts que servem para fins mais esteticos. É aqui geralmente que deixo scripts que traduzi do javascript pro typescript.
+[paginas](paginas) | Onde ficam as paginas exibidas no site e que são organizadas no App.tsx.
+[componentes](componentes) | Trechos de React que se repetem em outras telas frequentemente separados em um arquivo a parte para diminuir o codigo.
+[interfaces](interfaces) | Classes que uso para que a API carregue os dados das tabelas neles.
+[estilos](estilos) | E aqui que fica todo o CSS criado e as fontes que baixei para usar no projeto.
+[scripts](scripts) | É onde fica todos os scripts que servem para fins mais esteticos. É aqui geralmente que deixo scripts que traduzi do javascript pro typescript.
 
 ### Adicionar nova pagina
 Para adicionar primeiro voce deve criar um arquivo tsx na pasta paginas, PagNome.tsx(geralmente uso PascalCase para nomes de paginas ou componente). 
@@ -83,7 +83,7 @@ Não sigo muito padrão aqui, mas tento.
 - Em atributos de interfaces deixo tudo minusculo, sem separadores
 
 #### Modelo limpo com Header e Footer
-Na pasta de paginas tem um [Modelo limpo](site/src/paginas/ModeloLimpo.tsx) que serve justamente para copiar e colar e criar uma nova pagina na area indicada("Conteudo aqui")
+Na pasta de paginas tem um [Modelo limpo](site/paginas/ModeloLimpo.tsx) que serve justamente para copiar e colar e criar uma nova pagina na area indicada("Conteudo aqui")
 ``` javascript
 import HeaderSite from '../componentes/header';
 import RodapeSite from '../componentes/rodape';
@@ -133,7 +133,7 @@ Sugiro isso porque caso seu CSS dê comflito em outra pagina, voce vai ter que c
 
 
 #### Axios
-Para requisitar da api usamos Axios. No exemplo abaixo alem de estar mostrando uma requisição, tá mostrando como exibir imagem. Lembrando que para usar o Axios é necessario o import dele no inicio da pagina. O exemplo a baixo vem da [pagina de perfil](src/paginas/Perfil.tsx).
+Para requisitar da api usamos Axios. No exemplo abaixo alem de estar mostrando uma requisição, tá mostrando como exibir imagem. Lembrando que para usar o Axios é necessario o import dele no inicio da pagina. O exemplo a baixo vem da [pagina de perfil](paginas/Perfil.tsx).
 ``` javascript
 const MontarPerfil = useCallback (async (id : string | undefined) => {
         const url = api + `usuarios/outroperfil/${id}`; // api vem da apiUrl.ts, usaurios vem do controlador, e outroperfil é o endpont
