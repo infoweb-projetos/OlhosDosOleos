@@ -10,3 +10,7 @@ export interface Cidade {
     nome: string;
 }
 
+export interface Categoria {
+    nome: string;
+}
+

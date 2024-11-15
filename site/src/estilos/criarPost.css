@@ -35,7 +35,7 @@
     border: none;
     cursor: pointer;
 }
-.criarPost .criarTituloPost > input{
+.criarPost .criarTituloPost > input, .criarPost .criarTituloPost >  select{
     outline: none;
     padding: 6px;
     border: none;
@@ -292,4 +292,9 @@
 .modalAvisoArea .modalAviso > ul li a{
     background-color: var(--corPrincipal);
     color: #FFFFFF;
+}
+
+.criarPost  #carroselCriarPost{
+    margin-top: 1em;
+    padding: 10px;
 }

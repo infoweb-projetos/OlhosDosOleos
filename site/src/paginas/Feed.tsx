@@ -1,6 +1,7 @@
 import HeaderSite from '../componentes/header';
 import RodapeSite from '../componentes/rodape';
 import '../estilos/feed.css';
+import '../estilos/carroselComum.css';
 import { useCallback, useEffect, useState } from 'react';
 import { CarroselComum } from '../scripts/carrossel'
 import axios from 'axios';

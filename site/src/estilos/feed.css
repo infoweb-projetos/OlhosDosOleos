@@ -225,84 +225,16 @@
     margin-left: 7px;
 }
 
-/* Carrosel */
-/* Container do carrossel */
-.carrosel {
-    position: relative;
-    margin: auto;
-    display: flex;
-    overflow: hidden;
-    justify-content: center;
-    margin-top: 0.5em;
-    box-sizing: border-box;
-}
-/* Estilo das imagens */
-.imagemCarrosel {
-    min-width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
-.carroselSlide {
-    width: 23%;
-    /* Exibe 3 imagens ao mesmo tempo */
-    min-width: 23%;
-    margin: 0 1%;
-    /* Define o tamanho mínimo de cada slide */
-    height: 40vh;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
-}
-.carroselSlide img{
-    width: 100%;
-    border-radius: 8px;
-    height: 40vh;
-    transition-duration: 200ms;
-    transition-property: box-shadow;
-    transition-timing-function: linear;
-}
-.carroselSlide img:hover{
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.4);
-}
-/* Botões de navegação */
-.ante,
-.prox {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    z-index: 4;
-}
-.ante {
-    left: 0.5em;
-}
-.prox {
-    right: 0.5em;
-}
 
 
 @media screen and (max-width: 1000px) {
     .feed .postFeed {
         width: 31.33%;
     }
-    .carroselSlide {
-        width: 31.33%;
-        height: 40vh;
-        min-width: 31.33%;
-    }
 }
 
 @media screen and (max-width: 700px) {
     .feed .postFeed {
         width: 48%;
-    }
-    .carroselSlide {
-        width: 48%;
-        min-width: 48%;
     }
 }

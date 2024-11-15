@@ -16,8 +16,10 @@ export interface Post {
 export interface CriarPostDados {
     usuarioid: number;
     imagemPost?: FileList;
+    processoPost?: FileList;
     tituloPost: string;
     descricaoPost?: string;
     postSensivel: boolean;
     rascunho: boolean;
+    categoriaPost: string;
 }
