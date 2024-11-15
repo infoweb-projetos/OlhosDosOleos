@@ -67,7 +67,7 @@
     box-sizing: border-box;
     border-radius: 8px;
 }
-.criarPost .criarPostEsquerda button{
+.criarPost .criarPostEsquerda  button{
     box-sizing: border-box;
     background-color: transparent;
     border: none;
@@ -78,7 +78,7 @@
     width: 65%;
     height: 80%;
 }
-.criarPost .criarPostEsquerda button img{
+.criarPost .criarPostEsquerda  button img{
     display: block;
     margin: 1em auto;
 
@@ -136,7 +136,7 @@
 .criarPost .campoCriarPostComum hr{
     border: 1% solid black;
 }
-.criarPost .campoCriarPostComum figure{
+.criarPost .campoCriarPostComum > figure{
     width: 45%;
     box-sizing: border-box;
     padding: 1.5em 0;
@@ -145,7 +145,7 @@
     justify-content: center;
     flex-wrap: wrap;
 }
-.criarPost .campoCriarPostComum figure figcaption{
+.criarPost .campoCriarPostComum > figure figcaption{
     width: 100%;
     text-align: center;
 }
@@ -259,7 +259,7 @@
 }
 
 .modalAvisoArea .modalAviso  > h3{
-    margin-bottom: 1em;
+    margin-bottom: 0.3em;
 }
 
 .modalAvisoArea .modalAviso > ul{
@@ -297,4 +297,111 @@
 .criarPost  #carroselCriarPost{
     margin-top: 1em;
     padding: 10px;
+}
+
+/*  */
+
+.criarPost #modalTagsCriarPostArea{
+    display: none;
+    opacity: 0;
+    width: 60%;
+    height: min-content;
+    justify-content: right;
+    position: absolute;
+    left: unset;
+    top: unset;
+    right: 0;
+}
+
+
+.criarPost #modalTagsCriarPostArea .btModalAvisoVermelho{
+    background-color: var(--corPrincipal);
+    color: #FFFFFF;
+}
+.criarPost .ModalSecaoTag{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    margin-top: 1em;
+    box-sizing: border-box;
+}
+.criarPost .ModalSecaoTag > div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 2px solid #D0D5DD;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+.criarPost .ModalSecaoTag > div input{
+    width: 100%;
+    padding: 2px;
+    outline: none;
+    border: none;
+    padding-left: 6px;
+    box-sizing: border-box;
+}
+.criarPost .ModalSecaoTag > div button{
+    font-weight: bold;
+    background-color: #2FA776;
+    color: #FFFFFF;
+    padding: 5px 10px;
+    border-radius: 100%;
+    box-sizing: border-box;
+}
+
+
+
+.criarPost .tagAzul{
+    color: #699AB9;
+    background-color: #F0F9FF;
+}
+.criarPost .tagVerdeAgua{
+    color: #519898;
+    background-color: #e6f3f3;
+}
+.criarPost .tagVerde{
+    color: #2FA776;
+    background-color: #dff8ee;
+}
+.criarPost .tagAmarelo{
+    color: #EFC13D;
+    background-color: #fffcf1;
+}
+.criarPost .tagVermelho{
+    color: var(--corPrincipal);
+    background-color: #FDF2FA;
+}
+
+.criarPost .listaTags{
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+}
+.criarPost .listaTags li{
+    display: flex;
+    align-items: center;
+    padding: 1px 6px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-right: 7px;
+    margin-bottom: 7px;
+}
+.criarPost .listaTags li button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.criarPost .listaTags li p{
+    margin: 0;
 }

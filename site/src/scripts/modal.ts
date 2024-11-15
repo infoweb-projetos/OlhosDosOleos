@@ -1,4 +1,4 @@
-export  function AbrirFecharModal(id: string, display: string = "block"): void {
+export  function AbrirFecharModal(id: string, display: string = "block") : void {
     const modal = document.getElementById(id) as HTMLElement | null;
     if (modal) {
         // Alterna a opacidade do modal

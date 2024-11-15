@@ -29,6 +29,8 @@ const CriarPost: React.FC = () => {
     const [qtdPost, setQtdPost] = useState<number>(1);
     const [listaCategorias, setListaCategorias] = useState<Array<Categoria>>([]);
     const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
+    const [tagsPost, setTagsPost] = useState<Array<string>>([]);
+    const classesCorTag = ['tagVermelho','tagAzul','tagVerdeAgua','tagVerde','tagAmarelo'];
 
     const [imagens, setImagens] = useState<string[]>([]);
     const AtribuiImagensProcesso = (evento: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,6 +105,16 @@ const CriarPost: React.FC = () => {
                 const postsBD = response.data.dados;
                 setQtdPost(postsBD.length)
             })
+    }
+
+    const AtualizarTags = () => {
+        let elemento = document.getElementById('tagsPost') as HTMLInputElement;
+        if (elemento){
+            if (elemento.value && !tagsPost.includes(elemento.value)) setTagsPost([...tagsPost, elemento.value]);
+        }
+    }
+    const RemoverTag = (tag: string) =>{
+        setTagsPost(tagsPost.filter(item => item !== tag));
     }
 
     const AoMudarValorInput = (elemento: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -223,9 +235,52 @@ const CriarPost: React.FC = () => {
                             </div>
                             <div className="campoCriarPostComum">
                                 <label>Adicionar...</label>
-                                <figure>
-                                    <img src="imgs/criarPost/iconeTags.svg" />
-                                    <figcaption>Tags</figcaption>
+                                <figure  >
+                                    <img style={{cursor:"pointer",}} onClick={() => { AbrirFecharModal('modalTagsCriarPost'); AbrirFecharModal('modalTagsCriarPostArea', 'flex'); }}src="imgs/criarPost/iconeTags.svg" />
+                                    <figcaption style={{cursor:"pointer",}} onClick={() => { AbrirFecharModal('modalTagsCriarPost'); AbrirFecharModal('modalTagsCriarPostArea', 'flex'); }}>Tags</figcaption>
+                                    <div id="modalTagsCriarPostArea" className="modalAvisoArea">
+                                        <div id="modalTagsCriarPost" className="modalAviso" style={{ opacity: 0, }}>
+                                            <div>
+                                                <figure>
+                                                    <img src="imgs/criarPost/iconeTags.svg" />
+                                                </figure>
+                                                <button onClick={() => { AbrirFecharModal('modalTagsCriarPost'); AbrirFecharModal('modalTagsCriarPostArea', 'flex'); }}><img src="imgs/criarPost/fecharModalDiretriz.svg" /></button>
+                                            </div>
+                                            <h3>Adicione Tags</h3>
+                                            <p>
+                                                tags ajudam pessoas a descobrirem sua arte.
+                                            </p>
+
+                                            <div className='ModalSecaoTag'>
+                                                <div>
+                                                    <img src='imgs/criarPost/iconeLupaCriarPost.svg' />
+                                                    <input id='tagsPost' name='tagsPost' placeholder='Procurar Tag' list='tagsPostOpcoes' />
+                                                    <datalist id="tagsPostOpcoes">
+                                                        <option value="Opção 1">Op 1</option>
+                                                    </datalist>
+                                                    <button onClick={AtualizarTags}>+</button>
+                                                </div>
+                                                <ul className='listaTags'>
+                                                    {
+                                                        tagsPost.map((valor, index) => {
+                                                            const tagClasse = classesCorTag[index % classesCorTag.length];
+                                                            return(
+                                                                <li className={tagClasse} value={valor} key={index}>
+                                                                    <p>{valor}</p>
+                                                                    <button onClick={() => RemoverTag(valor)} className={tagClasse}>x</button>
+                                                                </li>
+                                                            )
+
+                                                        })
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <ul >
+                                                <li><button type='button' onClick={() => { AbrirFecharModal('modalTagsCriarPost'); AbrirFecharModal('modalTagsCriarPostArea', 'flex'); }}>Sair</button></li>
+                                                <li><button type='button' className='btModalAvisoVermelho' onClick={() => { AbrirFecharModal('modalTagsCriarPost'); AbrirFecharModal('modalTagsCriarPostArea', 'flex'); }}>Confirmar</button></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </figure>
                                 <hr />
                                 <figure>
@@ -300,6 +355,7 @@ const CriarPost: React.FC = () => {
                             </div>
                         )
                 }
+               
 
             </div>
             <RodapeSite />
