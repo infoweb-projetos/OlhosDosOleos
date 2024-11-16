@@ -35,6 +35,7 @@ const CriarPost: React.FC = () => {
     const [estaEnviando, setEstaEnviando] = useState<boolean>(false);
     const [listaTags, setListaTags] = useState<Array<Tag>>([]);
     const [listaFerramentas, setListaFerramentas] = useState<Array<Tag>>([]);
+    const [temImagem, setTemImagem] = useState<boolean>(false);
 
     const [imagens, setImagens] = useState<string[]>([]);
     const AtribuiImagensProcesso = (evento: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,6 +170,8 @@ const CriarPost: React.FC = () => {
                 ...dados,
                 [name]: files ? files : undefined,
             });
+            if (files && files?.length > 0) setTemImagem(true);
+            else setTemImagem(false);
         } else {
             setDados({
                 ...dados,
@@ -263,11 +266,33 @@ const CriarPost: React.FC = () => {
                     </div>
                     <div className="criarLadoLadoPost">
                         <div className="criarPostEsquerda">
-                            <img id="imgFundo" />
-                            <button onClick={() => AtribuirImagem('imagemPost', 'imgFundo')} type="button">
-                                <img src="imgs/criarPost/criarUploadImagem.svg" />
-                                Faça upload de um arquivo ou o arraste até aqui
-                            </button>
+                            <figure>
+                                {
+                                temImagem?
+                                (<img id="imgFundo" className={temImagem ? "criarPostImagemSelecionada" : undefined} onClick={temImagem? () => AtribuirImagem('imagemPost', 'imgFundo') : undefined}/>)
+                                :
+                                (<img id="imgFundo" style={{display: "none",}} />)
+                                } 
+                                
+                               {
+                                temImagem?
+                                    (<img onClick={() => AtribuirImagem('imagemPost', 'imgFundo')} src="/imgs/criarPost/iconeLapis.svg" id='criarPostEditarLapis'/>)
+                                :
+                                undefined
+                               } 
+                            </figure>
+                            {
+                                !temImagem?
+                                (
+                                    <button onClick={() => AtribuirImagem('imagemPost', 'imgFundo')} type="button">
+                                        <img src="imgs/criarPost/criarUploadImagem.svg" />
+                                        Faça upload de um arquivo ou o arraste até aqui
+                                    </button>
+                                )
+                                :
+                                undefined
+                            } 
+                           
                             <input type="file" onChange={AoMudarValorInput} id="imagemPost" name="imagemPost" />
                         </div>
                         <div className="criarPostDireita">
