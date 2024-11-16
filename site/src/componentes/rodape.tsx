@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import '../estilos/footer.css';
 
 const RodapeSite: React.FC = () => {
     return (

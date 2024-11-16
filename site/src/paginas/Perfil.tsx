@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
 import { Post } from '../interfaces/Post';
 import {api} from '../apiUrl.ts';
+import '../estilos/verPerfil.css';
 
 const Perfil: React.FC = () => {
     const navegar = useNavigate();

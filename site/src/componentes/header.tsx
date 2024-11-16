@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { AbrirFecharModal } from '../scripts/modal';
-import '../estilos/verPerfil.css';
 import React, { useState, useEffect } from 'react';
 
 const HeaderSite: React.FC = () => {

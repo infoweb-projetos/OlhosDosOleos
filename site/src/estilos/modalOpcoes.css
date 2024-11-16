@@ -1,0 +1,38 @@
+.modalOpcoesComum{
+    position: absolute;
+    background-color: #FFFFFF;
+    padding: 5px 5px;
+    border: 2px solid var(--corPrincipal);
+    border-radius: 10px;
+    width: 130px;
+    right: 0;
+    top: 2.5em;
+    display: none;
+}
+.modalOpcoesComum li{
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+.modalOpcoesComumBt{
+    background-color: transparent;
+    text-decoration: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--corPrincipal);
+    width: 100%;
+    padding: 4px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 130%;
+    font-weight: 600;
+}
+.modalOpcoesComum .modalOpcoesComumBt:hover{
+    background-color: #fd6a9931;
+}
+
+.modalOpcoesComumBt img{
+    width: 18px;
+    height: 18px;
+}

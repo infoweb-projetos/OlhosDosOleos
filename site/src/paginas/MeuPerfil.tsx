@@ -5,6 +5,9 @@ import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
 import { Post } from '../interfaces/Post';
 import {api} from '../apiUrl.ts';
+import '../estilos/verPerfil.css';
+import '../estilos/modalOpcoes.css';
+import { AbrirFecharModal } from '../scripts/modal.ts';
 
 const MeuPerfil: React.FC = () => {
     const navegar = useNavigate();
@@ -101,6 +104,7 @@ const MeuPerfil: React.FC = () => {
         })
         .then(response => {
             const postsBD = response.data.dados;
+            console.log(postsBD);
             if (!postsBD && !posts){
                 return;
             }
@@ -111,7 +115,8 @@ const MeuPerfil: React.FC = () => {
                     usuarioid: p.usuarioid,
                     sensivel: p.sensivel,
                     rascunho: p.rascunho,
-                    imagemUrl: ''
+                    imagemUrl: '',
+                    id: p.id
                 };
 
                 if (p.imagem && p.imagemtipo) {
@@ -278,7 +283,24 @@ const MeuPerfil: React.FC = () => {
                                     posts.map((post, index) => 
                                     (
                                         <div key={index} className="project-card imagemPortifolio">
-                                            <a href="">
+                                            <div>
+                                                <img onClick={() => AbrirFecharModal('menuOpcoesPostPerfil' + post.id)} src='/imgs/verPerfil/iconesOpcoesHorizontal.svg' />
+                                                <ul id={'menuOpcoesPostPerfil'+post.id} className='modalOpcoesComum'>
+                                                    <li>
+                                                        <button className='modalOpcoesComumBt'>
+                                                            Excluir
+                                                            <img src='/imgs/verPerfil/iconeExcluirPost.svg' />
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <Link className='modalOpcoesComumBt' to={`/editarpost/${post.id}`}>
+                                                            Editar
+                                                            <img src='/imgs/verPerfil/iconeEditarPost.svg' />
+                                                        </Link>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="#">
                                                 <img className={ post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} alt="Obra do artista." />
                                                 {
                                                 post.sensivel ?
@@ -292,6 +314,8 @@ const MeuPerfil: React.FC = () => {
                                                 }
                                                 
                                             </a>
+                                           
+                                            
                                         </div>
                                     ))
                                 )
