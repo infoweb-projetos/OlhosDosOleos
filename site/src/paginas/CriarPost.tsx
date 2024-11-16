@@ -10,7 +10,7 @@ import { Usuario } from '../interfaces/Usuario';
 import { CriarPostDados } from '../interfaces/Post';
 import { VerificaToken } from '../scripts/uteis';
 import {api} from '../apiUrl.ts';
-import { Categoria } from '../interfaces/Enums.ts';
+import { Categoria, Tag } from '../interfaces/Enums.ts';
 import { CarroselComum } from '../scripts/carrossel.ts';
 
 const CriarPost: React.FC = () => {
@@ -30,7 +30,11 @@ const CriarPost: React.FC = () => {
     const [listaCategorias, setListaCategorias] = useState<Array<Categoria>>([]);
     const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
     const [tagsPost, setTagsPost] = useState<Array<string>>([]);
+    const [ferramentasPost, setFerramentasPost] = useState<Array<string>>([]);
     const classesCorTag = ['tagVermelho','tagAzul','tagVerdeAgua','tagVerde','tagAmarelo'];
+    const [estaEnviando, setEstaEnviando] = useState<boolean>(false);
+    const [listaTags, setListaTags] = useState<Array<Tag>>([]);
+    const [listaFerramentas, setListaFerramentas] = useState<Array<Tag>>([]);
 
     const [imagens, setImagens] = useState<string[]>([]);
     const AtribuiImagensProcesso = (evento: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +68,28 @@ const CriarPost: React.FC = () => {
             });
     }, []);
 
+    const ListarTags = useCallback(async () => {
+        await axios.get(api + 'tags/tags', {})
+            .then(response => {
+                const listaBD = response.data.dados;
+                setListaTags(listaBD);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, []);
+
+    const ListarFerramentas = useCallback(async () => {
+        await axios.get(api + 'tags/ferramentas', {})
+            .then(response => {
+                const listaBD = response.data.dados;
+                setListaFerramentas(listaBD);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, []);
+
     useEffect(() => {
         const token = localStorage.getItem('tokenODO');
         if (!token) {
@@ -88,12 +114,14 @@ const CriarPost: React.FC = () => {
             });
         }
         ListarCategorias();
+        ListarTags();
+        ListarFerramentas();
         if(!carroselAtivo){
             CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselCriarPost', 'listaImagensCarroselCriarPost');
             ativacaoCarrossel(true);
         }
       
-    }, [navegar, listaCategorias, carroselAtivo]);
+    }, [navegar, listaCategorias, carroselAtivo, listaTags, listaFerramentas]);
 
     const VerificarPost = async (token: string) => {
         axios.get(api + 'posts/meus', {
@@ -115,6 +143,16 @@ const CriarPost: React.FC = () => {
     }
     const RemoverTag = (tag: string) =>{
         setTagsPost(tagsPost.filter(item => item !== tag));
+    }
+
+    const AtualizarFerramentas = () => {
+        let elemento = document.getElementById('ferramentasPost') as HTMLInputElement;
+        if (elemento){
+            if (elemento.value && !ferramentasPost.includes(elemento.value)) setFerramentasPost([...ferramentasPost, elemento.value]);
+        }
+    }
+    const RemoverFerramenta = (tag: string) =>{
+        setFerramentasPost(ferramentasPost.filter(item => item !== tag));
     }
 
     const AoMudarValorInput = (elemento: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -155,6 +193,8 @@ const CriarPost: React.FC = () => {
         data.append('sensivel', (dados.postSensivel ?? false).toString());
         data.append('usuarioid', dados.usuarioid.toString());
         data.append('categoriaid', dados.categoriaPost ?? '');
+        data.append('tagsjson', JSON.stringify(tagsPost));
+        data.append('ferramentasjson', JSON.stringify(ferramentasPost));
         if (dados.imagemPost) {
             data.append('imagem', dados.imagemPost[0]);
         }
@@ -165,6 +205,7 @@ const CriarPost: React.FC = () => {
         }
 
         try {
+            setEstaEnviando(true);
             const response = await axios.post(api + 'posts/criar', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -173,6 +214,7 @@ const CriarPost: React.FC = () => {
             });
             console.log('Resposta da API:', response.data);
             navegar(0);
+            setEstaEnviando(false);
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
             if (axios.isAxiosError(error) && error.response) {
@@ -236,7 +278,7 @@ const CriarPost: React.FC = () => {
                             <div className="campoCriarPostComum">
                                 <label>Adicionar...</label>
                                 <figure  >
-                                    <img style={{cursor:"pointer",}} onClick={() => { AbrirFecharModal('modalTagsCriarPost'); AbrirFecharModal('modalTagsCriarPostArea', 'flex'); }}src="imgs/criarPost/iconeTags.svg" />
+                                    <img style={{cursor:"pointer",}} onClick={() => { AbrirFecharModal('modalTagsCriarPost'); AbrirFecharModal('modalTagsCriarPostArea', 'flex'); }} src="imgs/criarPost/iconeTags.svg" />
                                     <figcaption style={{cursor:"pointer",}} onClick={() => { AbrirFecharModal('modalTagsCriarPost'); AbrirFecharModal('modalTagsCriarPostArea', 'flex'); }}>Tags</figcaption>
                                     <div id="modalTagsCriarPostArea" className="modalAvisoArea">
                                         <div id="modalTagsCriarPost" className="modalAviso" style={{ opacity: 0, }}>
@@ -256,7 +298,14 @@ const CriarPost: React.FC = () => {
                                                     <img src='imgs/criarPost/iconeLupaCriarPost.svg' />
                                                     <input id='tagsPost' name='tagsPost' placeholder='Procurar Tag' list='tagsPostOpcoes' />
                                                     <datalist id="tagsPostOpcoes">
-                                                        <option value="Opção 1">Op 1</option>
+                                                        {(
+                                                            listaTags.map((tag, index) =>
+                                                            (
+                                                                <option value={tag.nome} key={index}>
+                                                                    {tag.nome}
+                                                                </option>
+                                                            ))
+                                                        )}
                                                     </datalist>
                                                     <button onClick={AtualizarTags}>+</button>
                                                 </div>
@@ -284,8 +333,62 @@ const CriarPost: React.FC = () => {
                                 </figure>
                                 <hr />
                                 <figure>
-                                    <img src="imgs/criarPost/iconeSoftwaresUsados.svg" />
-                                    <figcaption>Softwares Usados</figcaption>
+                                    <img style={{cursor:"pointer",}} onClick={() => { AbrirFecharModal('modalFerramentasCriarPost'); AbrirFecharModal('modalFerramentasCriarPostArea', 'flex'); }} src="imgs/criarPost/iconeSoftwaresUsados.svg" />
+                                    <figcaption style={{cursor:"pointer",}} onClick={() => { AbrirFecharModal('modalFerramentasCriarPost'); AbrirFecharModal('modalFerramentasCriarPostArea', 'flex'); }}>Softwares Usados</figcaption>
+
+                                    <div id="modalFerramentasCriarPostArea" className="modalAvisoArea">
+                                        <div id="modalFerramentasCriarPost" className="modalAviso" style={{ opacity: 0, }}>
+                                            <div>
+                                                <figure>
+                                                    <img src="imgs/criarPost/iconeSoftwaresUsados.svg" />
+                                                </figure>
+                                                <button onClick={() => { AbrirFecharModal('modalFerramentasCriarPost'); AbrirFecharModal('modalFerramentasCriarPostArea', 'flex'); }}><img src="imgs/criarPost/fecharModalDiretriz.svg" /></button>
+                                            </div>
+                                            <h3>Adicione as Ferramentas Utilizadas</h3>
+                                            <p>
+                                                softwares, hardwares ou materiais usados
+                                            </p>
+
+                                            <div className='ModalSecaoTag'>
+                                                <div>
+                                                    <img src='imgs/criarPost/iconeLupaCriarPost.svg' />
+                                                    <input id='ferramentasPost' name='ferramentasPost' placeholder='Procurar Ferramenta' list='ferramentasPostOpcoes' />
+                                                    <datalist id="ferramentasPostOpcoes">
+                                                        <option value="asdsa" >
+                                                                      sads
+                                                        </option>
+                                                        {(
+                                                            listaFerramentas.map((tag, index) =>
+                                                            (
+                                                                <option value={tag.nome} key={index}>
+                                                                    {tag.nome}
+                                                                </option>
+                                                            ))
+                                                        )}
+                                                    </datalist>
+                                                    <button onClick={AtualizarFerramentas}>+</button>
+                                                </div>
+                                                <ul className='listaTags'>
+                                                    {
+                                                        ferramentasPost.map((valor, index) => {
+                                                            const tagClasse = classesCorTag[index % classesCorTag.length];
+                                                            return(
+                                                                <li className={tagClasse} value={valor} key={index}>
+                                                                    <p>{valor}</p>
+                                                                    <button onClick={() => RemoverFerramenta(valor)} className={tagClasse}>x</button>
+                                                                </li>
+                                                            )
+
+                                                        })
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <ul >
+                                                <li><button type='button' onClick={() => { AbrirFecharModal('modalFerramentasCriarPost'); AbrirFecharModal('modalFerramentasCriarPostArea', 'flex'); }}>Sair</button></li>
+                                                <li><button type='button' className='btModalAvisoVermelho' onClick={() => { AbrirFecharModal('modalFerramentasCriarPost'); AbrirFecharModal('modalFerramentasCriarPostArea', 'flex'); }}>Confirmar</button></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </figure>
                             </div>
                             <div className="campoCriarPostComum">
@@ -299,9 +402,9 @@ const CriarPost: React.FC = () => {
                             </div>
 
                             <div className="criarPostEnviarArea">
-                                <input type="submit" onClick={() => Criar(false)} value="Postar" />
+                                <input disabled={estaEnviando} type="submit" onClick={() => Criar(false)} value="Postar" />
 
-                                <button onClick={() => Criar(true)} type="button">
+                                <button disabled={estaEnviando} onClick={() => Criar(true)} type="button">
                                     Salvar rascunho
                                 </button>
                             </div>

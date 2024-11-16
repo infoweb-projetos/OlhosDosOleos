@@ -14,3 +14,7 @@ export interface Categoria {
     nome: string;
 }
 
+export interface Tag {
+    nome: string;
+    ferramenta: boolean;
+}

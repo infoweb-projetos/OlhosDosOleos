@@ -301,7 +301,7 @@
 
 /*  */
 
-.criarPost #modalTagsCriarPostArea{
+.criarPost #modalTagsCriarPostArea, .criarPost #modalFerramentasCriarPostArea{
     display: none;
     opacity: 0;
     width: 60%;
@@ -314,7 +314,7 @@
 }
 
 
-.criarPost #modalTagsCriarPostArea .btModalAvisoVermelho{
+.criarPost #modalTagsCriarPostArea .btModalAvisoVermelho, .criarPost #modalFerramentasCriarPostArea .btModalAvisoVermelho{
     background-color: var(--corPrincipal);
     color: #FFFFFF;
 }
