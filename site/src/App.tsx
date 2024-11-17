@@ -6,6 +6,7 @@ import Perfil from './paginas/Perfil';
 import CriarPost from './paginas/CriarPost';
 import Cadastro from './paginas/Cadastro';
 import EditarPerfil from './paginas/EditarPefil';
+import VerPastas from './paginas/VerPastas';
 import EditarPost from './paginas/EditarPost';
 
 const App: React.FC = () => {
@@ -20,6 +21,7 @@ const App: React.FC = () => {
         <Route path="/editar/perfil"  element={<EditarPerfil />} />
         <Route path="/perfil/:perfilid"  element={<Perfil />} />
         <Route path="/postar"  element={<CriarPost />} />
+        <Route path="/verpastas"  element={<VerPastas />} />
         <Route path="/editarpost/:id"  element={<EditarPost />} />
       </Routes>
     </Router>
