@@ -1,3 +1,4 @@
+import { Tag } from "./Enums";
 import { Usuario } from "./Usuario";
 
 export interface Post {
@@ -11,6 +12,9 @@ export interface Post {
     sensivel: boolean;
     rascunho?: boolean;
     usuario?: Usuario;
+    categoriaid?: string;
+    tags?: Array<Tag>;
+    processo?: Array<Processo>;
 }
 
 export interface CriarPostDados {
@@ -22,4 +26,11 @@ export interface CriarPostDados {
     postSensivel: boolean;
     rascunho: boolean;
     categoriaPost: string;
+}
+
+export interface Processo{
+    id: number;
+    postid: number;
+    imagem?:  { type: string; data: Array<number> };
+    imagemtipo: string;
 }
