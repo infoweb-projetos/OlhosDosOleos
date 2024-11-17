@@ -93,28 +93,44 @@ const EditarPost: React.FC = () => {
             });
     }, []);
 
+    const VerificarPost = useCallback(async (token: string) => {
+        axios.get(api + 'posts/meus', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                const postsBD = response.data.dados;
+                setQtdPost(postsBD.length)
+            })
+    }, []);
+
+    const Perfil = useCallback(async (token: string) => {
+        axios.get(api + 'usuarios/perfil', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            const usu = response.data.dados;
+            setUsuario(usu);
+        })
+        .catch(error => {
+            console.log('Token inválido ou expirado');
+            console.log(error);
+            localStorage.removeItem('tokenODO');
+            navegar('/');
+        });
+    }, [])
+
     useEffect(() => {
         const token = localStorage.getItem('tokenODO');
         if (!token) {
             navegar('/');
         }
         else {
+            if (!usuario) Perfil(token);
             VerificarPost(token);
-            axios.get(api + 'usuarios/perfil', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                const usu = response.data.dados;
-                setUsuario(usu);
-            })
-            .catch(error => {
-                console.log('Token inválido ou expirado');
-                console.log(error);
-                localStorage.removeItem('tokenODO');
-                navegar('/');
-            });
         }
         ListarCategorias();
         ListarTags();
@@ -126,19 +142,7 @@ const EditarPost: React.FC = () => {
             ativacaoCarrossel(true);
         }
       
-    }, [navegar, listaCategorias, carroselAtivo, listaTags, listaFerramentas, post]);
-
-    const VerificarPost = async (token: string) => {
-        axios.get(api + 'posts/meus', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(response => {
-                const postsBD = response.data.dados;
-                setQtdPost(postsBD.length)
-            })
-    }
+    }, [navegar, listaCategorias, carroselAtivo, listaTags, listaFerramentas, post, usuario, qtdPost]);
 
     const CarregarPost = useCallback(async (idpost:number, token: string | null) => {
         if (token){
