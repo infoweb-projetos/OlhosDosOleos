@@ -7,6 +7,7 @@ import { Post } from '../interfaces/Post';
 import {api} from '../apiUrl.ts';
 import '../estilos/verPerfil.css';
 import '../estilos/modalOpcoes.css';
+import '../estilos/modalExcluir.css';
 import { AbrirFecharModal } from '../scripts/modal.ts';
 
 const MeuPerfil: React.FC = () => {
@@ -23,6 +24,9 @@ const MeuPerfil: React.FC = () => {
     const [estiloBtBanner, setEstiloBtBanner] = useState({});
 
     const [ehMeuPerfil, setEhMeuPerfil] = useState<boolean>(false);
+
+    const [modalExcluirVisivel, setModalExcluirVisivel] = useState<boolean>(false);
+    const [postExcluir, setPostExcluir] = useState<Post | null >(null);
 
     const btEnviarBanner = () => {
         arquivoInputRef.current?.click();
@@ -168,6 +172,35 @@ const MeuPerfil: React.FC = () => {
         if (posts.length < 1) MeusPosts(token);
     }, [MeusPosts, MontarPerfil, navegar, posts.length, usuario]);
 
+    const abrirModalExcluir = (post:Post)=>{
+        setPostExcluir(post);
+        setModalExcluirVisivel(true);
+        document.body.classList.add('modal-aberta')
+    }
+    const fecharModalExcluir = () =>{
+        setModalExcluirVisivel(false);
+        setPostExcluir(null);
+        document.body.classList.add('modal-fechada')
+    }
+    const excluirPost= async () => {
+        if(postExcluir){
+            const token = localStorage.getItem('tokenODO');
+            try{    
+                await axios.delete(`${api}posts/excluir/${postExcluir.id}`,{
+                    headers:{
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setPosts(posts.filter((post) => post.id !== postExcluir.id));
+                fecharModalExcluir();
+
+            }catch(error){
+                console.error('Houve um erro ao tentar excluir o post:',error)
+            }
+        }
+    }
+
+
     return (
         <div className="paginaPerfil">
             <HeaderSite />
@@ -271,7 +304,40 @@ const MeuPerfil: React.FC = () => {
                                 (null)
                             }
                             
+                            {modalExcluirVisivel && (
+                                <div className='modal-overlay'>
+                                    <div className='modal-container'>
+                                        <div className='modal-header'>
+                                            <img src='/imgs/verPerfil/iconeExcluirPost.svg' />
+                                            <h2> Excluir Post</h2>
+                                        </div>
+                                    
+                                        <p 
+                                        style={{color:'#848484'}}
+                                        >
+                                            Tem certeza que deseja excluir o post "{postExcluir?.titulo}"?
+                                        </p>
+                                        <div className='modal-actions'>
+                                            <button
+                                                onClick={excluirPost}
+                                                className='botao-excluir'
+                                            
+                                            >
+                                                Excluir
+                                            </button>
+                                            <button
+                                                onClick={fecharModalExcluir}
+                                                className='botao-cancelar'
+                                               
+                                            
+                                            >
+                                                Cancelar
+                                            </button>
 
+                                         </div>
+                                        </div>
+                                </div>
+                            )}
                             
                             {
                                 posts.length < 1 ?
@@ -287,7 +353,10 @@ const MeuPerfil: React.FC = () => {
                                                 <img onClick={() => AbrirFecharModal('menuOpcoesPostPerfil' + post.id)} src='/imgs/verPerfil/iconesOpcoesHorizontal.svg' />
                                                 <ul id={'menuOpcoesPostPerfil'+post.id} className='modalOpcoesComum'>
                                                     <li>
-                                                        <button className='modalOpcoesComumBt'>
+                                                        <button 
+                                                            className='modalOpcoesComumBt'
+                                                            onClick={()=> abrirModalExcluir(post)}
+                                                        >
                                                             Excluir
                                                             <img src='/imgs/verPerfil/iconeExcluirPost.svg' />
                                                         </button>
@@ -320,6 +389,8 @@ const MeuPerfil: React.FC = () => {
                                     ))
                                 )
                             }
+
+
                         </div>
                     </div>
 
