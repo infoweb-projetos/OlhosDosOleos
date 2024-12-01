@@ -1,13 +1,15 @@
 import HeaderSite from '../componentes/header';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
 import { Post } from '../interfaces/Post';
 import {api} from '../apiUrl.ts';
 import '../estilos/verPerfil.css';
+import { VerificaToken } from '../scripts/uteis.tsx';
 
 const Perfil: React.FC = () => {
+    const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const navegar = useNavigate();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [imagemUrl, setImagemUrl] = useState<string>("/imgs/verPerfil/perfil.png");
@@ -16,40 +18,10 @@ const Perfil: React.FC = () => {
 
     const [painelPerfilCor, setPainelPerfilCor] = useState<string>('');
 
-    const [imgBtBanner, setImgBtBanner] = useState<string>("/imgs/verPerfil/add_image.svg");
-    const arquivoInputRef = useRef<HTMLInputElement | null>(null);
-    const [estiloBtBanner, setEstiloBtBanner] = useState({});
-
     const ehMeuPerfil  = false;
     const { perfilid } = useParams();
 
-    const btEnviarBanner = () => {
-        arquivoInputRef.current?.click();
-    };
-
-    const aoMudarValorInputArquivo = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const token = localStorage.getItem('tokenODO');
-        const arquivo = event.target.files?.[0];
-        if (arquivo && ehMeuPerfil) {
-            const formData = new FormData();
-            formData.append('banner', arquivo);
-            try {
-                // Enviar o arquivo com Axios
-                const response = await axios.patch(api + 'usuarios/banner', formData, {
-                    headers: {
-                      'Authorization': `Bearer ${token}`,
-                      'Content-Type': 'multipart/form-data',
-                    },
-                  });
-                console.log('Arquivo enviado com sucesso', response.data);
-                navegar(0);
-            } catch (error) {
-                console.error('Erro ao enviar o arquivo', error);
-            }
-        }
-    };
-
-    const MontarPerfil = useCallback (async (id : string | undefined) => {
+    const MontarPerfil = async (id : string | undefined) => {
         const url = api + `usuarios/outroperfil/${id}`;
         console.log(url);
         axios.get(url, {})
@@ -73,15 +45,8 @@ const Perfil: React.FC = () => {
                 const blob = new Blob([new Uint8Array(usu.banner.data)], { type: usu.bannertipo });
                 const urlImagem = URL.createObjectURL(blob);
                 setBannerUrl(urlImagem);
-                setImgBtBanner('/imgs/verPerfil/editarBanner.svg');
-                setEstiloBtBanner({
-                    top: "90%",
-                    left: "3%"
-                });
             } else {
                 setBannerUrl(undefined);
-                setImgBtBanner('/imgs/verPerfil/add_image.svg');
-                setEstiloBtBanner({});
             }
 
             if (usu.cor1) setPainelPerfilCor("#" + usu.cor1);
@@ -90,8 +55,8 @@ const Perfil: React.FC = () => {
             console.log(error);
             console.log('Token inválido ou expirado');
         });
-    }, [usuario])
-    const MeusPosts = useCallback(async (id : string | undefined) => {
+    }
+    const MeusPosts = async (id : string | undefined) => {
         const url = api + `posts/usuario/${id}`;
         console.log(url);
         axios.get(url, { })
@@ -131,31 +96,13 @@ const Perfil: React.FC = () => {
         .catch(error => {
             console.log(error);
         });
-    }, [posts])
+    }
 
-    useEffect(() => {
-        const token = localStorage.getItem('tokenODO');
-
-        if(token){   
-            axios.get(api + 'autenticacao/verificatoken', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                localStorage.removeItem('tokenODO');
-                console.log(error);
-                navegar(0);
-            });
-        }
-
+    const VerificaSeSouEu = async () => {
         if (perfilid && Number(perfilid) > 0) {
             axios.get(api + `usuarios/soueu/${perfilid}`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${tokenAtual}`
                 }
             })
             .then(response => {
@@ -167,30 +114,29 @@ const Perfil: React.FC = () => {
                 console.log(error);
             });
         }
-        
-        if (!usuario) MontarPerfil(perfilid);
-        if (posts.length < 1) MeusPosts(perfilid);
-    }, [MeusPosts, MontarPerfil, navegar, perfilid, posts.length, usuario]);
+    }
 
-   
+    const VerificarToken = async () => {
+        const token = await VerificaToken();
+        if (token) atualizarTokenAtual(token);
+    }
+    useEffect(() => {
+        VerificarToken();
+    }, []);
+
+    useEffect(() => {
+        if (tokenAtual){
+            VerificaSeSouEu();
+        }
+        MeusPosts(perfilid);
+        MontarPerfil(perfilid);
+    }, [tokenAtual]);
 
     return (
         <div className="paginaPerfil">
             <HeaderSite />
             <form action="" className="banner ">
                 <img className="esconda" alt="Banner Image" src={bannerUrl} id="imgBanner" />
-                {
-                    ehMeuPerfil ?
-                    (
-                    <button style={estiloBtBanner}  onClick={btEnviarBanner} type="button" className="add-banner-btn">
-                        <img src={imgBtBanner} alt="Add Banner" />
-                    </button>
-
-                    )
-                    :
-                    (null)
-                }
-                <input type="file" id="inputImgBanner"  ref={arquivoInputRef} onChange={aoMudarValorInputArquivo}/>
                 {
                     !usuario?.banner && ehMeuPerfil? 
                     ( 

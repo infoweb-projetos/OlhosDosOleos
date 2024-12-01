@@ -1,5 +1,5 @@
 import HeaderSite from '../componentes/header';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
@@ -9,8 +9,10 @@ import '../estilos/verPerfil.css';
 import '../estilos/modalOpcoes.css';
 import '../estilos/modalExcluir.css';
 import { AbrirFecharModal } from '../scripts/modal.ts';
+import { VerificaToken } from '../scripts/uteis.tsx';
 
 const MeuPerfil: React.FC = () => {
+    const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const navegar = useNavigate();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [imagemUrl, setImagemUrl] = useState<string>("/imgs/verPerfil/perfil.png");
@@ -53,7 +55,7 @@ const MeuPerfil: React.FC = () => {
         }
     };
 
-    const MontarPerfil = useCallback(async(token : string | null) => {
+    const MontarPerfil = async(token : string | null) => {
         const url = api + 'usuarios/perfil';
         axios.get(url, {
             headers: {
@@ -61,6 +63,7 @@ const MeuPerfil: React.FC = () => {
             }
         })
         .then(response => {
+            setEhMeuPerfil(true)
             const usu = response.data.dados;
             setUsuario(usu);
 
@@ -98,8 +101,8 @@ const MeuPerfil: React.FC = () => {
             console.log('Token inválido ou expirado');
             setEhMeuPerfil(false)
         });
-    }, [usuario]);
-    const MeusPosts = useCallback(async (token : string | null) => {
+    };
+    const MeusPosts = async (token : string | null) => {
         const url = api + 'posts/meus'
         axios.get(url, {
             headers: {
@@ -145,32 +148,23 @@ const MeuPerfil: React.FC = () => {
             console.log(error);
             setEhMeuPerfil(false)
         });
-    }, [posts])
+    }
+
+    const VerificarToken = async () => {
+        const token = await VerificaToken();
+        if (!token) navegar('/entrar')
+        else atualizarTokenAtual(token);
+    }
+    useEffect(() => {
+        VerificarToken();
+    }, []);
 
     useEffect(() => {
-        const token = localStorage.getItem('tokenODO');
-
-        if (!token) navegar('/');
-
-        if(token){   
-            setEhMeuPerfil(true);
-            axios.get(api + 'autenticacao/verificatoken', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                localStorage.removeItem('tokenODO');
-                console.log(error);
-                navegar(0);
-            });
+        if(tokenAtual){
+            MontarPerfil(tokenAtual);
+            MeusPosts(tokenAtual);
         }
-        if (!usuario) MontarPerfil(token);
-        if (posts.length < 1) MeusPosts(token);
-    }, [MeusPosts, MontarPerfil, navegar, posts.length, usuario]);
+    }, [tokenAtual]);
 
     const abrirModalExcluir = (post:Post)=>{
         setPostExcluir(post);

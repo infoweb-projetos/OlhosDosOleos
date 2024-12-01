@@ -165,7 +165,9 @@ const EditarPerfil: React.FC = () => {
         if (!token) navegar('/entrar')
         else atualizarTokenAtual(token);
     }
-    VerificarToken();
+    useEffect(() => {
+        VerificarToken();
+    }, []);
 
     useEffect(() => {
         if (tokenAtual){ 

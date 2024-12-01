@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import '../estilos/cadastro.css';
 import { TrocaEtapa } from '../scripts/cadEtapa.ts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AtribuirImagem } from '../scripts/atribuirImagem';
 import { Cidade, Estado, TipoArtista } from '../interfaces/Enums.ts';
 
@@ -64,9 +64,11 @@ const Cadastro: React.FC = () => {
             });
     }
 
-    ListarEstados();
-    ListarCidades();
-    ListarTipos();
+    useEffect(() => {
+        ListarEstados();
+        ListarCidades();
+        ListarTipos();
+    }, []);
 
     const [inputSenhaTipo, setInputSenhaTipo] = useState("password");
     const MudarTipoInpuSenha = () => {

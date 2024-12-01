@@ -89,8 +89,11 @@ const Feed: React.FC = () => {
         });
     }
 
-    CarregarPosts();
-    UltimosUsuarios();
+    useEffect(() => {
+        CarregarPosts();
+        UltimosUsuarios();
+    }, []);
+
     useEffect(() => {
         if (ultimosUsuarios.length > 0 && !carroselAtivo) {
             CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselFeedUsuarios', 'listaImagensCarroselFeedUsuario');

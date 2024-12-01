@@ -3,7 +3,7 @@ import RodapeSite from '../componentes/rodape';
 import '../estilos/criarPost.css';
 import { AbrirFecharModal } from '../scripts/modal';
 import { AtribuirImagem } from '../scripts/atribuirImagem';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
@@ -14,6 +14,7 @@ import { Categoria, Tag } from '../interfaces/Enums.ts';
 import { CarroselComum } from '../scripts/carrossel.ts';
 
 const CriarPost: React.FC = () => {
+    const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const navegar = useNavigate();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [dados, setDados] = useState<CriarPostDados>({
@@ -28,7 +29,6 @@ const CriarPost: React.FC = () => {
     });
     const [qtdPost, setQtdPost] = useState<number>(1);
     const [listaCategorias, setListaCategorias] = useState<Array<Categoria>>([]);
-    const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
     const [tagsPost, setTagsPost] = useState<Array<string>>([]);
     const [ferramentasPost, setFerramentasPost] = useState<Array<string>>([]);
     const classesCorTag = ['tagVermelho','tagAzul','tagVerdeAgua','tagVerde','tagAmarelo'];
@@ -38,6 +38,7 @@ const CriarPost: React.FC = () => {
     const [temImagem, setTemImagem] = useState<boolean>(false);
 
     const [imagens, setImagens] = useState<string[]>([]);
+
     const AtribuiImagensProcesso = (evento: React.ChangeEvent<HTMLInputElement>) => {
         const arquivos = evento.target.files;
 
@@ -53,12 +54,11 @@ const CriarPost: React.FC = () => {
             Promise.all(leitores).then(urls => {
                 setImagens(urls);
             });
-            if (carroselAtivo) ativacaoCarrossel(false);
         }
     };
     
 
-    const ListarCategorias = useCallback(async () => {
+    const ListarCategorias = async () => {
         await axios.get(api + 'categorias/listar', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -67,9 +67,9 @@ const CriarPost: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }
 
-    const ListarTags = useCallback(async () => {
+    const ListarTags = async () => {
         await axios.get(api + 'tags/tags', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -78,9 +78,9 @@ const CriarPost: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }
 
-    const ListarFerramentas = useCallback(async () => {
+    const ListarFerramentas = async () => {
         await axios.get(api + 'tags/ferramentas', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -89,9 +89,9 @@ const CriarPost: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }
 
-    const VerificarPost = useCallback(async (token: string) => {
+    const VerificarPost = async (token: string | null) => {
         axios.get(api + 'posts/meus', {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -101,9 +101,9 @@ const CriarPost: React.FC = () => {
                 const postsBD = response.data.dados;
                 setQtdPost(postsBD.length)
             })
-    }, []);
+    }
 
-    const Perfil = useCallback(async (token: string) => {
+    const Perfil = async (token: string | null) => {
         axios.get(api + 'usuarios/perfil', {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -119,28 +119,31 @@ const CriarPost: React.FC = () => {
             localStorage.removeItem('tokenODO');
             navegar('/');
         });
-    }, [])
+    }
+
+    const VerificarToken = async () => {
+        const token = await VerificaToken();
+        if (!token) navegar('/entrar')
+        else atualizarTokenAtual(token);
+    }
+    useEffect(() => {
+        VerificarToken();
+    }, []);
+  
 
     useEffect(() => {
-        const token = localStorage.getItem('tokenODO');
-        if (!token) {
-            navegar('/');
-        }
-        else {
-            if (!usuario) Perfil(token);
-            VerificarPost(token);
-        }
-        ListarCategorias();
-        ListarTags();
-        ListarFerramentas();
-        if(!carroselAtivo){
-            CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselCriarPost', 'listaImagensCarroselCriarPost');
-            ativacaoCarrossel(true);
-        }
-      
-    }, [navegar, listaCategorias, carroselAtivo, listaTags, listaFerramentas, usuario, qtdPost]);
+        if (tokenAtual){
+            ListarCategorias();
+            ListarTags();
+            ListarFerramentas();
+            Perfil(tokenAtual);
+            VerificarPost(tokenAtual);
+        } 
+    }, [tokenAtual]);
 
-    
+    useEffect(() => {
+        CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselCriarPost', 'listaImagensCarroselCriarPost');
+    }, [imagens]);
 
     const AtualizarTags = () => {
         let elemento = document.getElementById('tagsPost') as HTMLInputElement;
@@ -176,7 +179,7 @@ const CriarPost: React.FC = () => {
                 ...dados,
                 [name]: files ? files : undefined,
             });
-            if (files && files?.length > 0) setTemImagem(true);
+            if (elemento.target.name == "imagemPost") setTemImagem(true);
             else setTemImagem(false);
         } else {
             setDados({
@@ -187,8 +190,7 @@ const CriarPost: React.FC = () => {
     }
 
     const Criar = async (ehRascunho: boolean) => {
-        const token = await VerificaToken();
-        if (!token) navegar('/');
+        if (!tokenAtual) navegar('/');
         if (!usuario) return console.log("Erro ao vincular com usuario");
         dados.usuarioid = usuario.id;
         dados.rascunho = ehRascunho;
@@ -218,7 +220,7 @@ const CriarPost: React.FC = () => {
             const response = await axios.post(api + 'posts/criar', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${tokenAtual}`,
                 },
             });
             console.log('Resposta da API:', response.data);
@@ -292,7 +294,7 @@ const CriarPost: React.FC = () => {
                                 (
                                     <button onClick={() => AtribuirImagem('imagemPost', 'imgFundo')} type="button">
                                         <img src="imgs/criarPost/criarUploadImagem.svg" />
-                                        Faça upload de um arquivo ou o arraste até aqui
+                                        Faça upload de um arquivo aqui
                                     </button>
                                 )
                                 :
