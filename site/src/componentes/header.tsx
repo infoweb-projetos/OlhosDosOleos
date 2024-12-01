@@ -11,7 +11,7 @@ const HeaderSite: React.FC = () => {
     const AbrirFecharOpcoes = () => {
         AbrirFecharModal('modalOpcoes');
     }
-    const AtualizarPagina = () =>{
+    const AtualizarPagina = () => {
         navegar('/meuperfil');
         navegar(0);
     }
@@ -23,21 +23,22 @@ const HeaderSite: React.FC = () => {
     const [isVisible, setIsVisible] = useState(true);
     const rolarTela = () => {
         const posicaoRolagemAtual = window.pageYOffset;
-    
+
         if (posicaoRolagemAtual > 50) {
-          setIsVisible(false);
+            setIsVisible(false);
         } else {
-          setIsVisible(true);
+            setIsVisible(true);
         }
-      };
+    };
     
-      useEffect(() => {
+
+    useEffect(() => {
         window.addEventListener('scroll', rolarTela);
         return () => {
-          window.removeEventListener('scroll', rolarTela);
+            window.removeEventListener('scroll', rolarTela);
         };
-      }, []);
-    
+    }, []);
+
     return (
         <div>
             <div className={`header ${!isVisible ? 'headerEscondido trasicaoEsconder' : ' transicaoMostrar'}`} >
@@ -58,105 +59,105 @@ const HeaderSite: React.FC = () => {
                 <div className="headerDireita">
                     {
                         !localStorage.getItem('tokenODO') ?
-                        (
-                            <ul>
-                                <li>
-                                    <Link to="/entrar" className="botaoComum fundoBtBranco">
-                                        <img src="/imgs/header/login-icon.svg" alt="Icone de entrar." />
-                                        <p>Entrar</p>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/cadastro" className="botaoComum fundoBtVermelho">
-                                        <img src="/imgs/header/signIn-icon.svg" alt="Icone de cadastrar-se." />
-                                        <p>Cadastre-se</p>
-                                    </Link>
-                                </li>
-                                <li onClick={AbrirFecharOpcoes} className="submenu">
-                                    <button className="marginEsquerda"><img src="/imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></button>
-                                    <div>
-                                        <ul id="modalOpcoes" className="menuVermelho">
+                            (
+                                <ul>
+                                    <li>
+                                        <Link to="/entrar" className="botaoComum fundoBtBranco">
+                                            <img src="/imgs/header/login-icon.svg" alt="Icone de entrar." />
+                                            <p>Entrar</p>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/cadastro" className="botaoComum fundoBtVermelho">
+                                            <img src="/imgs/header/signIn-icon.svg" alt="Icone de cadastrar-se." />
+                                            <p>Cadastre-se</p>
+                                        </Link>
+                                    </li>
+                                    <li onClick={AbrirFecharOpcoes} className="submenu">
+                                        <button className="marginEsquerda"><img src="/imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></button>
+                                        <div>
+                                            <ul id="modalOpcoes" className="menuVermelho">
+                                                <li>
+                                                    <a className="menuItemComum" href="#">
+                                                        <p>Sobre</p>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a className="menuItemComum" href="#">
+                                                        <p>Memorial</p>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a className="menuItemComum" href="#">
+                                                        <p>Ajuda</p>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a className="menuItemComum" href="#">
+                                                        <p>Política de Privacidade</p>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a className="menuItemComum" href="#">
+                                                        <p>Termos de Serviço</p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            )
+                            :
+                            (
+                                <ul>
+                                    <li>
+                                        <Link to="/postar" className="botaoComum fundoBtVermelho ">
+                                            <img src="/imgs/header/maisIcone.png" alt="Icone de entrar." />
+                                            <p>Criar</p>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <a href="#" className="marginEsquerda centralizado"><img src="/imgs/header/notificacaoIcone.png" alt="Icone de notificação." /></a>
+                                    </li>
+                                    <li >
+                                        <button onClick={AbrirFecharPerfil} type='button' className="centralizado buttonSemEstilo"><img src="/imgs/header/perfilIcone.png" alt="Icone de perfil." /></button>
+                                        <ul id="modalPerfilHeader" className="menuVermelho">
+                                            <li>
+                                                <Link to="/meuperfil" onClick={AtualizarPagina} className="menuItemComum">
+                                                    <p>Perfil</p>
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link className="menuItemComum" to="/editar/perfil">
+                                                    <img src="/imgs/header/editarHeader.svg" alt="Lapis." />
+                                                    <p>Editar perfil</p>
+                                                </Link>
+                                            </li>
                                             <li>
                                                 <a className="menuItemComum" href="#">
-                                                    <p>Sobre</p>
+                                                    <img src="/imgs/header/favoritarHeader.svg" alt="Icone de banner." />
+                                                    <p>Itens Favoritos</p>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a className="menuItemComum" href="#">
-                                                    <p>Memorial</p>
+                                                    <img src="/imgs/header/atividadeHeader.svg" alt="Icone de relogio." />
+                                                    <p>Minha Atividade</p>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a className="menuItemComum" href="#">
-                                                    <p>Ajuda</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a className="menuItemComum" href="#">
-                                                    <p>Política de Privacidade</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a className="menuItemComum" href="#">
-                                                    <p>Termos de Serviço</p>
-                                                </a>
+                                                <button onClick={SairConta} className="menuItemComum">
+                                                    <img src="/imgs/header/sairHeader.svg" alt="Porta de Saida" />
+                                                    <p>Sair</p>
+                                                </button>
                                             </li>
                                         </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        )
-                        :
-                        (
-                            <ul>
-                                <li>
-                                    <Link to="/postar" className="botaoComum fundoBtVermelho ">
-                                        <img src="/imgs/header/maisIcone.png" alt="Icone de entrar." />
-                                        <p>Criar</p>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <a href="#" className="marginEsquerda centralizado"><img src="/imgs/header/notificacaoIcone.png" alt="Icone de notificação." /></a>
-                                </li>
-                                <li >
-                                    <button onClick={AbrirFecharPerfil} type='button' className="centralizado buttonSemEstilo"><img src="/imgs/header/perfilIcone.png" alt="Icone de perfil." /></button>
-                                    <ul id="modalPerfilHeader" className="menuVermelho">
-                                        <li>
-                                            <Link to="/meuperfil" onClick={AtualizarPagina} className="menuItemComum">
-                                                <p>Perfil</p>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link className="menuItemComum" to="/editar/perfil">
-                                                <img src="/imgs/header/editarHeader.svg" alt="Lapis." />
-                                                <p>Editar perfil</p>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <a className="menuItemComum" href="#">
-                                                <img src="/imgs/header/favoritarHeader.svg" alt="Icone de banner." />
-                                                <p>Itens Favoritos</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a className="menuItemComum" href="#">
-                                                <img src="/imgs/header/atividadeHeader.svg" alt="Icone de relogio." />
-                                                <p>Minha Atividade</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <button onClick={SairConta} className="menuItemComum">
-                                                <img src="/imgs/header/sairHeader.svg" alt="Porta de Saida" />
-                                                <p>Sair</p>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#" className="centralizado tirarMarginDireita"><img src="/imgs/header/configuracaoIcone.png" alt="Icone de configuração." /></a>
-                                </li>
-                            </ul>
-                        )
+                                    </li>
+                                    <li>
+                                        <a href="#" className="centralizado tirarMarginDireita"><img src="/imgs/header/configuracaoIcone.png" alt="Icone de configuração." /></a>
+                                    </li>
+                                </ul>
+                            )
                     }
 
                 </div>

@@ -8,6 +8,7 @@ export interface Estado {
 export interface Cidade {
     id: number;
     nome: string;
+    estadoid: number
 }
 
 export interface Categoria {

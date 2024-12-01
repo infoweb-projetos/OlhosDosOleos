@@ -2,7 +2,7 @@ import HeaderSite from '../componentes/header';
 import RodapeSite from '../componentes/rodape';
 import '../estilos/feed.css';
 import '../estilos/carroselComum.css';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CarroselComum } from '../scripts/carrossel'
 import axios from 'axios';
 import { Post } from '../interfaces/Post';
@@ -18,7 +18,7 @@ const Feed: React.FC = () => {
     const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
     const navegar = useNavigate();
 
-    const UltimosUsuarios = useCallback(async  () =>{
+    const UltimosUsuarios = async  () => {
         axios.get(api + 'usuarios/ultimos', {})
         .then(response => {
             const usuariosBD = response.data.dados;
@@ -45,9 +45,9 @@ const Feed: React.FC = () => {
             console.log(error);
             navegar('/');
         });
-    }, [navegar])
+    }
 
-    useEffect(() => {
+    const CarregarPosts = async () =>{
         axios.get(api + 'posts/listar', {})
         .then(response => {
             const postsBD = response.data.dados;
@@ -87,12 +87,16 @@ const Feed: React.FC = () => {
             console.log(error);
             navegar('/');
         });
-        UltimosUsuarios();
+    }
+
+    CarregarPosts();
+    UltimosUsuarios();
+    useEffect(() => {
         if (ultimosUsuarios.length > 0 && !carroselAtivo) {
             CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselFeedUsuarios', 'listaImagensCarroselFeedUsuario');
             ativacaoCarrossel(true);
         }
-    }, [ultimosPosts, posts, ultimosUsuarios, UltimosUsuarios, carroselAtivo, navegar]);
+    }, [ultimosUsuarios, UltimosUsuarios]);
 
    
     return (

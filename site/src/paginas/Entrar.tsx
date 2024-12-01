@@ -32,10 +32,8 @@ const Entrar: React.FC = () => {
                     'Content-Type': 'application/json',
                 },
             });
-            //console.log(response);
-            //alert(response.data);
             localStorage.setItem('tokenODO', response.data.acessToken);
-            navegar('/')
+            navegar('/');
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 alert(error.response?.data.message);

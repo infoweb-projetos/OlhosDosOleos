@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import '../estilos/cadastro.css';
 import { TrocaEtapa } from '../scripts/cadEtapa.ts';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AtribuirImagem } from '../scripts/atribuirImagem';
 import { Cidade, Estado, TipoArtista } from '../interfaces/Enums.ts';
 
@@ -29,7 +29,9 @@ const Cadastro: React.FC = () => {
     const [listaTipoArtista, setlistaTipoArtista] = useState<Array<TipoArtista>>([]);
     const [listaEstados, setlistaEstados] = useState<Array<Estado>>([]);
     const [listaCidades, setlistaCidades] = useState<Array<Cidade>>([]);
-    const ListarTipos = useCallback(async () => {
+    const [filtroCidade, setFiltroCidade] = useState<number | null>(null);
+
+    const ListarTipos = async () => {
         await axios.get(api + 'tiposartista/listar', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -38,8 +40,9 @@ const Cadastro: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
-    const ListarEstados = useCallback(async () => {
+    }
+
+    const ListarEstados = async () => {
         await axios.get(api + 'estados/listar', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -48,8 +51,9 @@ const Cadastro: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
-    const ListarCidades = useCallback(async () => {
+    }
+
+    const ListarCidades = async () => {
         await axios.get(api + 'cidades/listar', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -58,13 +62,11 @@ const Cadastro: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }
 
-    useEffect(() => {
-        ListarEstados();
-        ListarCidades();
-        ListarTipos();
-    }, []);
+    ListarEstados();
+    ListarCidades();
+    ListarTipos();
 
     const [inputSenhaTipo, setInputSenhaTipo] = useState("password");
     const MudarTipoInpuSenha = () => {
@@ -101,12 +103,12 @@ const Cadastro: React.FC = () => {
                 },
             });
             console.log('Resposta da API:', response.data);
-            navegar("/");
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
             if (axios.isAxiosError(error) && error.response) {
                 console.error('Resposta do servidor:', error.response.data);
             }
+            navegar("/cadastro");
         }
 
         const dadosLogin = {
@@ -115,21 +117,44 @@ const Cadastro: React.FC = () => {
         };
 
         try {
-            const response = await axios.post(api + 'autenticacao/login', dadosLogin, {
+            await axios.post(api + 'autenticacao/login', dadosLogin, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            });
-            localStorage.setItem('tokenODO', response.data.acessToken);
-            navegar('/')
+            })
+                .then(response => {
+                    console.log(response);
+                    localStorage.setItem('tokenODO', response.data.acessToken);
+                    navegar('/')
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                alert(error.response?.data.message);
+                console.error(error.response?.data.message);
             } else {
                 console.error('Erro inesperado:', error);
             }
+            localStorage.removeItem('tokenODO');
+            if (dadosLogin.email && dadosLogin.senha) navegar('/entrar')
         }
     }
+
+    const MudarEstado = (estadoId: number | undefined) => {
+        setEstado(estadoId ? estadoId : null);
+        if (!estadoId) setFiltroCidade(null);
+        if (estadoId) {
+            setFiltroCidade(estadoId)
+            setCidade(listaCidades.filter(c => c.estadoid == estadoId)[0]?.id);
+        }
+    }
+
+    const MudarCidade = (cidadeId: number | undefined) => {
+        setCidade(cidadeId ? cidadeId : null);
+        if (cidadeId) setEstado(listaCidades.find(c => c.id == cidadeId) ? Number(listaCidades.find(c => c.id == cidadeId)?.estadoid) : null);
+    }
+
     return (
         <div className="pagCadastro">
             <Link to="/" className="figureHeaderCadastrar">
@@ -221,7 +246,7 @@ const Cadastro: React.FC = () => {
                             <div className="cadCampoComum">
                                 <label className="dmSans">Estado</label>
                                 <div>
-                                    <select onChange={(e) => setEstado(Number(e.target.value))} className="dmSans">
+                                    <select onChange={(e) => MudarEstado(Number(e.target.value))} value={!estado ? undefined : estado} className="dmSans">
                                         <option value={undefined} >
                                             ----
                                         </option>
@@ -233,6 +258,7 @@ const Cadastro: React.FC = () => {
                                                 </option>
                                             ))
                                         )}
+
                                     </select>
                                     <figure>
                                         <img src="/imgs/cadastro/estadoCad.svg" />
@@ -242,18 +268,24 @@ const Cadastro: React.FC = () => {
                             <div className="cadCampoComum">
                                 <label className="dmSans">Cidade</label>
                                 <div>
-                                    <select onChange={(e) => setCidade(Number(e.target.value))} className="dmSans">
-                                        <option value={undefined} >
-                                            ----
-                                        </option>
-                                        {(
-                                            listaCidades.map((cidade, index) =>
+                                    <select onChange={(e) => MudarCidade(Number(e.target.value))} value={!cidade ? undefined : cidade} className="dmSans">
+                                        {
+                                            !filtroCidade &&
                                             (
+                                                <option value={undefined} >
+                                                    ----
+                                                </option>
+                                            )
+                                        }
+                                        {
+                                            listaCidades.filter(c => (filtroCidade && c.estadoid == filtroCidade) || !filtroCidade).map((cidade, index) =>
+                                            (
+
                                                 <option value={cidade.id} key={index}>
                                                     {cidade.nome}
                                                 </option>
                                             ))
-                                        )}
+                                        }
                                     </select>
                                     <figure>
                                         <img src="/imgs/cadastro/cidadeCad.svg" />

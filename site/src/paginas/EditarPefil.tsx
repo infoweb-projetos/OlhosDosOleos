@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import HeaderSite from '../componentes/header';
 import RodapeSite from '../componentes/rodape';
 import '../estilos/editarPerfil.css';
@@ -8,11 +8,11 @@ import axios from 'axios';
 import { api } from '../apiUrl';
 import { Cidade, Estado, TipoArtista } from '../interfaces/Enums';
 import { Usuario } from '../interfaces/Usuario';
-
+import { VerificaToken } from '../scripts/uteis';
 
 const EditarPerfil: React.FC = () => {
     const navegar = useNavigate();
-    const [tokenAtual, atualizarTokenAtual] = useState<string>("");
+    const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const [ehRemoverBanner, setEhRemoverBanner] = useState<boolean>(false);
     const [ehTabDados, setEhTabDados] = useState<boolean>(true);
     const [ehTabLocalizacao, setEhTabLocalizacao] = useState<boolean>(false);
@@ -21,6 +21,7 @@ const EditarPerfil: React.FC = () => {
     const [ehTabApresentacao, setEhTabApresentacao] = useState<boolean>(false);
     const [ehTabCor, setEhTabCor] = useState<boolean>(false);
     const [ehTabBanner, setEhTabBanner] = useState<boolean>(false);
+
     const LimpaSecaoSelecionada = () => {
         setEhTabLocalizacao(false);
         setEhTabEssencial(false);
@@ -35,25 +36,28 @@ const EditarPerfil: React.FC = () => {
     const [nomeUsuario, setNomeUsuario] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [senha, setSenha] = useState<string>("");
-    const [estado, setEstado] = useState<number>(0);
-    const [cidade, setCidade] = useState<number>(0);
+    const [estado, setEstado] = useState<number | undefined>(0);
+    const [cidade, setCidade] = useState<number | undefined>(0);
     const [youtube, setYoutube] = useState<string>("");
     const [whats, setWhats] = useState<string>("");
     const [insta, setInsta] = useState<string>("");
     const [face, setFace] = useState<string>("");
-    const [tipo, setTipo] = useState<string>("");
+    const [tipo, setTipo] = useState<string | undefined>("");
     const [descricao, setDescricao] = useState<string>("");
     const [foto, setFoto] = useState<FileList | null>(null);
     const [fotoUrl, setFotoUrl] = useState<string | undefined>("/imgs/verPerfil/perfil.png");
-    const [listaTipoArtista, setlistaTipoArtista] = useState<Array<TipoArtista>>([]);
-    const [listaEstados, setlistaEstados] = useState<Array<Estado>>([]);
-    const [listaCidades, setlistaCidades] = useState<Array<Cidade>>([]);
     const [cor, setCor] = useState<string>("#000000");
     const [cor2, setCor2] = useState<string>("#000000");
     const [cor3, setCor3] = useState<string>("#000000");
     const [cor4, setCor4] = useState<string>("#000000");
     const [banner, setBanner] = useState<FileList | null>(null);
     const [bannerUrl, setBannerUrl] = useState<string | undefined>(undefined);
+
+    const [listaTipoArtista, setlistaTipoArtista] = useState<Array<TipoArtista>>([]);
+    const [listaEstados, setlistaEstados] = useState<Array<Estado>>([]);
+    const [listaCidades, setlistaCidades] = useState<Array<Cidade>>([]);
+    const [filtroCidade, setFiltroCidade] = useState<number | null>(null);
+
     const LimparBanner = async () => {
         setBannerUrl(undefined); 
         setBanner(null); 
@@ -64,7 +68,8 @@ const EditarPerfil: React.FC = () => {
         setEhRemoverBanner(true);
         
     }
-    const ListarTipos = useCallback(async () => {
+
+    const ListarTipos = async () => {
         await axios.get(api + 'tiposartista/listar', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -73,8 +78,9 @@ const EditarPerfil: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
-    const ListarEstados = useCallback(async () => {
+    }
+
+    const ListarEstados = async () => {
         await axios.get(api + 'estados/listar', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -83,8 +89,9 @@ const EditarPerfil: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
-    const ListarCidades = useCallback(async () => {
+    }
+
+    const ListarCidades = async () => {
         await axios.get(api + 'cidades/listar', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -93,9 +100,9 @@ const EditarPerfil: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }
 
-    const CarregarUsuario = useCallback(async (token: string | null) => {
+    const CarregarUsuario = async (token: string | null) => {
         const url = api + 'usuarios/perfil';
         axios.get(url, {
             headers: {
@@ -127,8 +134,7 @@ const EditarPerfil: React.FC = () => {
                     if (usu.cor2) setCor2("#" + usu.cor2);
                     if (usu.cor3) setCor3("#" + usu.cor3);
                     if (usu.cor4) setCor4("#" + usu.cor4);
-                }
-               
+                }   
 
                 if (usu.imagem && usu.imagem.data && usu.imagemtipo) {
                     const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
@@ -152,35 +158,23 @@ const EditarPerfil: React.FC = () => {
                 console.log(error);
                 console.log('Token inválido ou expirado');
             });
-    }, [usuario]);
+    }
+
+    const VerificarToken = async () => {
+        const token = await VerificaToken();
+        if (!token) navegar('/entrar')
+        else atualizarTokenAtual(token);
+    }
+    VerificarToken();
 
     useEffect(() => {
-        ListarEstados();
-        ListarCidades();
-        ListarTipos();
-
-        const token = localStorage.getItem('tokenODO');
-
-        if (!token) navegar('/');
-
-        if (token) {
-            axios.get(api + 'autenticacao/verificatoken', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                console.log(response);
-                atualizarTokenAtual(token);
-            })
-            .catch(error => {
-                localStorage.removeItem('tokenODO');
-                console.log(error);
-                navegar("/");
-            });
-            CarregarUsuario(token);
+        if (tokenAtual){ 
+            CarregarUsuario(tokenAtual);
+            ListarCidades();
+            ListarEstados();
+            ListarTipos();
         }
-    }, []);
+    }, [tokenAtual]);
 
     const EnviarDados = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -192,14 +186,18 @@ const EditarPerfil: React.FC = () => {
         if (email) data.append('email', email);
         if (senha) data.append('senha', senha);
         if (estado) data.append('estadoid', estado.toString());
+        else data.append('estadoid', '');
         if (cidade) data.append('cidadeid', cidade.toString());
+        else data.append('cidadeid', '');
         if (youtube) data.append('youtube', youtube);
         if (whats) data.append('zap', whats);
         if (insta) data.append('insta', insta);
         if (face) data.append('face', face);
         if (tipo) data.append('tipoid', tipo);
+        else data.append('tipoid', '');
         if (descricao) data.append('biografia', descricao);
         if (foto && foto.length > 0) data.append('imagem', foto[0]);
+        data.append('ehpersonalizacao', '');
 
         try {
             await axios.patch(api + 'usuarios/atualizar', data, {
@@ -225,6 +223,7 @@ const EditarPerfil: React.FC = () => {
 
         navegar(0);
     }
+
     const EnviarPersonalizacao = async (event: React.FormEvent) => {
         event.preventDefault();
         if(!tokenAtual) navegar(0);
@@ -251,14 +250,14 @@ const EditarPerfil: React.FC = () => {
             }
         }
        
-
         const data = new FormData();
 
         if (cor) data.append('cor1', cor.replace('#', ''));
         if (cor2) data.append('cor2', cor2.replace('#', ''));
         if (cor3) data.append('cor3', cor3.replace('#', ''));
-        if (cor4) data.append('cor4', cor4.replace('#', ''));
+        if (cor4) data.append('cor4', cor4.replace('#', '')); 
         if (banner && banner.length > 0) data.append('banner', banner[0]);
+        data.append('ehpersonalizacao', 'true');
 
         try {
             await axios.patch(api + 'usuarios/atualizar', data, {
@@ -283,6 +282,22 @@ const EditarPerfil: React.FC = () => {
         }
         navegar(0);
     }
+
+    const MudarEstado = (estadoId : number | undefined) =>{
+        setEstado(estadoId); 
+        if (!estadoId) setFiltroCidade(null);
+        if (estadoId){
+            setFiltroCidade(estadoId)
+            setCidade(listaCidades.filter(c => c.estadoid == estadoId)[0]?.id);
+        }
+    }
+
+    const MudarCidade = (cidadeId : number | undefined) =>{
+        setCidade(cidadeId); 
+        if (cidadeId) setEstado(listaCidades.find(c => c.id == cidadeId)?.estadoid);
+    }
+
+
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
@@ -376,7 +391,7 @@ const EditarPerfil: React.FC = () => {
                                                 <div className='editarPerfilCampo'>
                                                     <label>Estado</label>
                                                     <div className='divInputIcone'>
-                                                        <select onChange={(e) => setEstado(Number(e.target.value))} value={estado  == 0 ? undefined : estado} >
+                                                        <select onChange={(e) => MudarEstado(Number(e.target.value))} value={estado  == 0 ? undefined : estado} >
                                                             <option value={undefined} >
                                                                 ----
                                                             </option>
@@ -395,18 +410,24 @@ const EditarPerfil: React.FC = () => {
                                                 <div className='editarPerfilCampo'>
                                                     <label>Cidade</label>
                                                     <div className='divInputIcone'>
-                                                        <select onChange={(e) => setCidade(Number(e.target.value))} value={cidade == 0 ? undefined : cidade} >
-                                                            <option value={undefined} >
-                                                                ----
-                                                            </option>
-                                                            {(
-                                                                listaCidades.map((cidade, index) =>
+                                                        <select onChange={(e) => MudarCidade(Number(e.target.value))} value={cidade == 0 ? undefined : cidade} >
+                                                            {
+                                                                !filtroCidade &&
                                                                 (
+                                                                    <option value={undefined} >
+                                                                        ----
+                                                                    </option>
+                                                                )
+                                                            }
+                                                            {
+                                                                listaCidades.filter(c => (filtroCidade && c.estadoid == filtroCidade) || !filtroCidade).map((cidade, index) =>
+                                                                (
+                                                                    
                                                                     <option value={cidade.id} key={index}>
                                                                         {cidade.nome}
                                                                     </option>
                                                                 ))
-                                                            )}
+                                                            }
                                                         </select>
                                                         <img src='/imgs/cadastro/cidadeCad.svg' />
                                                     </div>
