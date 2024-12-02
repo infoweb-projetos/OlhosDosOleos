@@ -3,17 +3,18 @@ import RodapeSite from '../componentes/rodape';
 import '../estilos/criarPost.css';
 import { AbrirFecharModal } from '../scripts/modal';
 import { AtribuirImagem } from '../scripts/atribuirImagem';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
-import { CriarPostDados, Post } from '../interfaces/Post';
+import { CriarPostDados } from '../interfaces/Post';
 import { VerificaToken } from '../scripts/uteis';
 import {api} from '../apiUrl.ts';
 import { Categoria, Tag } from '../interfaces/Enums.ts';
 import { CarroselComum } from '../scripts/carrossel.ts';
 
 const EditarPost: React.FC = () => {
+    const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const navegar = useNavigate();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [dados, setDados] = useState<CriarPostDados>({
@@ -26,10 +27,7 @@ const EditarPost: React.FC = () => {
         rascunho: false,
         categoriaPost: '',
     });
-    const [post, setPost] = useState<Post | undefined>(undefined);
-    const [qtdPost, setQtdPost] = useState<number>(1);
     const [listaCategorias, setListaCategorias] = useState<Array<Categoria>>([]);
-    const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
     const [tagsPost, setTagsPost] = useState<Array<string>>([]);
     const [ferramentasPost, setFerramentasPost] = useState<Array<string>>([]);
     const classesCorTag = ['tagVermelho','tagAzul','tagVerdeAgua','tagVerde','tagAmarelo'];
@@ -37,6 +35,7 @@ const EditarPost: React.FC = () => {
     const [listaTags, setListaTags] = useState<Array<Tag>>([]);
     const [listaFerramentas, setListaFerramentas] = useState<Array<Tag>>([]);
     const [temImagem, setTemImagem] = useState<boolean>(false);
+    const [imagemUrl, setImagemUrl] = useState<string | undefined>(undefined);
     const { id } = useParams();
 
     const [imagens, setImagens] = useState<string[]>([]);
@@ -55,12 +54,10 @@ const EditarPost: React.FC = () => {
             Promise.all(leitores).then(urls => {
                 setImagens(urls);
             });
-            if (carroselAtivo) ativacaoCarrossel(false);
         }
     };
     
-
-    const ListarCategorias = useCallback(async () => {
+    const ListarCategorias = async () => {
         await axios.get(api + 'categorias/listar', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -69,9 +66,9 @@ const EditarPost: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }
 
-    const ListarTags = useCallback(async () => {
+    const ListarTags = async () => {
         await axios.get(api + 'tags/tags', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -80,9 +77,9 @@ const EditarPost: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }
 
-    const ListarFerramentas = useCallback(async () => {
+    const ListarFerramentas = async () => {
         await axios.get(api + 'tags/ferramentas', {})
             .then(response => {
                 const listaBD = response.data.dados;
@@ -91,21 +88,9 @@ const EditarPost: React.FC = () => {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }
 
-    const VerificarPost = useCallback(async (token: string) => {
-        axios.get(api + 'posts/meus', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(response => {
-                const postsBD = response.data.dados;
-                setQtdPost(postsBD.length)
-            })
-    }, []);
-
-    const Perfil = useCallback(async (token: string) => {
+    const Perfil = async (token: string) => {
         axios.get(api + 'usuarios/perfil', {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -121,30 +106,34 @@ const EditarPost: React.FC = () => {
             localStorage.removeItem('tokenODO');
             navegar('/');
         });
-    }, [])
+    }
+
+    const VerificarToken = async () => {
+        const token = await VerificaToken();
+        if (!token) navegar('/entrar')
+        else atualizarTokenAtual(token);
+    }
+    useEffect(() => {
+        VerificarToken();
+    }, []);
+  
+    useEffect(() => {
+        if (tokenAtual){
+            ListarCategorias();
+            ListarTags();
+            ListarFerramentas();
+            Perfil(tokenAtual);
+            if (id && Number(id) > 0) CarregarPost(Number(id), tokenAtual);
+            else navegar('/meuperfil');
+        } 
+        
+    }, [tokenAtual]);
 
     useEffect(() => {
-        const token = localStorage.getItem('tokenODO');
-        if (!token) {
-            navegar('/');
-        }
-        else {
-            if (!usuario) Perfil(token);
-            VerificarPost(token);
-        }
-        ListarCategorias();
-        ListarTags();
-        ListarFerramentas();
-        if (id && Number(id) > 0) CarregarPost(Number(id), token);
-        else navegar('/meuperfil');
-        if(!carroselAtivo){
-            CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselCriarPost', 'listaImagensCarroselCriarPost');
-            ativacaoCarrossel(true);
-        }
-      
-    }, [navegar, listaCategorias, carroselAtivo, listaTags, listaFerramentas, post, usuario, qtdPost]);
+        CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselCriarPost', 'listaImagensCarroselCriarPost');
+    }, [imagens]);
 
-    const CarregarPost = useCallback(async (idpost:number, token: string | null) => {
+    const CarregarPost = async (idpost:number, token: string | null) => {
         if (token){
             await axios.get(api + `posts/post/${idpost}`, {
             headers: {
@@ -153,25 +142,42 @@ const EditarPost: React.FC = () => {
             })
             .then(response => {
                 const postBD = response.data.dados;
-                console.log("post bd: ", postBD);
-                setPost(postBD);
                 dados.tituloPost    = postBD.titulo;
                 dados.categoriaPost = postBD.categoriaid ? postBD.categoriaid : '';
                 dados.rascunho      = postBD.rascunho ? true : false;
                 dados.postSensivel  = postBD.sensivel ? true : false;
                 dados.descricaoPost = postBD.descricao?? undefined;
                 const tags = (postBD.tags as Array<{tag : Tag}>).map(item => item.tag) as Array<Tag>;
-                console.log("tags: ", tags)
                 setTagsPost(tags.filter(t => t.ferramenta === false).map(tag => tag.nome)); 
                 setFerramentasPost(tags.filter(t => t.ferramenta === true).map(tag => tag.nome)); 
-               
+
+                const blobImagem = new Blob([new Uint8Array(postBD.imagem.data)], { type:  postBD.imagemtipo });
+                const arquivo = new File([blobImagem], 'imagemPost', { type:  postBD.imagemtipo, lastModified: Date.now() });
+                const dataTransferImagem = new DataTransfer();
+                dataTransferImagem.items.add(arquivo);
+                dados.imagemPost = dataTransferImagem.files;
+                const urlImagem = URL.createObjectURL(blobImagem);
+                setImagemUrl(urlImagem);
+                setTemImagem(true);
+            
+                let imagensUrl = [];
+                const dataTransferProcesso = new DataTransfer();
+                for (let i = 0; i < postBD.processo.length ; i++) {
+                    const blobProcesso = new Blob([new Uint8Array(postBD.processo[i].imagem.data)], { type:  postBD.processo[i].imagemtipo });
+                    const arquivoProcesso = new File([blobProcesso], 'processoPost', { type:  postBD.processo[i].imagemtipo, lastModified: Date.now() });
+                    dataTransferProcesso.items.add(arquivoProcesso);
+                    const urlImagem = URL.createObjectURL(blobProcesso);
+                    imagensUrl.push(urlImagem);
+                }
+                setImagens(imagensUrl);
+                dados.processoPost = dataTransferProcesso.files;
+
             })
             .catch(error => {
                 console.log(error);
             });
         }
-    }, []);
-
+    }
 
     const AtualizarTags = () => {
         let elemento = document.getElementById('tagsPost') as HTMLInputElement;
@@ -207,7 +213,7 @@ const EditarPost: React.FC = () => {
                 ...dados,
                 [name]: files ? files : undefined,
             });
-            if (files && files?.length > 0) setTemImagem(true);
+            if (elemento.target.name == "imagemPost" || (dados.imagemPost && dados.imagemPost?.length > 0)) setTemImagem(true);
             else setTemImagem(false);
         } else {
             setDados({
@@ -246,7 +252,7 @@ const EditarPost: React.FC = () => {
 
         try {
             setEstaEnviando(true);
-            const response = await axios.post(api + 'posts/criar', data, {
+            const response = await axios.patch(api + `posts/atualizar/${Number(id)}`, data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`,
@@ -294,7 +300,7 @@ const EditarPost: React.FC = () => {
                             {(
                                 listaCategorias.map((categoria, index) =>
                                 (
-                                    <option value={categoria.nome} key={index}>
+                                    <option value={categoria.nome} key={index} selected={categoria.nome == dados.categoriaPost ? true : false}>
                                         {categoria.nome}
                                     </option>
                                 ))
@@ -306,7 +312,7 @@ const EditarPost: React.FC = () => {
                             <figure>
                                 {
                                 temImagem?
-                                (<img id="imgFundo" className={temImagem ? "criarPostImagemSelecionada" : undefined} onClick={temImagem? () => AtribuirImagem('imagemPost', 'imgFundo') : undefined}/>)
+                                (<img id="imgFundo" src={imagemUrl || undefined} className={temImagem ? "criarPostImagemSelecionada" : undefined} onClick={temImagem? () => AtribuirImagem('imagemPost', 'imgFundo') : undefined}/>)
                                 :
                                 (<img id="imgFundo" style={{display: "none",}} />)
                                 } 
@@ -494,34 +500,6 @@ const EditarPost: React.FC = () => {
                         (undefined)
                     }
                 </form>
-                {
-                    qtdPost > 0 ?
-                        (null)
-                        :
-                        (
-                            <div id="modalDiretrizPostArea" className="modalAvisoArea">
-                                <div id="modalDiretrizPost" className="modalAviso" style={{ opacity: 1, }}>
-                                    <div>
-                                        <figure>
-                                            <img src="/imgs/criarPost/iconeDiretrizModal.svg" />
-                                        </figure>
-                                        <button onClick={() => { AbrirFecharModal('modalDiretrizPost'); AbrirFecharModal('modalDiretrizPostArea', 'flex'); }}><img src="/imgs/criarPost/fecharModalDiretriz.svg" /></button>
-                                    </div>
-                                    <h3> Conheça nossas diretrizes de Postagens</h3>
-                                    <p>
-                                        Antes de postar, recomendamos que você se familiarize com nossas regras para garantir que tudo ocorra com respeito,
-                                        inclusão e diversidade. Assim, todos podem compartilhar suas criações em um ambiente acolhedor e positivo.
-                                    </p>
-                                    <ul >
-                                        <li><button onClick={VoltarPagAnterior}>Sair</button></li>
-                                        <li><a href="">Ver</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        )
-                }
-               
-
             </div>
             <RodapeSite />
         </div>
