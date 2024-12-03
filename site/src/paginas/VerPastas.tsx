@@ -6,54 +6,150 @@ import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { api } from '../apiUrl';
 import { Pasta, PastaImagem } from '../interfaces/Pasta';
-
-let lengthPasta = 3;
-let nomePost = "MORANGO";
-let nomeArtista = "ritaLee";
-let nome = 'inspirações';
+import { Post } from '../interfaces/Post';
 
 
 const VerPastas: React.FC = () => {
 
     const navegar = useNavigate();
     const [pastas, setPastas] = useState<Array<PastaImagem>>([]);
+    const [posts, setPosts] = useState<Array<Post>>([]);
+    const [pastaId, setPastaId] = useState<string | null>(null); // Estado para armazenar o ID da pasta selecionada
 
-    const CarregarPastas = useCallback(async(token : string | null) => {
+    const CarregarPastas = useCallback(async (token: string | null) => {
+        // Define a URL da API que será usada para buscar as pastas
         const url = api + 'pastas/minhas';
+    
+        // Faz uma requisição GET para a API usando axios
         axios.get(url, {
             headers: {
+                // Define o token de autorização no cabeçalho da requisição
                 'Authorization': `Bearer ${token}`
             }
         })
         .then(response => {
+            // Extrai os dados das pastas retornados pelo backend
             const pastasBD = response.data.dados;
-            console.log(pastasBD); 
-            // setPastas(pastas);
+            console.log(pastasBD); // Exibe os dados recebidos no console para debug
+    
+            // Mapeia as pastas recebidas do backend para uma estrutura que o front-end utilizará
             const pastaLista: Array<PastaImagem> = pastasBD.map((p: PastaImagem) => {
+                // Cria um objeto PastaImagem com as informações básicas
                 const obj: PastaImagem = {
-                    id: p.id,
-                    nome: p.nome,
-                    posts: p.posts,
-                    imagemUrl: '',
+                    id: p.id, // ID da pasta
+                    nome: p.nome, // Nome da pasta
+                    posts: p.posts, // Lista de posts da pasta
+                    imagemUrl: '', // URL da imagem (será preenchida a seguir, se aplicável)
                 };
+    
+                // Obtém o primeiro post da pasta (presumindo que o backend retorna uma lista de posts)
                 const postimagem = obj.posts[0].post;
-                console.log(postimagem);
+                console.log(postimagem); // Exibe os dados do post no console para debug
+    
+                // Verifica se o post tem uma imagem associada e um tipo de imagem
                 if (postimagem.imagem && postimagem.imagemtipo) {
+                    // Cria um Blob a partir dos dados da imagem (convertendo para um formato manipulável pelo navegador)
                     const blob = new Blob([new Uint8Array(postimagem.imagem.data)], { type: postimagem.imagemtipo });
+    
+                    // Gera uma URL temporária para exibir a imagem no navegador
                     const urlImagem = URL.createObjectURL(blob);
+    
+                    // Atualiza o campo imagemUrl do objeto PastaImagem com a URL gerada
                     obj.imagemUrl = urlImagem;
                 }
+    
+                // Retorna o objeto transformado para o novo array de pastas
                 return obj;
             });
+    
+            // Atualiza o estado com a lista de pastas transformadas
             setPastas(pastaLista);
-            
         })
         .catch(error => {
+            // Exibe o erro no console para debug
             console.log(error);
+    
+            // Exibe uma mensagem informando que o token é inválido ou expirou
             console.log('Token inválido ou expirado');
         });
-    }, []);
-
+    }, []); // useCallback é usado para memorizar a função e evitar recriações desnecessárias
+    
+    const CarregarPosts = useCallback(async (token: string | null, pastaId: string) => {
+        // Define a URL da API para buscar os posts de uma pasta específica
+        const url = `${api}pastas/${pastaId}/posts`;
+    
+        // Faz a requisição GET para a API
+        axios.get(url, {
+            headers: {
+                // Passa o token de autenticação no cabeçalho
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(async response => {
+            // Extrai os posts retornados pela API
+            const postsBD = response.data.dados;
+            console.log('Posts carregados:', postsBD);
+    
+            // Mapeia os posts recebidos para uma estrutura adequada ao front-end
+            const postLista: Array<Post> = await Promise.all(postsBD.map(async (post: Post) => {
+                const obj: Post = {
+                    id: post.id,
+                    titulo: post.titulo,
+                    imagemUrl: '', // Vai ser preenchido se houver imagem
+                    usuarioid: post.usuarioid, // Mantém o usuarioid como está definido na interface
+                    sensivel: post.sensivel,
+                    descricao: post.descricao,
+                    imagemtipo: post.imagemtipo,
+                };
+    
+                // Verifica se o post tem uma imagem e um tipo de imagem
+                if (post.imagem && post.imagemtipo) {
+                    // Cria um Blob a partir dos dados da imagem e gera uma URL temporária
+                    const blob = new Blob([new Uint8Array(post.imagem.data)], { type: post.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    obj.imagemUrl = urlImagem; // Atribui a URL da imagem ao objeto
+                }
+    
+                // Faz uma requisição adicional para buscar o nome e a foto do usuário
+                const usuarioUrl = `${api}usuarios/${post.usuarioid}`;
+                try {
+                    const usuarioResponse = await axios.get(usuarioUrl, {
+                        headers: { 'Authorization': `Bearer ${token}` },
+                    });
+                    const usuarioData = usuarioResponse.data;
+    
+                    // Preenche o objeto do post com nome e imagemUrl do usuário
+                    obj.usuario = {
+                        id: usuarioData.id,
+                        nome: usuarioData.nome || '',  // Preenche o nome do usuário
+                        imagemUrl: '', // Inicializa a imagemUrl como string vazia
+                    };
+    
+                    // Se a imagem do usuário estiver presente e for do tipo correto, cria um Blob para a foto
+                    if (usuarioData.imagem && usuarioData.imagemtipo && usuarioData.imagem.data) {
+                        const blobUsuario = new Blob([new Uint8Array(usuarioData.imagem.data)], { type: usuarioData.imagemtipo });
+                        obj.usuario.imagemUrl = URL.createObjectURL(blobUsuario); // Atribui a URL da imagem do usuário
+                    }
+                } catch (error) {
+                    console.error(`Erro ao buscar o usuário ${post.usuarioid}:`, error);
+                }
+    
+                return obj; // Retorna o objeto transformado
+            }));
+    
+            // Atualiza o estado com a lista de posts transformados
+            setPosts(postLista);
+        })
+        .catch(error => {
+            // Exibe o erro no console para debug
+            console.log(error);
+    
+            // Mensagem de erro para token inválido ou expirado
+            console.log('Token inválido ou expirado ou pasta não encontrada');
+        });
+    }, []); // Dependências vazias, pois será memoizada sem dependências externas
+   
+    
 
     useEffect(() => {
         const token = localStorage.getItem('tokenODO');
@@ -74,10 +170,21 @@ const VerPastas: React.FC = () => {
                 console.log(error);
                 navegar(0);
             });
+            
             CarregarPastas(token);
+            // Se pastaId foi selecionada, carrega os posts dessa pasta
+            if (pastaId) {
+                console.log('Carregar posts para a pasta:', pastaId);
+                CarregarPosts(token, pastaId);
+            }
         }
-    }, [CarregarPastas, navegar]);
+    }, [pastaId, CarregarPastas, CarregarPosts, navegar]);  // Dependências para garantir a execução correta
 
+    // Função para selecionar uma pasta
+    const selecionarPasta = (id: string) => {
+        console.log('Pasta selecionada, ID:', id);
+        setPastaId(id);  // Atualiza o estado com o ID da pasta
+    };
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
@@ -88,14 +195,14 @@ const VerPastas: React.FC = () => {
                         <div className="new-project-card">
                             <a href="" className="new-project-button">
                                 <span className="new-project-icon dmSansThin">+</span>
-                                <span className="new-project-text dmSansThin">Criar um Projeto</span>
+                                <span className="new-project-text dmSansThin">Criar pasta</span>
                             </a>
                             <p className="new-project-description dmSans">
-                                Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
+                                Organize seus itens favoritos da forma que desejar!
                             </p>
                         </div>
                         {
-                                pastas.length < 1 ?
+                                pastas.length > 1 ?
                                 (
                                     null
                                 )
@@ -103,34 +210,51 @@ const VerPastas: React.FC = () => {
                                 (
                                     pastas.map((pasta, index) => 
                                     (
-                                        <div className='card-pasta' key={index}>
+                                        <div className='card-pasta' key={index} onClick={() => selecionarPasta(`${pasta.id}`)}>
                                         <img className='card-capa' src={pasta.imagemUrl} alt='icone de carregamento' />
                                             <p><strong>{pasta.nome}</strong></p>
                                             <img className='icone' src='../public/imgs/pastas/iconeImg.svg' alt='icone de imagem' /> <span>{pasta.posts.length} publicações</span>
                                         </div>
+                                        
                                     ))
                                 )
                             }
+                        {/* html estático
                         <div className='card-pasta'>
                         <img className='card-capa' src='../public/imgs/feed/iconeCarregamento.png' alt='icone de carregamento' />
                             <p><strong>{nome}</strong></p>
                             <img className='icone' src='../public/imgs/pastas/iconeImg.svg' alt='icone de imagem' /> <span>{lengthPasta} publicações</span>
-                        </div>
+                        </div> */}
                     </div>
-                    <h2>inspirações v</h2>
-                    <div className='item-pasta'>
-                        <img src="../public/imgs/pastas/vermais-icon.svg" alt="ver mais" />
-                        <picture>
-                            <img src="../public/imgs/verPerfil/MorangoArt.png" alt="arte da pasta" />
-                        </picture>
-                        <p>{nomePost}</p>
-                        <img src="../public/imgs/verPerfil/perfil.png" alt="" />
-                        <span>{nomeArtista}</span>
-                    </div>
-                    <div className='item-pasta'>
-                        <picture>
-                            <img src="../public/imgs/verPerfil/MorangoArt.png" alt="arte da pasta" />
-                        </picture>
+                    <div>
+                        {
+                                posts.length > 0 ?
+                                (
+                                    null
+                                )
+                                :
+                                (
+                                    posts.map((post, index) => 
+                                    (
+                                        <div key={index} >
+                                            <h2>{pastaId} pegar nome da pasta v</h2>
+                                            <div className='item-pasta'>
+                                            <picture>
+                                                <img src={post.imagemUrl} alt="arte da pasta" />
+                                            </picture>
+                                            <div className='hover-item'>
+                                                <img className="vermais-post" src="../public/imgs/pastas/vermais-icon.svg" alt="ver mais" />
+                                                <div className='info-post'>
+                                                    <h3>{post.titulo}</h3>
+                                                    <img src={post.usuario?.imagemUrl} alt="" />
+                                                    <p>{post.usuario?.nome}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    ))
+                                )
+                            }
                     </div>
                 </section>
             </div>

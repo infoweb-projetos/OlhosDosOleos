@@ -134,10 +134,10 @@ const HeaderSite: React.FC = () => {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <a className="menuItemComum" href="#">
+                                                <Link className="menuItemComum" to="/verpastas">
                                                     <img src="/imgs/header/favoritarHeader.svg" alt="Icone de banner." />
                                                     <p>Itens Favoritos</p>
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
                                                 <a className="menuItemComum" href="#">
