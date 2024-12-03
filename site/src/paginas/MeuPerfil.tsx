@@ -251,10 +251,10 @@ const MeuPerfil: React.FC = () => {
                                 posts.length < 1 && ehMeuPerfil ?
                                     (
                                         <div className="new-project-card">
-                                            <a href="" className="new-project-button">
+                                            <Link to="/postar" className="new-project-button">
                                                 <span className="new-project-icon dmSansThin">+</span>
                                                 <span className="new-project-text dmSansThin">Criar um Projeto</span>
-                                            </a>
+                                            </Link>
                                             <p className="new-project-description dmSans">
                                                 Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
                                             </p>
@@ -271,40 +271,40 @@ const MeuPerfil: React.FC = () => {
                                             <p className="dmSansThin">Lista de verificação de perfil</p>
                                             <ul>
                                                 <li>
-                                                    <a className="bordaInferiror" href="#">
+                                                    <Link className="bordaInferiror" to="/editar/perfil">
                                                         <div>
                                                             <canvas className="circuloBrancoVazio"></canvas>
                                                             <span className="dmSansThin">Adicionar Localização</span>
                                                         </div>
                                                         <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                                    </a>
+                                                    </Link>
                                                 </li>
                                                 <li>
-                                                    <a className="bordaInferiror" href="#">
+                                                    <Link className="bordaInferiror" to="/editar/perfil">
                                                         <div>
                                                             <canvas className="circuloBrancoVazio"></canvas>
                                                             <span className="dmSansThin">Adicionar Contatos</span>
                                                         </div>
                                                         <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                                    </a>
+                                                    </Link>
                                                 </li>
                                                 <li>
-                                                    <a className="bordaInferiror" href="#">
+                                                    <Link className="bordaInferiror" to="/editar/perfil">
                                                         <div>
                                                             <canvas className="circuloBrancoVazio"></canvas>
                                                             <span className="dmSansThin">Adicionar Biografia</span>
                                                         </div>
                                                         <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                                    </a>
+                                                    </Link>
                                                 </li>
                                                 <li>
-                                                    <a href="#">
+                                                    <Link to="/editar/perfil">
                                                         <div>
                                                             <canvas className="circuloBrancoVazio"></canvas>
                                                             <span className="dmSansThin">Adicionar Foto de Perfil</span>
                                                         </div>
                                                         <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                                    </a>
+                                                    </Link>
                                                 </li>
                                             </ul>
                                             <a href=""><b className="bordaInferiror dmSansThin">Não mostrar novamente</b></a>
