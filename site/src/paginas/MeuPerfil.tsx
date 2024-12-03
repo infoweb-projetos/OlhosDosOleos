@@ -1,10 +1,10 @@
 import HeaderSite from '../componentes/header';
-import React, { useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Usuario } from '../interfaces/Usuario';
 import { Post } from '../interfaces/Post';
-import {api} from '../apiUrl.ts';
+import { api } from '../apiUrl.ts';
 import '../estilos/verPerfil.css';
 import '../estilos/modalOpcoes.css';
 import '../estilos/modalExcluir.css';
@@ -28,7 +28,7 @@ const MeuPerfil: React.FC = () => {
     const [ehMeuPerfil, setEhMeuPerfil] = useState<boolean>(false);
 
     const [modalExcluirVisivel, setModalExcluirVisivel] = useState<boolean>(false);
-    const [postExcluir, setPostExcluir] = useState<Post | null >(null);
+    const [postExcluir, setPostExcluir] = useState<Post | null>(null);
 
     const btEnviarBanner = () => {
         arquivoInputRef.current?.click();
@@ -43,10 +43,10 @@ const MeuPerfil: React.FC = () => {
                 // Enviar o arquivo com Axios
                 const response = await axios.patch(api + 'usuarios/banner', formData, {
                     headers: {
-                      'Authorization': `Bearer ${token}`,
-                      'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data',
                     },
-                  });
+                });
                 console.log('Arquivo enviado com sucesso', response.data);
                 navegar(0);
             } catch (error) {
@@ -55,99 +55,99 @@ const MeuPerfil: React.FC = () => {
         }
     };
 
-    const MontarPerfil = async(token : string | null) => {
+    const MontarPerfil = async (token: string | null) => {
         const url = api + 'usuarios/perfil';
         axios.get(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
-        .then(response => {
-            setEhMeuPerfil(true)
-            const usu = response.data.dados;
-            setUsuario(usu);
+            .then(response => {
+                setEhMeuPerfil(true)
+                const usu = response.data.dados;
+                setUsuario(usu);
 
-            if (!usu && !usuario){
-                return;
-            }
+                if (!usu && !usuario) {
+                    return;
+                }
 
-            if (usu.imagem && usu.imagem.data && usu.imagemtipo) {
-                const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
-                const urlImagem = URL.createObjectURL(blob);
-                setImagemUrl(urlImagem);
-            } else {
-                setImagemUrl("/imgs/verPerfil/perfil.png"); // Ou uma imagem padrão
-            }
+                if (usu.imagem && usu.imagem.data && usu.imagemtipo) {
+                    const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    setImagemUrl(urlImagem);
+                } else {
+                    setImagemUrl("/imgs/verPerfil/perfil.png"); // Ou uma imagem padrão
+                }
 
-            if (usu.banner && usu.banner.data && usu.bannertipo) {
-                const blob = new Blob([new Uint8Array(usu.banner.data)], { type: usu.bannertipo });
-                const urlImagem = URL.createObjectURL(blob);
-                setBannerUrl(urlImagem);
-                setImgBtBanner('/imgs/verPerfil/editarBanner.svg');
-                setEstiloBtBanner({
-                    top: "90%",
-                    left: "3%"
-                });
-            } else {
-                setBannerUrl(undefined);
-                setImgBtBanner('/imgs/verPerfil/add_image.svg');
-                setEstiloBtBanner({});
-            }
+                if (usu.banner && usu.banner.data && usu.bannertipo) {
+                    const blob = new Blob([new Uint8Array(usu.banner.data)], { type: usu.bannertipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    setBannerUrl(urlImagem);
+                    setImgBtBanner('/imgs/verPerfil/editarBanner.svg');
+                    setEstiloBtBanner({
+                        top: "90%",
+                        left: "3%"
+                    });
+                } else {
+                    setBannerUrl(undefined);
+                    setImgBtBanner('/imgs/verPerfil/add_image.svg');
+                    setEstiloBtBanner({});
+                }
 
-            if (usu.cor1) setPainelPerfilCor("#" + usu.cor1);
-        })
-        .catch(error => {
-            console.log(error);
-            console.log('Token inválido ou expirado');
-            setEhMeuPerfil(false)
-        });
+                if (usu.cor1) setPainelPerfilCor("#" + usu.cor1);
+            })
+            .catch(error => {
+                console.log(error);
+                console.log('Token inválido ou expirado');
+                setEhMeuPerfil(false)
+            });
     };
-    const MeusPosts = async (token : string | null) => {
+    const MeusPosts = async (token: string | null) => {
         const url = api + 'posts/meus'
         axios.get(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
-        .then(response => {
-            const postsBD = response.data.dados;
-            console.log(postsBD);
-            if (!postsBD && !posts){
-                return;
-            }
-            const postLista: Array<Post> = postsBD.map((p: Post) => {
-                const obj: Post = {
-                    titulo: p.titulo,
-                    usuario: p.usuario,
-                    usuarioid: p.usuarioid,
-                    sensivel: p.sensivel,
-                    rascunho: p.rascunho,
-                    imagemUrl: '',
-                    id: p.id
-                };
-
-                if (p.imagem && p.imagemtipo) {
-                    const blob = new Blob([new Uint8Array(p.imagem.data)], { type: p.imagemtipo });
-                    const urlImagem = URL.createObjectURL(blob);
-                    obj.imagemUrl = urlImagem;
+            .then(response => {
+                const postsBD = response.data.dados;
+                console.log(postsBD);
+                if (!postsBD && !posts) {
+                    return;
                 }
+                const postLista: Array<Post> = postsBD.map((p: Post) => {
+                    const obj: Post = {
+                        titulo: p.titulo,
+                        usuario: p.usuario,
+                        usuarioid: p.usuarioid,
+                        sensivel: p.sensivel,
+                        rascunho: p.rascunho,
+                        imagemUrl: '',
+                        id: p.id
+                    };
 
-                if (obj.usuario && obj.usuario && obj.usuario.imagem && obj.usuario.imagemtipo) {
-                    const blob = new Blob([new Uint8Array(obj.usuario.imagem.data)], { type: obj.usuario.imagemtipo });
-                    const urlImagem = URL.createObjectURL(blob);
-                    obj.usuario.imagemUrl = urlImagem;
-                } else {
-                    if (obj.usuario) obj.usuario.imagemUrl = "/imgs/verPerfil/perfil.png";
-                }
+                    if (p.imagem && p.imagemtipo) {
+                        const blob = new Blob([new Uint8Array(p.imagem.data)], { type: p.imagemtipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        obj.imagemUrl = urlImagem;
+                    }
 
-                return obj;
+                    if (obj.usuario && obj.usuario && obj.usuario.imagem && obj.usuario.imagemtipo) {
+                        const blob = new Blob([new Uint8Array(obj.usuario.imagem.data)], { type: obj.usuario.imagemtipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        obj.usuario.imagemUrl = urlImagem;
+                    } else {
+                        if (obj.usuario) obj.usuario.imagemUrl = "/imgs/verPerfil/perfil.png";
+                    }
+
+                    return obj;
+                });
+                setPosts(postLista);
+            })
+            .catch(error => {
+                console.log(error);
+                setEhMeuPerfil(false)
             });
-            setPosts(postLista);
-        })
-        .catch(error => {
-            console.log(error);
-            setEhMeuPerfil(false)
-        });
     }
 
     const VerificarToken = async () => {
@@ -160,36 +160,34 @@ const MeuPerfil: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if(tokenAtual){
+        if (tokenAtual) {
             MontarPerfil(tokenAtual);
             MeusPosts(tokenAtual);
         }
     }, [tokenAtual]);
 
-    const abrirModalExcluir = (post:Post)=>{
+    const abrirModalExcluir = (post: Post) => {
         setPostExcluir(post);
         setModalExcluirVisivel(true);
-        document.body.classList.add('modal-aberta')
     }
-    const fecharModalExcluir = () =>{
+    const fecharModalExcluir = () => {
         setModalExcluirVisivel(false);
         setPostExcluir(null);
-        document.body.classList.add('modal-fechada')
     }
-    const excluirPost= async () => {
-        if(postExcluir){
+    const excluirPost = async () => {
+        if (postExcluir) {
             const token = localStorage.getItem('tokenODO');
-            try{    
-                await axios.delete(`${api}posts/excluir/${postExcluir.id}`,{
-                    headers:{
+            try {
+                await axios.delete(`${api}posts/excluir/${postExcluir.id}`, {
+                    headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
                 setPosts(posts.filter((post) => post.id !== postExcluir.id));
                 fecharModalExcluir();
 
-            }catch(error){
-                console.error('Houve um erro ao tentar excluir o post:',error)
+            } catch (error) {
+                console.error('Houve um erro ao tentar excluir o post:', error)
             }
         }
     }
@@ -198,32 +196,50 @@ const MeuPerfil: React.FC = () => {
     return (
         <div className="paginaPerfil">
             <HeaderSite />
+            {modalExcluirVisivel && (
+                <div className='ModalConfirmarExclusao'>
+                    <div className=''>
+                        <div className='ModalConfirmarExclusaoHeader'>
+                            <figure>
+                                <img src='/imgs/verPerfil/iconeExcluirPost.svg' />
+                            </figure>
+                            <button onClick={fecharModalExcluir}>✕</button>
+                        </div>
+                        <h3>Excluir Post</h3>
+                        <p>Tem certeza que deseja excluir o post "{postExcluir?.titulo}"?</p>
+                        <div className='ModalConfirmarExclusaoAcoes'>
+                            <button onClick={excluirPost} className='ModalConfirmarExclusaoBtExcluir'>Excluir</button>
+                            <button onClick={fecharModalExcluir} className='ModalConfirmarExclusaoBtCancelar'>Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            )}
             <form action="" className="banner ">
                 <img className="esconda" alt="Banner Image" src={bannerUrl} id="imgBanner" />
                 {
                     ehMeuPerfil ?
-                    (
-                    <button style={estiloBtBanner}  onClick={btEnviarBanner} type="button" className="add-banner-btn">
-                        <img src={imgBtBanner} alt="Add Banner" />
-                    </button>
+                        (
+                            <button style={estiloBtBanner} onClick={btEnviarBanner} type="button" className="add-banner-btn">
+                                <img src={imgBtBanner} alt="Add Banner" />
+                            </button>
 
-                    )
-                    :
-                    (null)
+                        )
+                        :
+                        (null)
                 }
-                <input type="file" id="inputImgBanner"  ref={arquivoInputRef} onChange={aoMudarValorInputArquivo}/>
+                <input type="file" id="inputImgBanner" ref={arquivoInputRef} onChange={aoMudarValorInputArquivo} />
                 {
-                    !usuario?.banner && ehMeuPerfil? 
-                    ( 
-                    <div className="banner-text">
-                        Adicionar uma imagem de banner<br />
-                        Dimensões ideais 3200 x 410px
-                    </div>
-                    )
-                    :
-                    ""
+                    !usuario?.banner && ehMeuPerfil ?
+                        (
+                            <div className="banner-text">
+                                Adicionar uma imagem de banner<br />
+                                Dimensões ideais 3200 x 410px
+                            </div>
+                        )
+                        :
+                        ""
                 }
-               
+
             </form>
 
             <div className="page-container">
@@ -232,156 +248,121 @@ const MeuPerfil: React.FC = () => {
                         <h1 className="dmSansThin">Portfólio</h1>
                         <div className="portfolio-grid">
                             {
-                                posts.length < 1  && ehMeuPerfil?
-                                (
-                                <div className="new-project-card">
-                                    <a href="" className="new-project-button">
-                                        <span className="new-project-icon dmSansThin">+</span>
-                                        <span className="new-project-text dmSansThin">Criar um Projeto</span>
-                                    </a>
-                                    <p className="new-project-description dmSans">
-                                        Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
-                                    </p>
-                                </div>
-                                )
-                                :
-                                (null)
+                                posts.length < 1 && ehMeuPerfil ?
+                                    (
+                                        <div className="new-project-card">
+                                            <a href="" className="new-project-button">
+                                                <span className="new-project-icon dmSansThin">+</span>
+                                                <span className="new-project-text dmSansThin">Criar um Projeto</span>
+                                            </a>
+                                            <p className="new-project-description dmSans">
+                                                Exiba sua arte, receba curtidas e comentários, e chame a atenção de compradores em potencial.
+                                            </p>
+                                        </div>
+                                    )
+                                    :
+                                    (null)
                             }
 
                             {
                                 posts.length < 1 && ehMeuPerfil ?
-                                (
-                                <div className="project-card guiaCondutor">
-                                    <p className="dmSansThin">Lista de verificação de perfil</p>
-                                    <ul>
-                                        <li>
-                                            <a className="bordaInferiror" href="#">
-                                                <div>
-                                                    <canvas className="circuloBrancoVazio"></canvas>
-                                                    <span className="dmSansThin">Adicionar Localização</span>
-                                                </div>
-                                                <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a className="bordaInferiror" href="#">
-                                                <div>
-                                                    <canvas className="circuloBrancoVazio"></canvas>
-                                                    <span className="dmSansThin">Adicionar Contatos</span>
-                                                </div>
-                                                <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a className="bordaInferiror" href="#">
-                                                <div>
-                                                    <canvas className="circuloBrancoVazio"></canvas>
-                                                    <span className="dmSansThin">Adicionar Biografia</span>
-                                                </div>
-                                                <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div>
-                                                    <canvas className="circuloBrancoVazio"></canvas>
-                                                    <span className="dmSansThin">Adicionar Foto de Perfil</span>
-                                                </div>
-                                                <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <a href=""><b className="bordaInferiror dmSansThin">Não mostrar novamente</b></a>
-                                </div> 
-                                )
-                                :
-                                (null)
+                                    (
+                                        <div className="project-card guiaCondutor">
+                                            <p className="dmSansThin">Lista de verificação de perfil</p>
+                                            <ul>
+                                                <li>
+                                                    <a className="bordaInferiror" href="#">
+                                                        <div>
+                                                            <canvas className="circuloBrancoVazio"></canvas>
+                                                            <span className="dmSansThin">Adicionar Localização</span>
+                                                        </div>
+                                                        <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a className="bordaInferiror" href="#">
+                                                        <div>
+                                                            <canvas className="circuloBrancoVazio"></canvas>
+                                                            <span className="dmSansThin">Adicionar Contatos</span>
+                                                        </div>
+                                                        <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a className="bordaInferiror" href="#">
+                                                        <div>
+                                                            <canvas className="circuloBrancoVazio"></canvas>
+                                                            <span className="dmSansThin">Adicionar Biografia</span>
+                                                        </div>
+                                                        <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <div>
+                                                            <canvas className="circuloBrancoVazio"></canvas>
+                                                            <span className="dmSansThin">Adicionar Foto de Perfil</span>
+                                                        </div>
+                                                        <img src="/imgs/verPerfil/setaDireita.svg" alt="Seta apontando pra direita." />
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <a href=""><b className="bordaInferiror dmSansThin">Não mostrar novamente</b></a>
+                                        </div>
+                                    )
+                                    :
+                                    (null)
                             }
-                            
-                            {modalExcluirVisivel && (
-                                <div className='modal-overlay'>
-                                    <div className='modal-container'>
-                                        <div className='modal-header'>
-                                            <img src='/imgs/verPerfil/iconeExcluirPost.svg' />
-                                            <h2> Excluir Post</h2>
-                                        </div>
-                                    
-                                        <p 
-                                        style={{color:'#848484'}}
-                                        >
-                                            Tem certeza que deseja excluir o post "{postExcluir?.titulo}"?
-                                        </p>
-                                        <div className='modal-actions'>
-                                            <button
-                                                onClick={excluirPost}
-                                                className='botao-excluir'
-                                            
-                                            >
-                                                Excluir
-                                            </button>
-                                            <button
-                                                onClick={fecharModalExcluir}
-                                                className='botao-cancelar'
-                                               
-                                            
-                                            >
-                                                Cancelar
-                                            </button>
 
-                                         </div>
-                                        </div>
-                                </div>
-                            )}
-                            
                             {
                                 posts.length < 1 ?
-                                (
-                                    null
-                                )
-                                :
-                                (
-                                    posts.map((post, index) => 
                                     (
-                                        <div key={index} className="project-card imagemPortifolio">
-                                            <div>
-                                                <img onClick={() => AbrirFecharModal('menuOpcoesPostPerfil' + post.id)} src='/imgs/verPerfil/iconesOpcoesHorizontal.svg' />
-                                                <ul id={'menuOpcoesPostPerfil'+post.id} className='modalOpcoesComum'>
-                                                    <li>
-                                                        <button 
-                                                            className='modalOpcoesComumBt'
-                                                            onClick={()=> abrirModalExcluir(post)}
-                                                        >
-                                                            Excluir
-                                                            <img src='/imgs/verPerfil/iconeExcluirPost.svg' />
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <Link className='modalOpcoesComumBt' to={`/editarpost/${post.id}`}>
-                                                            Editar
-                                                            <img src='/imgs/verPerfil/iconeEditarPost.svg' />
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <a href="#">
-                                                <img className={ post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} alt="Obra do artista." />
-                                                {
-                                                post.sensivel ?
-                                                (
+                                        null
+                                    )
+                                    :
+                                    (
+                                        posts.map((post, index) =>
+                                        (
+                                            <div key={index} className="project-card imagemPortifolio">
                                                 <div>
-                                                    <img src="/imgs/verPerfil/olhoSensivel.svg" alt="Icone indicando conteudo sensivel." />
+                                                    <img onClick={() => AbrirFecharModal('menuOpcoesPostPerfil' + post.id)} src='/imgs/verPerfil/iconesOpcoesHorizontal.svg' />
+                                                    <ul id={'menuOpcoesPostPerfil' + post.id} className='modalOpcoesComum'>
+                                                        <li>
+                                                            <button
+                                                                className='modalOpcoesComumBt'
+                                                                onClick={() => abrirModalExcluir(post)}
+                                                            >
+                                                                Excluir
+                                                                <img src='/imgs/verPerfil/iconeExcluirPost.svg' />
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <Link className='modalOpcoesComumBt' to={`/editarpost/${post.id}`}>
+                                                                Editar
+                                                                <img src='/imgs/verPerfil/iconeEditarPost.svg' />
+                                                            </Link>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                                )
-                                                :
-                                                (null)
-                                                }
-                                                
-                                            </a>
-                                           
-                                            
-                                        </div>
-                                    ))
-                                )
+                                                <a href="#">
+                                                    <img className={post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} alt="Obra do artista." />
+                                                    {
+                                                        post.sensivel ?
+                                                            (
+                                                                <div>
+                                                                    <img src="/imgs/verPerfil/olhoSensivel.svg" alt="Icone indicando conteudo sensivel." />
+                                                                </div>
+                                                            )
+                                                            :
+                                                            (null)
+                                                    }
+
+                                                </a>
+
+
+                                            </div>
+                                        ))
+                                    )
                             }
 
 
@@ -396,8 +377,8 @@ const MeuPerfil: React.FC = () => {
                                 <h2 className="dmSansThin"> {usuario ? usuario.nome : ""}</h2>
                                 <p className="dmSansThin"> {usuario?.tipoid ? usuario.tipoid : ""}</p>
 
-                                <a href="" className={`dmSansThin botaoComum ${ehMeuPerfil ? "visibilidadeOculta" : ""} fundoBtVermelho`}> 
-                                <img src="/imgs/header/maisIcone.png" />Seguir
+                                <a href="" className={`dmSansThin botaoComum ${ehMeuPerfil ? "visibilidadeOculta" : ""} fundoBtVermelho`}>
+                                    <img src="/imgs/header/maisIcone.png" />Seguir
                                 </a>
 
                                 <div className='seguidoresArea'>
@@ -485,18 +466,18 @@ const MeuPerfil: React.FC = () => {
                         </div>
                         {
                             ehMeuPerfil ?
-                            (
-                            <div className="profile-actions">
-                                <Link to="/editar/perfil"><img className="button-icon" src="/imgs/verPerfil/edit_icon.svg" alt="Editar" />Editar Informações do
-                                    perfil</Link>
-                                <Link to="editar/perfil" className="no-padding branco"><img className="button-icon" src="/imgs/verPerfil/personalize_icon.svg"
-                                    alt="Personalizar" />Personalizar perfil</Link>
-                            </div>
-                            )
-                            :
-                            (null)
+                                (
+                                    <div className="profile-actions">
+                                        <Link to="/editar/perfil"><img className="button-icon" src="/imgs/verPerfil/edit_icon.svg" alt="Editar" />Editar Informações do
+                                            perfil</Link>
+                                        <Link to="editar/perfil" className="no-padding branco"><img className="button-icon" src="/imgs/verPerfil/personalize_icon.svg"
+                                            alt="Personalizar" />Personalizar perfil</Link>
+                                    </div>
+                                )
+                                :
+                                (null)
                         }
-                      
+
                     </div>
                 </div>
             </div>

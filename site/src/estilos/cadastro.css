@@ -55,7 +55,7 @@
     box-sizing: border-box;
 }
 .pagCadastro .formCadCompleto > figure img{
-    height: 95vh;
+    height: 80vh;
 }
 
 .pagCadastro .formCadCompleto .cadFormArea > h1{
@@ -257,6 +257,9 @@
     border-color: #c99d25; 
 }
 
+.pagCadastro #cadEtapa4 > p, .pagCadastro #cadEtapa4 > h2{
+    width: 100%;
+}
 .pagCadastro #cadEtapa4 .areaFoto{
     width: 25%;
     box-sizing: border-box;

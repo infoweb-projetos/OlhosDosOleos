@@ -1,84 +1,79 @@
-body.modal-aberta{
-    overflow: hidden;
-}
-body.modal-fechada{
-    overflow: visible;
-}
-
-.modal-overlay {
+.ModalConfirmarExclusao{
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); 
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 4;
+}
+
+.ModalConfirmarExclusao > div{
+    background-color: #FFFFFF;
+    padding: 1.3em;
+    border-radius: 1em;
+    width: 40%;
+    box-sizing: border-box;
+    margin-top: 2em;
+}
+
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    margin-bottom: 1.6em;
+}
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoHeader figure{
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    background-color: #FEE4E2;
+    border: 8px solid #FEF3F2;
+    padding: 10px;
+    border-radius: 100%;
 }
-
-.modal-container {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    width: 400px;
-    max-width: 100%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoHeader img{
+    width: 20px;
+    height: 20px;
 }
-.modal-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.icon-lixeira {
-    font-size: 48px; 
-    color: #E30048; 
-    margin-right: 10px; 
-}
-
-.modal-container h2 {
-    font-size: 24px;
-    color: #E30048; 
-    margin: 0;
-}
-
-.modal-container p {
-    color: #848484;  
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: space-between;
-}
-
-.modal-actions button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-}
-.botao-excluir{
-    background-color: #E30048;
-    border: 2px solid #E30048;
-    color: white;
-}
-
-.botao-excluir:hover {
-    background-color: #8e1239;
-    color: white;
-}
-
-.botao-cancelar {
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoHeader button{
     background-color: transparent;
-    border: 2px solid #848484;
-    color: #848484;
+    color: var(--corPrincipal);
+    border: none;
+    font-size: 130%;
 }
-.botao-cancelar:hover {
 
-    color: black;
+.ModalConfirmarExclusao > div > h3{
+    color: var(--corPrincipal);
+    margin-bottom: 0.4em;
+}
+.ModalConfirmarExclusao > div > p{
+    color: #7C7C7C;
+}
+
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoAcoes{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 1.6em;
+    box-sizing: border-box;
+}
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoAcoes .ModalConfirmarExclusaoBtExcluir{
+    margin-right: 1em;
+    background-color: var(--corPrincipal);
+    border: 1px solid var(--corPrincipal);
+    color: #FFFFFF;
+    padding: 10px 2em;
+    border-radius: 10px;
+}
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoAcoes .ModalConfirmarExclusaoBtCancelar{  
+    border: 1px solid #7C7C7C;
+    background-color: transparent;
+    color: #7C7C7C;
+    padding: 10px 1em;
+    border-radius: 10px;
 }
