@@ -14,7 +14,7 @@ No momento, só possui nosas imagens. no react essa pas é referenciada como "/"
 ### Rodar projeto
 
 ``` bash
-# Para que comando assim rodem você tem que estar na pasta site no terminas
+# Para que comando assim rodem você tem que estar na pasta site no terminal
 # Instala Dependencias
 npm i
 
