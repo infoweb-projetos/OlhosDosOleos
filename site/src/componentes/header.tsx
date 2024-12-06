@@ -45,7 +45,7 @@ const HeaderSite: React.FC = () => {
                 <div className="headerEsquerda">
                     <Link className="headerLogo" to="/"><img src="/imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante." /></Link>
                     <ul>
-                        <li><a href="#">Explorar</a></li>
+                        <li><Link to="/">Explorar</Link></li>
                         <li><a className="pagSelecionada" href="#">Portfólios</a></li>
                     </ul>
                     <form action="#">

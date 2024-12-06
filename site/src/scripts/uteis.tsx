@@ -20,3 +20,20 @@ export const VerificaToken = async () : Promise<string | undefined> => {
     }
 }
 
+
+export const CurtirPost = async (postid: number, token: string | null) =>{
+    if (token && postid > 0){
+        axios.post(api + `posts/curtir/${postid}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+    
+}

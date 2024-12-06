@@ -9,9 +9,11 @@ import { Post } from '../interfaces/Post';
 import { Link, useNavigate } from 'react-router-dom';
 import { Usuario } from '../interfaces/Usuario';
 import {api} from '../apiUrl.ts';
+import { CurtirPost, VerificaToken } from '../scripts/uteis.tsx';
 
 
 const Feed: React.FC = () => {
+    const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const [posts, setPosts] = useState<Array<Post>>([]);
     const [ultimosPosts, setUltimosPosts] = useState<Array<Post>>([]);
     const [ultimosUsuarios, setUltimosUsuarios] = useState<Array<Usuario>>([]);
@@ -54,12 +56,14 @@ const Feed: React.FC = () => {
 
             const postLista: Array<Post> = postsBD.map((p: Post) => {
                 const obj: Post = {
+                    id: p.id,
                     titulo: p.titulo,
                     usuario: p.usuario,
                     usuarioid: p.usuarioid,
                     sensivel: p.sensivel,
                     rascunho: p.rascunho,
-                    imagemUrl: ''
+                    imagemUrl: '',
+                    curtidasQtd: p.curtidas && p.curtidas.length > 0 ? p.curtidas.length : 0
                 };
 
                 if (p.imagem && p.imagemtipo) {
@@ -88,6 +92,15 @@ const Feed: React.FC = () => {
             navegar('/');
         });
     }
+
+    const VerificarToken = async () => {
+        const token = await VerificaToken();
+        if (token) atualizarTokenAtual(token);
+    }
+    useEffect(() => {
+        VerificarToken();
+    }, []);
+
 
     useEffect(() => {
         CarregarPosts();
@@ -182,8 +195,8 @@ const Feed: React.FC = () => {
                                                 {post.usuario?.nome}
                                             </Link>
                                         </figure>
-                                        <button>
-                                            100 mil
+                                        <button onClick={() => CurtirPost(post.id? post.id : 0, tokenAtual)}>
+                                            {post.curtidasQtd}
                                             <img src="imgs/feed/iconeLikeFeed.svg" />
                                         </button>
                                     </div>
@@ -265,8 +278,8 @@ const Feed: React.FC = () => {
                                                 {post.usuario?.nome}
                                             </Link>
                                         </figure>
-                                        <button>
-                                            100 mil
+                                        <button onClick={() => CurtirPost(post.id ? post.id : 0, tokenAtual)}>
+                                            {post.curtidasQtd}
                                             <img src="imgs/feed/iconeLikeFeed.svg" />
                                         </button>
                                     </div>

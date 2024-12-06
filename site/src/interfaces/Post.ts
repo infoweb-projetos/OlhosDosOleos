@@ -1,3 +1,4 @@
+import { Curtida } from "./Curtida";
 import { Tag } from "./Enums";
 import { Usuario } from "./Usuario";
 
@@ -15,7 +16,10 @@ export interface Post {
     categoriaid?: string;
     tags?: Array<Tag>;
     processo?: Array<Processo>;
+    curtidas?: Curtida[];
+    curtidasQtd?: number;
 }
+
 
 export interface CriarPostDados {
     usuarioid: number;
