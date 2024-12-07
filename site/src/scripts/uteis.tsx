@@ -1,6 +1,7 @@
 import axios from "axios";
 import {api} from '../apiUrl.ts';
 import { Post } from "../interfaces/Post.ts";
+import { Usuario } from "../interfaces/Usuario.ts";
 
 export const VerificaToken = async () : Promise<string | undefined> => {
     const token = localStorage.getItem('tokenODO');
@@ -40,6 +41,33 @@ export const CurtirPost = async (postid: number, token: string | null, setUltimo
                     postsAtualizado[postIndex].curtidasQtd = qtd;
                     setUltimosPosts(postsAtualizado); 
                 } 
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+    
+}
+
+export const Seguir = async (usuarioid: number, token: string | null, setUsuario: React.Dispatch<React.SetStateAction<Usuario | null>>, usuario: Usuario | null) => {
+    if (token && usuarioid > 0){
+        axios.post(api + `usuarios/seguir/${usuarioid}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (response.data.dados && response.data.dados.usuario && usuario){
+                const usuarioAtualizado = { ...usuario };
+                usuarioAtualizado.qtdSeguidores = response.data.dados.usuario.seguidores ? response.data.dados.usuario.seguidores.length : 0;
+                usuarioAtualizado.sigo = true;
+                if (usuarioAtualizado.qtdSeguidores && usuarioAtualizado.qtdSeguidores > 0 && response.data.dados.seguindo == false){
+                    usuarioAtualizado.qtdSeguidores--;
+                    usuarioAtualizado.sigo = false;
+                } 
+                   
+                setUsuario(usuarioAtualizado);
             }
         })
         .catch(error => {

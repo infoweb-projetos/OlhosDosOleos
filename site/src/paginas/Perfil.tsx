@@ -6,7 +6,7 @@ import { Usuario } from '../interfaces/Usuario';
 import { Post } from '../interfaces/Post';
 import {api} from '../apiUrl.ts';
 import '../estilos/verPerfil.css';
-import { VerificaToken } from '../scripts/uteis.tsx';
+import { Seguir, VerificaToken } from '../scripts/uteis.tsx';
 
 const Perfil: React.FC = () => {
     const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
@@ -23,11 +23,15 @@ const Perfil: React.FC = () => {
 
     const MontarPerfil = async (id : string | undefined) => {
         const url = api + `usuarios/outroperfil/${id}`;
-        console.log(url);
-        axios.get(url, {})
+        axios.get(url, { 
+            headers: {
+                'Authorization': `Bearer ${tokenAtual}`
+            }
+        })
         .then(response => {
             const usu = response.data.dados;
-            setUsuario(usu);
+            setUsuario({...usu, qtdSeguidores: usu.seguidores.length ? usu.seguidores.length : 0} );
+            console.log(usu);
 
             if (!usu && !usuario){
                 return;
@@ -263,15 +267,26 @@ const Perfil: React.FC = () => {
                             <div className="profile-info">
                                 <h2 className="dmSansThin"> {usuario ? usuario.nome : ""}</h2>
                                 <p className="dmSansThin"> {usuario?.tipoid ? usuario.tipoid : ""}</p>
-
-                                <a href="" className={`dmSansThin botaoComum ${ehMeuPerfil ? "visibilidadeOculta" : ""} fundoBtVermelho`}> 
-                                <img src="/imgs/header/maisIcone.png" />Seguir
-                                </a>
+                                {
+                                    usuario && usuario.sigo ?
+                                    (
+                                        <button onClick={() => Seguir(perfilid? Number(perfilid) : 0, tokenAtual, setUsuario, usuario)} className={`dmSansThin botaoComum ${ehMeuPerfil ? "visibilidadeOculta" : ""} fundoBtVermelho`}> 
+                                            Deixar de Seguir
+                                        </button>
+                                    )
+                                    :
+                                    (
+                                        <button onClick={() => Seguir(perfilid? Number(perfilid) : 0, tokenAtual, setUsuario, usuario)} className={`dmSansThin botaoComum ${ehMeuPerfil ? "visibilidadeOculta" : ""} fundoBtVermelho`}> 
+                                            <img src="/imgs/header/maisIcone.png" />Seguir
+                                        </button>
+                                    )
+                                }
+                              
 
                                 <div className='seguidoresArea'>
                                     <div className='seguidoresLinha '>
                                         <p><b className='dmSansThin'>Seguidores: </b></p>
-                                        <p><b className='dmSansThin'>0</b></p>
+                                        <p><b className='dmSansThin'>{usuario && usuario.qtdSeguidores ? usuario.qtdSeguidores : 0}</b></p>
                                     </div>
                                     <div className='seguidoresLinha'>
                                         <p className='dmSansThin'>Exibições de Posts:</p>

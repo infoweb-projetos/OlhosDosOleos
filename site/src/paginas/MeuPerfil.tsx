@@ -65,7 +65,7 @@ const MeuPerfil: React.FC = () => {
             .then(response => {
                 setEhMeuPerfil(true)
                 const usu = response.data.dados;
-                setUsuario(usu);
+                setUsuario({...usu, qtdSeguidores: usu.seguidores.length ? usu.seguidores.length : 0} );
 
                 if (!usu && !usuario) {
                     return;
@@ -384,7 +384,7 @@ const MeuPerfil: React.FC = () => {
                                 <div className='seguidoresArea'>
                                     <div className='seguidoresLinha '>
                                         <p><b className='dmSansThin'>Seguidores: </b></p>
-                                        <p><b className='dmSansThin'>0</b></p>
+                                        <p><b className='dmSansThin'>{usuario && usuario.qtdSeguidores ? usuario.qtdSeguidores : 0}</b></p>
                                     </div>
                                     <div className='seguidoresLinha'>
                                         <p className='dmSansThin'>Exibições de Posts:</p>

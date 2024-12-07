@@ -1,3 +1,5 @@
+import { Seguir } from "./Seguir";
+
 export interface Usuario {
     biografia?: string;
     email?: string;
@@ -23,4 +25,8 @@ export interface Usuario {
     cor2?: string;
     cor3?:string;
     cor4?:string;
+    seguidores?: Seguir[]; 
+    qtdSeguidores?: number;
+    seguidos?: Seguir[];
+    sigo?: boolean;
 }
