@@ -1,3 +1,4 @@
+
 .gallery img {
     cursor: pointer;
     width: 150px; /* Reduz o tamanho das imagens na galeria */
@@ -11,12 +12,13 @@
   }
   
   .modal {
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 0;
     top: 0;
-    height: 100%;
     width: 100%;
+    height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.8);
   }
@@ -24,12 +26,11 @@
   .modal-content {
     display: block;
     margin: auto;
-    position: relative;
-    left: 0em;
-    top: 8em;
-    width: 42em;
-    transform: scale(1.1);
-    transition: transform 0.3s;
+    margin-top: 22em;
+    max-width: 90%; /* A imagem ocupará até 90% da largura da janela */
+    max-height: 90%; /* A imagem ocupará até 90% da altura da janela */
+    transform: scale(3.1); /* Faz parecer ampliada */
+    transition: transform 0.3s; /* Anima a expansão da imagem */
   }
   
   .close {
@@ -42,25 +43,14 @@
     cursor: pointer;
   }
 
-  .perfildoartista{
+.fotodoperfil{
     border-radius: 100%;
-    width: 5em;
-    height: 5em;
-  }
+    width: 3em;
+    height: 3em;}
 
-  .titulodaart{
-    color: white;
-  }
+.escrita{
+    color: white;}
 
-  .nomedoartista{
-    color: white;
-  }
-
-  #org1{
+#org1{
     display: flex;
-    position: relative;
-    top: 5em;
-    left: 25em;
-    align-items: center;
-    gap: 1em;
-}
+    align-items: center;}

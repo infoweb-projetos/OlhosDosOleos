@@ -83,22 +83,24 @@
         <div class="areaConteudo">
             <!-- Conteudo aqui, imagine isso aqui como o body / main -->
 
-           <div class="gallery">
-            <img src="imgs/verPerfil/MorangoArt.png" alt="Arte 1" onclick="openModal('imgs/verPerfil/MorangoArt.png')" />
-            <img src="art2.jpg" alt="Arte 2" onclick="openModal('art2.jpg')" />
-          </div>
-          
-          <div id="modal" class="modal" onclick="closeModal()">
-            <span class="close">&times;</span>
-            <div id="org1">
-                 <img class="perfildoartista" src="imgs/verPerfil/MorangoArt.png" alt="foto do perfil do artista">
-                 <div>
-                    <h1 class="titulodaart">Titulo</h1>
-                    <p class="nomedoartista">Clark24</p>
-                 </div>
-            </div>
-            <img class="modal-content" id="expandedImg" />
-          </div>
+            <div class="gallery">
+                <img src="art1.jpg" alt="Arte 1" onclick="openModal('imgs/verPerfil/MorangoArt.png')" />
+               
+              </div>
+              
+              <div id="modal" class="modal" onclick="closeModal()">
+                <span class="close">&times;</span>
+                <div id="org1">
+                    <a href=""><img class="fotodoperfil" src="imgs/verPerfil/MorangoArt.png"></a>
+                    <div>
+                        <h1 class="escrita">titulo</h1>
+                        <a href=""><p class="escrita">nome do artista</p></a>
+                    </div>
+                </div>
+                <img class="modal-content" id="expandedImg" />
+              </div>
+                 
+           
         </div>
 
         
