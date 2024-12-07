@@ -1,7 +1,8 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './estilos/comum.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.tsx';
+import './estilos/comum.css';
+import './estilos/modalOpcoes.css';
 import './estilos/header.css'
 import './estilos/footer.css';
 

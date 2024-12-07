@@ -162,7 +162,7 @@ const EditarPerfil: React.FC = () => {
 
     const VerificarToken = async () => {
         const token = await VerificaToken();
-        if (!token) navegar('/entrar')
+        if (!token){ navegar('/entrar'); localStorage.removeItem('tokenODO');}
         else atualizarTokenAtual(token);
     }
     useEffect(() => {

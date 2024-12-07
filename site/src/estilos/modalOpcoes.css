@@ -2,12 +2,13 @@
     position: absolute;
     background-color: #FFFFFF;
     padding: 5px 5px;
-    border: 2px solid var(--corPrincipal);
+    border: 1px solid var(--corPrincipal);
     border-radius: 10px;
     width: 130px;
-    right: 0;
+    right: 10px;
     top: 2.5em;
     display: none;
+    z-index: 2;
 }
 .modalOpcoesComum li{
     margin: 5px 0;
@@ -26,7 +27,7 @@
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 130%;
-    font-weight: 600;
+    font-weight: normal;
 }
 .modalOpcoesComum .modalOpcoesComumBt:hover{
     background-color: #fd6a9931;

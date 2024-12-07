@@ -1,9 +1,19 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { AbrirFecharModal } from '../scripts/modal';
 import React, { useState, useEffect } from 'react';
+import CriarPasta from './criarPasta';
+import { VerificaToken } from '../scripts/uteis';
 
 const HeaderSite: React.FC = () => {
     const navegar = useNavigate();
+    const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
+    const VerificarToken = async () => {
+        const token = await VerificaToken();
+        if (token) atualizarTokenAtual(token);
+    }
+    useEffect(() => {
+        VerificarToken();
+    }, []);
 
     const AbrirFecharPerfil = () => {
         AbrirFecharModal('modalPerfilHeader');
@@ -39,8 +49,11 @@ const HeaderSite: React.FC = () => {
         };
     }, []);
 
+    const [criandoPasta, setCriandoPasta] = useState(false);
+
     return (
         <div>
+            {criandoPasta && <CriarPasta setModal={setCriandoPasta} token={tokenAtual}/>}
             <div className={`header ${!isVisible ? 'headerEscondido trasicaoEsconder' : ' transicaoMostrar'}`} >
                 <div className="headerEsquerda">
                     <Link className="headerLogo" to="/"><img src="/imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante." /></Link>
@@ -111,10 +124,25 @@ const HeaderSite: React.FC = () => {
                             (
                                 <ul>
                                     <li>
-                                        <Link to="/postar" className="botaoComum fundoBtVermelho ">
+                                        <button onClick={() => AbrirFecharModal('menuOpcoesHeaderCriar')} className="botaoComum fundoBtVermelho ">
                                             <img src="/imgs/header/maisIcone.png" alt="Icone de entrar." />
                                             <p>Criar</p>
-                                        </Link>
+                                           
+                                        </button>
+                                        <ul id='menuOpcoesHeaderCriar' className='modalOpcoesComum modalOpcoesComumHeader'>
+                                            <li>
+                                                <Link className='modalOpcoesComumBt' to="/postar">
+                                                    Nova Publicação
+                                                </Link>
+                                                
+                                            </li>
+                                            <li>
+                                                <button onClick={() => setCriandoPasta(true)} className='modalOpcoesComumBt'>
+                                                    Nova Pasta
+                                                </button>
+                                            
+                                            </li>
+                                        </ul>
                                     </li>
                                     <li>
                                         <a href="#" className="marginEsquerda centralizado"><img src="/imgs/header/notificacaoIcone.png" alt="Icone de notificação." /></a>

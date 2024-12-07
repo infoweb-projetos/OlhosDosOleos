@@ -118,7 +118,10 @@
     opacity: 0;
     visibility: hidden
   }
-  
+
+ .modalOpcoesComumHeader{
+    width: 170px !important; 
+  }
   /* Responsividade */
   @media screen and (max-width: 800px) {
     .headerEsquerda{

@@ -6,7 +6,6 @@ import { Usuario } from '../interfaces/Usuario';
 import { Post } from '../interfaces/Post';
 import { api } from '../apiUrl.ts';
 import '../estilos/verPerfil.css';
-import '../estilos/modalOpcoes.css';
 import '../estilos/modalExcluir.css';
 import { AbrirFecharModal } from '../scripts/modal.ts';
 import { VerificaToken } from '../scripts/uteis.tsx';
@@ -152,7 +151,7 @@ const MeuPerfil: React.FC = () => {
 
     const VerificarToken = async () => {
         const token = await VerificaToken();
-        if (!token) navegar('/entrar')
+        if (!token){ navegar('/entrar'); localStorage.removeItem('tokenODO');}
         else atualizarTokenAtual(token);
     }
     useEffect(() => {
@@ -470,7 +469,7 @@ const MeuPerfil: React.FC = () => {
                                     <div className="profile-actions">
                                         <Link to="/editar/perfil"><img className="button-icon" src="/imgs/verPerfil/edit_icon.svg" alt="Editar" />Editar Informações do
                                             perfil</Link>
-                                        <Link to="editar/perfil" className="no-padding branco"><img className="button-icon" src="/imgs/verPerfil/personalize_icon.svg"
+                                        <Link to="/editar/perfil" className="no-padding branco"><img className="button-icon" src="/imgs/verPerfil/personalize_icon.svg"
                                             alt="Personalizar" />Personalizar perfil</Link>
                                     </div>
                                 )

@@ -1,0 +1,86 @@
+.modalCriarPastaArea{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+    z-index: 4;
+}
+.modalCriarPastaArea button{
+    background-color: transparent;
+    display: flex;
+    border: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalCriarPastaArea > div{
+    background-color: #FFFFFF;
+    width: 45%;
+    margin-top: 2em;
+    border-radius: 10px;
+}
+
+.modalCriarPastaArea > div > div{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #F5E8E8;
+    color: var(--corPrincipal);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.modalCriarPastaArea > div > div h3{
+    font-weight: normal;
+}
+.modalCriarPastaArea > div > form{
+    padding: 15px;
+}
+.modalCriarPastaArea > div > form > div{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.modalCriarPastaArea > div > form > div > label{
+    width: 100%;
+    margin-bottom: 7px;
+    color: var(--corPrincipal);
+}
+.modalCriarPastaArea > div > form > div > input{
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: none;
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    outline: none;
+}
+
+.modalCriarPastaArea > div > form > button{
+    background-color: var(--corPrincipal);
+    color: #FFFFFF;
+    padding: 7px 1em;
+    border-radius: 10px;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+.modalCriarPastaArea > div > form > button img{
+    margin-right: 5px;
+}
+
+.modalCriarPastaArea > div > figure{
+    width: 100%;
+    text-align: center;
+    padding: 1.5em 0;
+}
+.modalCriarPastaArea > div > figure figcaption{
+    color: var(--corPrincipal);
+    margin-top: 10px;
+    box-sizing: border-box;
+}
