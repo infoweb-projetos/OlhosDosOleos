@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Óleos dos Olhos - Explorar</title>
+    <link rel="icon" type="image/x-icon" href="imgs/header/signo.svg">
+    <link rel="stylesheet" href="estilos/comum.css">
+    <link rel="stylesheet" href="estilos/header.css">
+    <link rel="stylesheet" href="estilos/footer.css">
+    <link rel="stylesheet" href="estilos/verPost.css">
+    <script src="scripts/modal.js"></script>
+</head>
+
+<body>
+    <div class="organizacaoPadrao">
+        <div class="header">
+            <div class="headerEsquerda">
+                <a class="headerLogo"  href="#"><img   src="imgs/header/signo.svg" alt="Logo do site. Signo em formato de cabeça de elefante."/></a>
+                <ul>
+                    <li><a  href="#">Explorar</a></li>
+                    <li><a class="pagSelecionada" href="#">Portfólios</a></li>
+                </ul>
+                <form action="#">
+                    <div>
+                        <input type="image" src="imgs/header/lupa.svg" alt="Icone de lupa."/> 
+                        <input type="text" placeholder='Busque por "aquarela"'/>
+                    </div>
+                    <input type="submit" class="botaoComum fundoBtVermelho" value="Pesquisar" />   
+                </form>
+            </div>
+            <div class="headerDireita">
+                <ul>
+                    <li>
+                        <a href="#" class="botaoComum fundoBtBranco" >
+                            <img src="imgs/header/login-icon.svg" alt="Icone de entrar."/>
+                            <p>Entrar</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="botaoComum fundoBtVermelho">
+                            <img src="imgs/header/signIn-icon.svg" alt="Icone de cadastrar-se."/>
+                            <p>Cadastre-se</p>
+                        </a>
+                    </li>
+                    <li class="submenu">
+                        <button href="#" onclick="AbrirFecharModal('modalOpcoes')" class="marginEsquerda"><img src="imgs/header/pontinhosIcone.png" alt="Icone para ver mais opções" /></button>
+                        <div>
+                            <ul id="modalOpcoes" class="menuVermelho">
+                                <li>
+                                    <a class="menuItemComum" href="#">
+                                        <p>Sobre</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menuItemComum" href="#">
+                                        <p>Memorial</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menuItemComum" href="#">
+                                        <p>Ajuda</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menuItemComum" href="#">
+                                        <p>Política de Privacidade</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menuItemComum" href="#">
+                                        <p>Termos de Serviço</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="areaConteudo">
+            <!-- Conteudo aqui, imagine isso aqui como o body / main -->
+
+           <div class="gallery">
+            <img src="imgs/verPerfil/MorangoArt.png" alt="Arte 1" onclick="openModal('imgs/verPerfil/MorangoArt.png')" />
+            <img src="art2.jpg" alt="Arte 2" onclick="openModal('art2.jpg')" />
+          </div>
+          
+          <div id="modal" class="modal" onclick="closeModal()">
+            <span class="close">&times;</span>
+            <div id="org1">
+                 <img class="perfildoartista" src="imgs/verPerfil/MorangoArt.png" alt="foto do perfil do artista">
+                 <div>
+                    <h1 class="titulodaart">Titulo</h1>
+                    <p class="nomedoartista">Clark24</p>
+                 </div>
+            </div>
+            <img class="modal-content" id="expandedImg" />
+          </div>
+        </div>
+
+        
+
+        <div class="rodape">
+            <div>
+                <ul>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Equipe</a></li>
+                    <li><a href="#">Ajuda</a></li>
+                </ul>
+                <ul class="listaPlataformas">
+                    <li><a href="#"><img src="imgs/footer/iconeGithub.svg"  alt="logomarca do github"/></a></li>
+                    <li><a href="#"><img src="imgs/footer/iconeFigma.svg"  alt="logomarca do figma"/></a></li>
+                </ul>
+            </div>
+            <figure>
+                <img src="imgs/entrar/logoOdoVermelha.png" alt="logomarca olhos dos oleos com abreviatura e signo"/>
+            </figure>
+            <ul>
+                <li><a href="#">Política de Privacidade</a></li>
+                <li><a href="#">Termos de uso</a></li>
+                <li><a href="#">Mapa do Site</a></li>
+                <li><a href="#">Dúvidas Frequentes</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    function openModal(imgSrc) {
+  const modal = document.getElementById('modal');
+  const expandedImg = document.getElementById('expandedImg');
+  modal.style.display = 'block';
+  expandedImg.src = imgSrc;
+}
+
+function closeModal() {
+  const modal = document.getElementById('modal');
+  modal.style.display = 'none';
+}
+</script>
+</html>
