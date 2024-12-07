@@ -1,0 +1,66 @@
+.gallery img {
+    cursor: pointer;
+    width: 150px; /* Reduz o tamanho das imagens na galeria */
+    height: auto;
+    margin: 5px;
+    transition: transform 0.3s;
+  }
+  
+  .gallery img:hover {
+    transform: scale(1.1);
+  }
+  
+  .modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .modal-content {
+    display: block;
+    margin: auto;
+    position: relative;
+    left: 0em;
+    top: 8em;
+    width: 42em;
+    transform: scale(1.1);
+    transition: transform 0.3s;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .perfildoartista{
+    border-radius: 100%;
+    width: 5em;
+    height: 5em;
+  }
+
+  .titulodaart{
+    color: white;
+  }
+
+  .nomedoartista{
+    color: white;
+  }
+
+  #org1{
+    display: flex;
+    position: relative;
+    top: 5em;
+    left: 25em;
+    align-items: center;
+    gap: 1em;
+}
