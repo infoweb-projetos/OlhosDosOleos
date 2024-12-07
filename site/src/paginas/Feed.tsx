@@ -195,7 +195,7 @@ const Feed: React.FC = () => {
                                                 {post.usuario?.nome}
                                             </Link>
                                         </figure>
-                                        <button onClick={() => CurtirPost(post.id? post.id : 0, tokenAtual)}>
+                                        <button onClick={() => CurtirPost(post.id? post.id : 0, tokenAtual, setUltimosPosts, ultimosPosts)}>
                                             {post.curtidasQtd}
                                             <img src="imgs/feed/iconeLikeFeed.svg" />
                                         </button>
@@ -278,7 +278,7 @@ const Feed: React.FC = () => {
                                                 {post.usuario?.nome}
                                             </Link>
                                         </figure>
-                                        <button onClick={() => CurtirPost(post.id ? post.id : 0, tokenAtual)}>
+                                        <button onClick={() => CurtirPost(post.id? post.id : 0, tokenAtual, setPosts, posts)}>
                                             {post.curtidasQtd}
                                             <img src="imgs/feed/iconeLikeFeed.svg" />
                                         </button>

@@ -275,7 +275,7 @@ const Perfil: React.FC = () => {
                                     </div>
                                     <div className='seguidoresLinha'>
                                         <p className='dmSansThin'>Exibições de Posts:</p>
-                                        <p className='dmSansThin'>0</p>
+                                        <p className='dmSansThin'>{posts.length}</p>
                                     </div>
 
                                 </div>
