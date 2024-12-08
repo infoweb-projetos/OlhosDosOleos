@@ -24,7 +24,6 @@ const Feed: React.FC = () => {
     const[categorias, setCategorias] = useState<Array<Categoria>>([]);
     const[categoriaSelecionada, setCategoriaSelecionada]=useState<string>('');
     const[postsExibidos, setPostsExibidos] = useState<Array<Post>>([]);
-    const [ultimosPosts, setUltimosPosts] = useState<Array<Post>>([]);
     const [ultimosUsuarios, setUltimosUsuarios] = useState<Array<Usuario>>([]);
     const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
     const navegar = useNavigate();
@@ -97,7 +96,7 @@ const Feed: React.FC = () => {
                     imagemUrl: '',
                     curtidas:p.curtidas,
                     curtidasQtd: p.curtidas && p.curtidas.length > 0 ? p.curtidas.length : 0,
-                    entrada: p.entrada?p.entrada:undefined
+                    entrada: p.entrada?p.entrada:undefined,
                 };
 
                 if (p.imagem && p.imagemtipo) {
@@ -113,7 +112,6 @@ const Feed: React.FC = () => {
                 } else {
                     if (obj.usuario) obj.usuario.imagemUrl = "/imgs/verPerfil/perfil.png";
                 }
-
                 return obj;
             });
             setPosts(postLista);
@@ -136,18 +134,26 @@ const Feed: React.FC = () => {
                 {
                
                 const usuarioId= await VerificaToken(true);
-                console.log(usuarioId)
                 if(usuarioId){        
                     postsOrdenados= postsOrdenados.filter(post => post.curtidas?.some(curtida=> curtida.usuarioid === usuarioId)); 
                 }
                 break;
-            }case 'Populares':
+            }
+            case 'Populares':
             {
-                 postsOrdenados=postsOrdenados.sort((a,b) => (b.curtidasQtd || 0) - (a.curtidasQtd ||0));
-                 break;
-            }case 'Recentes':{
+                postsOrdenados=postsOrdenados.sort((a,b) => (b.curtidasQtd || 0) - (a.curtidasQtd ||0));
+                break;
+            }
+            case 'Meus Artistas':
+            {
+                const usuarioId = await VerificaToken(true);
+                if(usuarioId){        
+                    postsOrdenados= postsOrdenados.filter(post => post.usuario?.seguidores?.some(seguidor=> seguidor.seguidorid === usuarioId)); 
+                }
+                break;
+            }
+            case 'Recentes':{
                 postsOrdenados= postsOrdenados.sort((a,b)=> 
-                
                     new Date(b.entrada || 0).getTime() - new Date(a.entrada || 0).getTime()
                 );
                 break;
@@ -288,7 +294,7 @@ const Feed: React.FC = () => {
                                                 {post.usuario?.nome}
                                             </Link>
                                         </figure>
-                                        <button onClick={() => CurtirPost(post.id? post.id : 0, tokenAtual, setUltimosPosts, ultimosPosts)}>
+                                        <button onClick={() => {CurtirPost(post.id? post.id : 0, tokenAtual, setPosts, posts); OrdenaPosts(ordenacao)}}>
                                             {post.curtidasQtd}
                                             <img src="imgs/feed/iconeLikeFeed.svg" />
                                         </button>
@@ -388,7 +394,7 @@ const Feed: React.FC = () => {
                                                 {post.usuario?.nome}
                                             </Link>
                                         </figure>
-                                        <button onClick={() => CurtirPost(post.id? post.id : 0, tokenAtual, setPosts, posts)}>
+                                        <button onClick={() => {CurtirPost(post.id? post.id : 0, tokenAtual, setPosts, posts); OrdenaPosts(ordenacao)}}>
                                             {post.curtidasQtd}
                                             <img src="imgs/feed/iconeLikeFeed.svg" />
                                         </button>
