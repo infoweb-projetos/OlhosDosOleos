@@ -67,6 +67,11 @@
     align-items: center;
     color: var(--corPrincipal);
 }
+.categoriaSelecionada {
+    font-weight: bold; /* Exemplo de destaque */
+    color: #E30048; /* Cor personalizada para destacar */
+    background-color: rgba(227, 0, 72, 0.1); /* Cor de fundo suave para o item selecionado */
+}
 
 .areaOrdernarRapido {
     left: 0;
@@ -102,6 +107,12 @@
     transition-property: background-color, color;
     transition-timing-function: linear;
     margin: 0 0.4em;
+
+}
+.areaOrdernarRapido ul button.ativo {
+    font-weight: bold;
+    color: #E30048;  
+    background-color: rgba(227, 0, 72, 0.1);
 
 }
 

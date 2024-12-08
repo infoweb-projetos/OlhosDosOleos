@@ -1,4 +1,5 @@
 import { Seguir } from "./Seguir";
+import { Curtida } from "./Curtida";
 
 export interface Usuario {
     biografia?: string;
@@ -29,4 +30,5 @@ export interface Usuario {
     qtdSeguidores?: number;
     seguidos?: Seguir[];
     sigo?: boolean;
+    postcurtidos?:Curtida[]
 }

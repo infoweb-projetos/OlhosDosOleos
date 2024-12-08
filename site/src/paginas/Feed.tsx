@@ -13,12 +13,18 @@ import { CurtirPost, VerificaToken } from '../scripts/uteis.tsx';
 import { AbrirFecharModal } from '../scripts/modal.ts';
 import FavoritarPost from '../componentes/favoritarPost.tsx';
 import { Categoria } from '../interfaces/Enums.ts';
+import { jwtDecode } from 'jwt-decode';
 
+
+type Ordenacao = 'Recentes' | 'Populares' | 'Curtidos' | 'Meus Artistas';
 
 const Feed: React.FC = () => {
     const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
-    const [posts, setPosts] = useState<Array<Post>>([]);
+    const [posts, setPosts] = useState<Post[]>([]);
+    const[ordenacao, setOrdenacao]= useState<Ordenacao>("Recentes");
     const[categorias, setCategorias] = useState<Array<Categoria>>([]);
+    const[categoriaSelecionada, setCategoriaSelecionada]=useState<string>('');
+    const[postsExibidos, setPostsExibidos] = useState<Array<Post>>([]);
     const [ultimosPosts, setUltimosPosts] = useState<Array<Post>>([]);
     const [ultimosUsuarios, setUltimosUsuarios] = useState<Array<Usuario>>([]);
     const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
@@ -26,6 +32,17 @@ const Feed: React.FC = () => {
     const [modalFavoritar, setModalFavoritar] = useState<boolean>(false);
     const [postId, setPostId] = useState<number>(0);
 
+    const VerificarToken = async () => {
+        const token = await VerificaToken();
+        if (token) atualizarTokenAtual(token);
+    }
+    useEffect(() => {
+        VerificarToken();
+    }, []);
+    useEffect(() => {
+        CarregarCategorias(),
+        UltimosUsuarios();
+    }, []);
 
     const SalvarPost = (id:number) => {
         if(id > 0){
@@ -34,7 +51,7 @@ const Feed: React.FC = () => {
         }
         
     }
-
+    
     const UltimosUsuarios = async  () => {
         axios.get(api + 'usuarios/ultimos', {})
         .then(response => {
@@ -63,7 +80,7 @@ const Feed: React.FC = () => {
             navegar('/');
         });
     }
-
+    
     const CarregarPosts = async () =>{
         axios.get(api + 'posts/listar', {})
         .then(response => {
@@ -76,9 +93,12 @@ const Feed: React.FC = () => {
                     usuario: p.usuario,
                     usuarioid: p.usuarioid,
                     sensivel: p.sensivel,
+                    categoriaid:p.categoriaid,
                     rascunho: p.rascunho,
                     imagemUrl: '',
-                    curtidasQtd: p.curtidas && p.curtidas.length > 0 ? p.curtidas.length : 0
+                    curtidas:p.curtidas,
+                    curtidasQtd: p.curtidas && p.curtidas.length > 0 ? p.curtidas.length : 0,
+                    entrada: new Date(p.entrada)
                 };
 
                 if (p.imagem && p.imagemtipo) {
@@ -97,16 +117,82 @@ const Feed: React.FC = () => {
 
                 return obj;
             });
-            setUltimosPosts(postLista.slice(0, postLista.length > 8 ? 8 : postLista.length));
-            if (postLista.length > 8){
-                setPosts(postLista.slice(8));
-            }
+            setPosts(postLista);
         })
         .catch(error => {
             console.log(error);
             navegar('/');
         });
     }
+    const obterUsuarioId = (token: string | null) =>{
+        
+        if(!token){
+            console.log("O token não foi informado")
+            return null;
+        }
+
+        const tokenParts = token.split('.');
+        if (tokenParts.length !== 3) {
+            console.log('Token inválido');
+            return null;
+        }
+        try{
+            const decoded : any = jwtDecode(token);
+            console.log('Decoded:',decoded)
+            return decoded.usuario;
+        }catch(error){
+            console.error('Erro na decodificação do token:', error);
+            return null;
+        }
+        
+    }
+    
+    const OrdenaPosts = (filtro:Ordenacao) => {
+
+        let postsOrdenados=[...posts]
+        if(categoriaSelecionada){
+            postsOrdenados=postsOrdenados.filter(post => post.categoriaid === categoriaSelecionada)
+        }
+        switch(filtro){
+            case 'Curtidos':
+            {
+                console.log('ordenando por curtidos')
+                const usuarioId= Number(obterUsuarioId(tokenAtual));
+                console.log(usuarioId)
+                if(usuarioId){        
+                    postsOrdenados= postsOrdenados.filter(post => post.curtidas?.some(curtida=> curtida.usuarioid === usuarioId)); 
+                    console.log('seus posts curtidos:',postsOrdenados)           
+                }
+                break;
+            }case 'Populares':
+            {
+                console.log('ordenando por populares')
+                 postsOrdenados=postsOrdenados.sort((a,b) => (b.curtidasQtd || 0) - (a.curtidasQtd ||0));
+                 console.log('o post mais popular é:',postsOrdenados)
+                 break;
+            }case 'Recentes':{
+                console.log('ordenando por recentes')
+                postsOrdenados= postsOrdenados.sort((a,b)=> 
+                
+                    new Date(b.entrada).getTime() - new Date(a.entrada).getTime()
+                );
+                break;
+            } default: return posts;
+        }
+        setPostsExibidos(postsOrdenados);
+    }
+
+    useEffect(() =>{
+        CarregarPosts();
+    },[]);
+
+    useEffect(() => {
+        if(posts.length>0){
+
+            OrdenaPosts(ordenacao);
+        }
+    }, [ordenacao, posts,categoriaSelecionada]);
+
 
     const CarregarCategorias = async () =>{
         try{
@@ -128,21 +214,13 @@ const Feed: React.FC = () => {
             navegar('/');
         }
     }
-    
-    const VerificarToken = async () => {
-        const token = await VerificaToken();
-        if (token) atualizarTokenAtual(token);
+    const SelecionarCategoria = (categoriaId: string)=>{
+
+        setCategoriaSelecionada(categoriaId===categoriaSelecionada?'':categoriaId);
+
     }
-    useEffect(() => {
-        VerificarToken();
-    }, []);
 
 
-    useEffect(() => {
-        CarregarCategorias(),
-        CarregarPosts();
-        UltimosUsuarios();
-    }, []);
 
     useEffect(() => {
         if (ultimosUsuarios.length > 0 && !carroselAtivo) {
@@ -169,7 +247,10 @@ const Feed: React.FC = () => {
                     {categorias.length > 0 ? (
                         categorias.map((categoria, index) => (
                             <li key={index}>
-                                <a>
+                                <a
+                                    onClick={()=> SelecionarCategoria(categoria.nome)}
+                                    className={categoriaSelecionada===categoria.nome? 'categoriaSelecionada':''}
+                                >
                                     <img src="imgs/temp/iconeCategoriaFeed.png" alt={categoria.nome} />
                                     {categoria.nome}
                                 </a>
@@ -182,13 +263,10 @@ const Feed: React.FC = () => {
 
 
                 <ul className="postsArea">
-                {
-                        ultimosPosts.length === 0 ?
-                        (
-                            <li></li>
-                        ) :
-                        (
-                            ultimosPosts.map((post, index) => 
+                    {postsExibidos.length === 0 ?(
+                            <li>Não há posts...</li>
+                        ) : (
+                            postsExibidos.map((post, index) => 
                             (
                                 !post.rascunho ? 
                                 (
@@ -284,12 +362,12 @@ const Feed: React.FC = () => {
 
                 <ul className="postsArea">
                     {
-                        posts.length === 0 ?
+                        postsExibidos.length === 0 ?
                         (
                             <li></li>
                         ) :
                         (
-                            posts.map((post, index) => 
+                            postsExibidos.map((post, index) => 
                             (
                                 !post.rascunho ? 
                                 (
@@ -351,10 +429,19 @@ const Feed: React.FC = () => {
 
                 <div className="areaOrdernarRapido">
                     <ul className="">
-                        <li><button type="button" >Todos</button></li>
-                        <li><button type="button" >Recentes</button></li>
-                        <li><button type="button" >Meus Artistas</button></li>
-                        <li><button type="button" >Populares</button></li>
+                        {["Recentes","Curtidos", "Meus Artistas", "Populares"].map((filtro) =>(
+                            <li key={filtro}>
+
+                                <button 
+                                    type='button' 
+                                    onClick={() => setOrdenacao(filtro as Ordenacao)}
+                                    className={ordenacao===filtro?'ativo':''}>
+
+                                    {filtro}
+
+                                </button>
+                            </li>
+                        ))}
                     </ul>
                 </div>
                 <button className="btVoltarTopo">
