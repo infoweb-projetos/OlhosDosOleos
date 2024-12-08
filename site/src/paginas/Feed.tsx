@@ -12,11 +12,13 @@ import {api} from '../apiUrl.ts';
 import { CurtirPost, VerificaToken } from '../scripts/uteis.tsx';
 import { AbrirFecharModal } from '../scripts/modal.ts';
 import FavoritarPost from '../componentes/favoritarPost.tsx';
+import { Categoria } from '../interfaces/Enums.ts';
 
 
 const Feed: React.FC = () => {
     const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const [posts, setPosts] = useState<Array<Post>>([]);
+    const[categorias, setCategorias] = useState<Array<Categoria>>([]);
     const [ultimosPosts, setUltimosPosts] = useState<Array<Post>>([]);
     const [ultimosUsuarios, setUltimosUsuarios] = useState<Array<Usuario>>([]);
     const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
@@ -106,6 +108,27 @@ const Feed: React.FC = () => {
         });
     }
 
+    const CarregarCategorias = async () =>{
+        try{
+            axios.get(api + 'categorias/listar',{})
+                .then(response =>{
+                    const categorias = response.data.dados;
+                    const catLista: Array<Categoria> = categorias.map((c:Categoria)=>{
+                        const item: Categoria ={
+                            nome:c.nome,
+                        };
+                        return item;
+                    });
+                    if (catLista.length > 0){
+                        setCategorias(catLista);
+                    }
+                })
+        }catch(error){
+            console.log('Erro ao carregar as categorias',error);
+            navegar('/');
+        }
+    }
+    
     const VerificarToken = async () => {
         const token = await VerificaToken();
         if (token) atualizarTokenAtual(token);
@@ -116,6 +139,7 @@ const Feed: React.FC = () => {
 
 
     useEffect(() => {
+        CarregarCategorias(),
         CarregarPosts();
         UltimosUsuarios();
     }, []);
@@ -142,37 +166,21 @@ const Feed: React.FC = () => {
                     <button type="button" className="botaoComum fundoBtBranco"><img src="imgs/feed/iconeFIltrar.svg" alt="Icone de filtragem" /> Filtrar</button>
                 </form>
                 <ul className="menuCategoriasFiltro">
-                    <li>
-                        <a href="">
-                            <img src="imgs/temp/iconeCategoriaFeed.png" />
-                            Categoria
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <img src="imgs/temp/iconeCategoriaFeed.png" />
-                            Categoria
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <img src="imgs/temp/iconeCategoriaFeed.png" />
-                            Categoria
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <img src="imgs/temp/iconeCategoriaFeed.png" />
-                            Categoria
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <img src="imgs/temp/iconeCategoriaFeed.png" />
-                            Categoria
-                        </a>
-                    </li>
+                    {categorias.length > 0 ? (
+                        categorias.map((categoria, index) => (
+                            <li key={index}>
+                                <a>
+                                    <img src="imgs/temp/iconeCategoriaFeed.png" alt={categoria.nome} />
+                                    {categoria.nome}
+                                </a>
+                            </li>
+                        ))
+                    ) : (
+                        <li>Carregando Categorias...</li>
+                    )}
                 </ul>
+
+
                 <ul className="postsArea">
                 {
                         ultimosPosts.length === 0 ?
