@@ -1,0 +1,167 @@
+.modalFavoritarPostArea{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+    z-index: 4;
+}
+.modalFavoritarPostArea button{
+    background-color: transparent;
+    display: flex;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.modalFavoritarPostArea > div{
+    background-color: #FFFFFF;
+    width: 30%;
+    margin-top: 2em;
+    border-radius: 10px;
+    height: 85vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.modalFavoritarPostArea .modalFavoritarPostHeader{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0 1em;
+    padding-top: 1em;
+}
+.modalFavoritarPostArea .modalFavoritarPostHeader div{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.modalFavoritarPostArea .modalFavoritarPostHeader figure{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: #FEE4E2;
+    border: 8px solid #FEF3F2;
+    margin-right: 5px;
+}
+.modalFavoritarPostArea .modalFavoritarPostHeader figure img{
+    padding: 0.5em;
+   
+}
+.modalFavoritarPostArea .modalFavoritarPostHeader h3{
+    color: var(--corPrincipal);
+    font-weight: 100;
+}
+
+.modalFavoritarPostArea > div > span{
+    padding-left: 1em;
+    color: #7C7C7C;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+.modalFavoritarPostArea > div > ul{
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y:auto;
+    display: flex;
+    flex-wrap: wrap;
+
+    height: 75%; 
+
+    margin: 0 1em;
+}
+
+.modalFavoritarPostArea > div > ul::-webkit-scrollbar {
+    width: 12px;
+    background-color: #E4E4E4;
+    border-radius: 10px;
+}
+
+.modalFavoritarPostArea > div > ul::-webkit-scrollbar-thumb {
+    background-color: var(--corPrincipal); 
+    border-radius: 10px;
+}
+.modalFavoritarPostArea > div > ul::-webkit-scrollbar-thumb:hover{
+    cursor:grab;
+}
+
+.modalFavoritarPostArea > div > ul li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: min-content;
+    width: 100%;
+    padding: 0.3em 0.5em;
+    margin-right: 10px;
+    box-sizing: border-box;
+    transition-duration: 200ms;
+    transition-timing-function: linear;
+    transition-property: background-color;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.modalFavoritarPostArea > div > ul li:hover{
+    background-color: #F9CCDA;
+}
+.modalFavoritarPostArea > div > ul li figure{
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+
+}
+.modalFavoritarPostArea > div > ul li figure img{
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    margin-right: 5px;
+}
+.modalFavoritarPostArea > div > ul li figure figcaption{
+    color: var(--corPrincipal);
+}
+.modalFavoritarPostArea > div > ul li button{
+    background-color: var(--corPrincipal);
+    color: #FFFFFF;
+    padding: 10px 1em;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.modalFavoritarPostArea > div > button{
+    background-color: var(--corPrincipal);
+    color: #FFFFFF;
+    padding: 10px 1em;
+    border-radius: 20px;
+    margin-left: 1em;
+    margin-top: 10px;
+}
+.modalFavoritarPostArea > div > button img{
+    margin-right: 5px;
+}
+
+@media screen and (max-width: 1000px) {
+    .modalFavoritarPostArea > div > ul{
+        height: 50%;
+    }
+}
+
+
+.modalFavoritarPostArea > div > figure{
+    width: 100%;
+    text-align: center;
+    padding: 1.5em 0;
+}
+.modalFavoritarPostArea > div > figure figcaption{
+    color: var(--corPrincipal);
+    margin-top: 10px;
+    box-sizing: border-box;
+}

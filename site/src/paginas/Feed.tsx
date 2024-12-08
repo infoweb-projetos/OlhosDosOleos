@@ -10,6 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Usuario } from '../interfaces/Usuario';
 import {api} from '../apiUrl.ts';
 import { CurtirPost, VerificaToken } from '../scripts/uteis.tsx';
+import { AbrirFecharModal } from '../scripts/modal.ts';
+import FavoritarPost from '../componentes/favoritarPost.tsx';
 
 
 const Feed: React.FC = () => {
@@ -19,6 +21,17 @@ const Feed: React.FC = () => {
     const [ultimosUsuarios, setUltimosUsuarios] = useState<Array<Usuario>>([]);
     const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
     const navegar = useNavigate();
+    const [modalFavoritar, setModalFavoritar] = useState<boolean>(false);
+    const [postId, setPostId] = useState<number>(0);
+
+
+    const SalvarPost = (id:number) => {
+        if(id > 0){
+            setPostId (id);
+            setModalFavoritar(true);
+        }
+        
+    }
 
     const UltimosUsuarios = async  () => {
         axios.get(api + 'usuarios/ultimos', {})
@@ -118,6 +131,7 @@ const Feed: React.FC = () => {
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
+            {modalFavoritar && <FavoritarPost token={tokenAtual} setModal={setModalFavoritar} postId={postId}/>}
             <div className="areaConteudo feed">
                 <h1>Descubra a arte <b>potiguar</b>!</h1>
                 <form className="espacamentoFeedComum">
@@ -171,7 +185,25 @@ const Feed: React.FC = () => {
                                 !post.rascunho ? 
                                 (
                                 <li key={index} className="postFeed">
+                                   
                                     <figure className='postArea'>
+                                        <div className='opcoesPostFeed'>
+                                            <img onClick={() => AbrirFecharModal('menuOpcoesPostFeed' + post.id)} src='/imgs/verPerfil/iconesOpcoesHorizontal.svg' />
+                                            <ul id={'menuOpcoesPostFeed' + post.id} className='modalOpcoesComum'>
+                                                <li>
+                                                    <button onClick={() => SalvarPost(post.id ? post.id : 0)} className='modalOpcoesComumBt'>
+                                                        Favoritar
+                                                        <img src='/imgs/feed/iconeFavoritoVermelho.svg' />
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className='modalOpcoesComumBt'>
+                                                        Baixar
+                                                        <img src='/imgs/feed/iconeDowloadVermelho.svg' />
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
                                         <Link to="">
                                             <img  className={ post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} />
                                             <figcaption>{post.titulo}</figcaption>
@@ -255,6 +287,23 @@ const Feed: React.FC = () => {
                                 (
                                 <li key={index} className="postFeed">
                                     <figure className='postArea'>
+                                        <div className='opcoesPostFeed'>
+                                            <img onClick={() => AbrirFecharModal('menuOpcoesPostFeed' + post.id)} src='/imgs/verPerfil/iconesOpcoesHorizontal.svg' />
+                                            <ul id={'menuOpcoesPostFeed' + post.id} className='modalOpcoesComum'>
+                                                <li>
+                                                    <button className='modalOpcoesComumBt'>
+                                                        Favoritar
+                                                        <img src='/imgs/feed/iconeFavoritoVermelho.svg' />
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className='modalOpcoesComumBt'>
+                                                        Baixar
+                                                        <img src='/imgs/feed/iconeDowloadVermelho.svg' />
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
                                         <Link to="">
                                             <img  className={ post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} />
                                             <figcaption>{post.titulo}</figcaption>

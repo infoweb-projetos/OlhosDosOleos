@@ -152,6 +152,7 @@ const HeaderSite: React.FC = () => {
                                         <ul id="modalPerfilHeader" className="menuVermelho">
                                             <li>
                                                 <Link to="/meuperfil" onClick={AtualizarPagina} className="menuItemComum">
+                                                <img src="/imgs/header/perfilSubMenuIcone.svg" alt="Perfil." />
                                                     <p>Perfil</p>
                                                 </Link>
                                             </li>
