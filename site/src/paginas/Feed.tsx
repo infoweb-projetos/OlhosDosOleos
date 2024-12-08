@@ -138,7 +138,6 @@ const Feed: React.FC = () => {
         }
         try{
             const decoded : any = jwtDecode(token);
-            console.log('Decoded:',decoded)
             return decoded.usuario;
         }catch(error){
             console.error('Erro na decodificação do token:', error);
@@ -156,22 +155,16 @@ const Feed: React.FC = () => {
         switch(filtro){
             case 'Curtidos':
             {
-                console.log('ordenando por curtidos')
                 const usuarioId= Number(obterUsuarioId(tokenAtual));
-                console.log(usuarioId)
                 if(usuarioId){        
                     postsOrdenados= postsOrdenados.filter(post => post.curtidas?.some(curtida=> curtida.usuarioid === usuarioId)); 
-                    console.log('seus posts curtidos:',postsOrdenados)           
                 }
                 break;
             }case 'Populares':
             {
-                console.log('ordenando por populares')
                  postsOrdenados=postsOrdenados.sort((a,b) => (b.curtidasQtd || 0) - (a.curtidasQtd ||0));
-                 console.log('o post mais popular é:',postsOrdenados)
                  break;
             }case 'Recentes':{
-                console.log('ordenando por recentes')
                 postsOrdenados= postsOrdenados.sort((a,b)=> 
                 
                     new Date(b.entrada).getTime() - new Date(a.entrada).getTime()
