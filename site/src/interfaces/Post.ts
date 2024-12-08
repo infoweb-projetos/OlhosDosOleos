@@ -18,7 +18,7 @@ export interface Post {
     processo?: Array<Processo>;
     curtidas?: Curtida[];
     curtidasQtd?: number;
-    entrada: Date;
+    entrada?: Date;
 }
 
 

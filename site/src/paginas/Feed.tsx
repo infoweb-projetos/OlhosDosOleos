@@ -13,7 +13,6 @@ import { CurtirPost, VerificaToken } from '../scripts/uteis.tsx';
 import { AbrirFecharModal } from '../scripts/modal.ts';
 import FavoritarPost from '../componentes/favoritarPost.tsx';
 import { Categoria } from '../interfaces/Enums.ts';
-import { jwtDecode } from 'jwt-decode';
 
 
 type Ordenacao = 'Recentes' | 'Populares' | 'Curtidos' | 'Meus Artistas';
@@ -98,7 +97,7 @@ const Feed: React.FC = () => {
                     imagemUrl: '',
                     curtidas:p.curtidas,
                     curtidasQtd: p.curtidas && p.curtidas.length > 0 ? p.curtidas.length : 0,
-                    entrada: new Date(p.entrada)
+                    entrada: p.entrada?p.entrada:undefined
                 };
 
                 if (p.imagem && p.imagemtipo) {
@@ -124,29 +123,9 @@ const Feed: React.FC = () => {
             navegar('/');
         });
     }
-    const obterUsuarioId = (token: string | null) =>{
-        
-        if(!token){
-            console.log("O token não foi informado")
-            return null;
-        }
-
-        const tokenParts = token.split('.');
-        if (tokenParts.length !== 3) {
-            console.log('Token inválido');
-            return null;
-        }
-        try{
-            const decoded : any = jwtDecode(token);
-            return decoded.usuario;
-        }catch(error){
-            console.error('Erro na decodificação do token:', error);
-            return null;
-        }
-        
-    }
     
-    const OrdenaPosts = (filtro:Ordenacao) => {
+    
+    const OrdenaPosts = async (filtro:Ordenacao) => {
 
         let postsOrdenados=[...posts]
         if(categoriaSelecionada){
@@ -154,8 +133,10 @@ const Feed: React.FC = () => {
         }
         switch(filtro){
             case 'Curtidos':
-            {
-                const usuarioId= Number(obterUsuarioId(tokenAtual));
+                {
+               
+                const usuarioId= await VerificaToken(true);
+                console.log(usuarioId)
                 if(usuarioId){        
                     postsOrdenados= postsOrdenados.filter(post => post.curtidas?.some(curtida=> curtida.usuarioid === usuarioId)); 
                 }
@@ -167,7 +148,7 @@ const Feed: React.FC = () => {
             }case 'Recentes':{
                 postsOrdenados= postsOrdenados.sort((a,b)=> 
                 
-                    new Date(b.entrada).getTime() - new Date(a.entrada).getTime()
+                    new Date(b.entrada || 0).getTime() - new Date(a.entrada || 0).getTime()
                 );
                 break;
             } default: return posts;
@@ -259,8 +240,9 @@ const Feed: React.FC = () => {
                     {postsExibidos.length === 0 ?(
                             <li>Não há posts...</li>
                         ) : (
-                            postsExibidos.map((post, index) => 
+                            postsExibidos.slice(0,8).map((post, index) => 
                             (
+                                
                                 !post.rascunho ? 
                                 (
                                 <li key={index} className="postFeed">
@@ -360,7 +342,7 @@ const Feed: React.FC = () => {
                             <li></li>
                         ) :
                         (
-                            postsExibidos.map((post, index) => 
+                            postsExibidos.slice(8).map((post, index) => 
                             (
                                 !post.rascunho ? 
                                 (

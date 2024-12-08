@@ -3,17 +3,24 @@ import {api} from '../apiUrl.ts';
 import { Post } from "../interfaces/Post.ts";
 import { Usuario } from "../interfaces/Usuario.ts";
 
-export const VerificaToken = async () : Promise<string | undefined> => {
+export const VerificaToken = async (descodificado: boolean = false) => {
     const token = localStorage.getItem('tokenODO');
     if (!token) {
         return undefined;
     }
     try {
-        await axios.get(api + 'autenticacao/verificatoken', {
+       const response= await axios.get(api + 'autenticacao/verificatoken', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
+        console.log(response.data)
+        if(response.data.estado==='ok'){
+            if(descodificado){
+                return response.data.token.usuario;
+            }
+
+        }
         return token;
     } catch (error) {
         console.log(error);
