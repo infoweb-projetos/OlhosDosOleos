@@ -5,7 +5,7 @@ import '../estilos/verPastas.css';
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { api } from '../apiUrl';
-import { Pasta, PastaImagem, PastaPosts } from '../interfaces/Pasta';
+import { PastaImagem, PastaPosts } from '../interfaces/Pasta';
 import { Post } from '../interfaces/Post';
 
 
