@@ -74,6 +74,8 @@
     box-sizing: border-box;
     overflow-y:auto;
     display: flex;
+    align-items: flex-start;
+    align-content: flex-start;
     flex-wrap: wrap;
 
     height: 75%; 
