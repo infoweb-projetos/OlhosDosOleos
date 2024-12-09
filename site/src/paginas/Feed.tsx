@@ -47,7 +47,6 @@ const Feed: React.FC = () => {
             setPostId (id);
             setModalFavoritar(true);
         }
-        
     }
     
     const UltimosUsuarios = async  () => {
@@ -121,7 +120,6 @@ const Feed: React.FC = () => {
             navegar('/');
         });
     }
-    
     
     const OrdenaPosts = async (filtro:Ordenacao) => {
 
@@ -200,8 +198,6 @@ const Feed: React.FC = () => {
 
     }
 
-
-
     useEffect(() => {
         if (ultimosUsuarios.length > 0 && !carroselAtivo) {
             CarroselComum('anteBtn', 'proxBtn', 'carroselSlide', 'carroselFeedUsuarios', 'listaImagensCarroselFeedUsuario');
@@ -209,7 +205,6 @@ const Feed: React.FC = () => {
         }
     }, [ultimosUsuarios, UltimosUsuarios]);
 
-   
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
@@ -217,11 +212,11 @@ const Feed: React.FC = () => {
             <div className="areaConteudo feed">
                 <h1>Descubra a arte <b>potiguar</b>!</h1>
                 <form className="espacamentoFeedComum">
+                    <button type="button" className="botaoComum fundoBtBranco"><img src="imgs/feed/iconeFIltrar.svg" alt="Icone de filtragem" /> Filtrar</button>
                     <select className="botaoComum fundoBtBranco">
                         <option>Classificar</option>
                         <option>aa</option>
                     </select>
-                    <button type="button" className="botaoComum fundoBtBranco"><img src="imgs/feed/iconeFIltrar.svg" alt="Icone de filtragem" /> Filtrar</button>
                 </form>
                 <ul className="menuCategoriasFiltro">
                     {categorias.length > 0 ? (

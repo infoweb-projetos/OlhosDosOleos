@@ -74,7 +74,6 @@ const FavoritarPost: React.FC<parametros> = ({setModal, token, postId}) => {
                 console.log('Erro ao adicionar post na pasta:', error);
             });
         }
-       
     }
 
     return (
@@ -139,10 +138,7 @@ const FavoritarPost: React.FC<parametros> = ({setModal, token, postId}) => {
                         </button>
                     )
                 }
-                
-                
             </div>
-           
         </div>
     );
 }

@@ -19,10 +19,12 @@
 }
 
 .feed form select.botaoComum {
-    padding: 4px;
+    padding: 6px 10px;
     cursor: pointer;
     font-size: 90%;
     outline: none;
+    margin-top: 10px;
+    border-radius: 20px;
 }
 .feed form select.botaoComum  option{
     background-color: #FFFFFF;
@@ -30,10 +32,10 @@
 }
 
 .feed form button.botaoComum {
-    padding: 4px;
+    padding: 6px 10px;
     cursor: pointer;
-    margin-top: 10px;
     font-size: 90%;
+    border-radius: 20px;
 }
 
 .menuCategoriasFiltro{
@@ -66,11 +68,14 @@
     display: flex;
     align-items: center;
     color: var(--corPrincipal);
+    padding-right: 10px;
+    border-radius: 20px; 
 }
 .categoriaSelecionada {
     font-weight: bold; /* Exemplo de destaque */
     color: #E30048; /* Cor personalizada para destacar */
     background-color: rgba(227, 0, 72, 0.1); /* Cor de fundo suave para o item selecionado */
+    
 }
 
 .areaOrdernarRapido {

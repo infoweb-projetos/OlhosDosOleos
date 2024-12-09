@@ -7,15 +7,27 @@ import axios from 'axios';
 import { api } from '../apiUrl';
 import { PastaImagem, PastaPosts } from '../interfaces/Pasta';
 import { Post } from '../interfaces/Post';
+import CriarPasta from '../componentes/criarPasta';
+import { VerificaToken } from '../scripts/uteis';
 
 
 const VerPastas: React.FC = () => {
-
     const navegar = useNavigate();
+    const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const [pastas, setPastas] = useState<Array<PastaImagem>>([]);
     const [posts, setPosts] = useState<Array<PastaPosts>>([]);
     const [pastaId, setPastaId] = useState<string | null>(null); // Estado para armazenar o ID da pasta selecionada
     const [nomePastaSelecionada, setNomePastaSelecionada] = useState<string | null>(null);
+    const [criarPasta, setCriarPasta] = useState<boolean>(false)
+
+    const VerificarToken = async () => {
+        const token = await VerificaToken();
+        if (token) atualizarTokenAtual(token);
+    }
+    useEffect(() => {
+        VerificarToken();
+    }, []);
+
     const CarregarPastas = useCallback(async (token: string | null) => {
         // Define a URL da API que será usada para buscar as pastas
         const url = api + 'pastas/minhas';
@@ -177,7 +189,7 @@ const VerPastas: React.FC = () => {
                 CarregarPosts(token, pastaId);
             }
         }
-    }, [pastaId, CarregarPastas, CarregarPosts, navegar]);  // Dependências para garantir a execução correta
+    }, [pastaId, CarregarPastas, CarregarPosts, navegar, criarPasta]);  // Dependências para garantir a execução correta
 
     // Função para selecionar uma pasta
     const selecionarPasta = (id: string, nome: string) => {
@@ -187,16 +199,17 @@ const VerPastas: React.FC = () => {
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
+            {criarPasta && (<CriarPasta token={tokenAtual} setModal={setCriarPasta}/>)}
 
             <div className="pagPastas">
                 <section className="pastas" >
                     <h2>Minhas pastas</h2>
                     <div className='carrosel'>
                         <div className="new-project-card">
-                            <a href="" className="new-project-button">
+                            <button onClick={() => setCriarPasta(true)} style={{backgroundColor: "transparent"}} className="new-project-button">
                                 <span className="new-project-icon dmSansThin">+</span>
                                 <span className="new-project-text dmSansThin">Criar pasta</span>
-                            </a>
+                            </button>
                             <p className="new-project-description dmSans">
                                 Organize seus itens favoritos da forma que desejar!
                             </p>
