@@ -36,6 +36,7 @@ const CriarPost: React.FC = () => {
     const [listaTags, setListaTags] = useState<Array<Tag>>([]);
     const [listaFerramentas, setListaFerramentas] = useState<Array<Tag>>([]);
     const [temImagem, setTemImagem] = useState<boolean>(false);
+    const [sucessoEnvio, setSucessoEnvio] = useState<boolean>(false);
 
     const [imagens, setImagens] = useState<string[]>([]);
 
@@ -224,7 +225,7 @@ const CriarPost: React.FC = () => {
                 },
             });
             console.log('Resposta da API:', response.data);
-            navegar(0);
+            setSucessoEnvio(true);
             setEstaEnviando(false);
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
@@ -245,6 +246,30 @@ const CriarPost: React.FC = () => {
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
+            {
+                sucessoEnvio &&
+                (
+                    <div onClick={() => navegar(0)} className='modalPostSucesso'>
+                        <div>
+                            <div>
+                                <div>
+                                    <figure>
+                                        <img src='/imgs/criarPost/iconeSucesso.svg' />
+                                    </figure>
+                                </div>
+
+                                <button>
+                                    <img src="imgs/criarPost/fecharModalDiretriz.svg" />
+                                </button>
+                            </div>
+                            <h3>Post publicado</h3>
+                            <span>Sua arte agora poderá ser apreciada por toda a nossa comunidade!</span>
+                            <button>Fechar</button>
+                        </div>  
+                    </div>
+                )
+            }
+            
             <div className="areaConteudo  criarPost">
                 <form onSubmit={AoEnviar}>
                     <div className="criarTituloPost">
@@ -430,7 +455,7 @@ const CriarPost: React.FC = () => {
                                     <img src="imgs/criarPost/iconeClipe.svg" />
                                     Anexar Imagem
                                 </button>
-                                <p>Anexe imagens do processo da sua arte</p>
+                                <p className='textoAnexeImagens'>Anexe imagens do processo da sua arte</p>
                                 <input  type="file" id="processoPost" name="processoPost" multiple onChange={(evento) => {AtribuiImagensProcesso(evento); AoMudarValorInput(evento);}}/>
                             </div>
 
