@@ -1,0 +1,218 @@
+.pagMinhaAtividade{
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    align-content: flex-start;
+    justify-content: right;
+    box-sizing: border-box;
+    padding-top: 1.5em;
+}
+.pagMinhaAtividade > div{
+    box-sizing: border-box;
+    border: 1px solid #DFDFDF;
+    border-radius: 20px;
+    display: flex;
+    width: 75%;
+    min-height: 55vh;
+    margin-right: 1.5em;
+    box-sizing: border-box;
+}
+.introducaoMinhaAtividade{
+    width: 25%;
+    border-right: 1px solid #DFDFDF;
+}
+.introducaoMinhaAtividade h3{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 2em;
+    font-size: 100%;
+    font-weight: normal;
+    border-bottom: 1px solid #DFDFDF;
+}
+.introducaoMinhaAtividade ul{
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 1em;
+}
+.introducaoMinhaAtividade ul li{
+    display: flex;
+    align-content: flex-start;
+    justify-content: left;
+    box-sizing: border-box;
+    margin: 2em 0;
+}
+.introducaoMinhaAtividade ul li figure{
+    max-width: 40%;
+}
+.introducaoMinhaAtividade ul li div{
+    box-sizing: border-box;
+    margin-left: 10px;
+    padding-right: 10px;
+}
+.introducaoMinhaAtividade ul li h4{
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-weight: normal;
+}
+.introducaoMinhaAtividade ul li span{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.conteudoMinhaAtividade {
+    width: 100%;
+    box-sizing: border-box;
+}
+.conteudoMinhaAtividade .tabsAtividade{
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.conteudoMinhaAtividade .tabsAtividade li button{
+    box-sizing: border-box;
+    padding: 10px 2em;
+    font-size: 100%;
+    font-weight: normal;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #DFDFDF;
+
+    transition-duration: 200ms;
+    transition-timing-function: linear;
+    transition-property: border-color;
+}
+.conteudoMinhaAtividade .tabsAtividade li.tipoAtividade button:hover{
+    border-bottom: 1px solid var(--corPrincipal);
+}
+.conteudoMinhaAtividade .tabSelecionadaAtividade{
+    border-bottom: 1px solid var(--corPrincipal) !important;
+}
+.postsCurtidos{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1em;
+}
+.ocupaEspacoAtividade{
+    border-bottom: 1px solid #DFDFDF;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: stretch;
+    align-content: stretch;
+    padding: 10px 2em;
+}
+.ocupaEspacoAtividadeEsquerdo{
+    width: 5%;
+}
+
+.postsCurtidosAtividade > div{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 2em;
+    box-sizing: border-box;
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+}
+.postsCurtidosAtividade > div > div{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    box-sizing: border-box;
+}
+.postsCurtidosAtividade > div > div > button{
+    background-color: transparent;
+    border: 1px solid #DFDFDF;
+    border-radius: 20px;
+    padding: 5px 1em;
+    color: var(--corPrincipal);
+}
+.postsCurtidosAtividade > div > div > h5{
+    margin-right: 1em;
+    font-size: 100%;
+    font-weight: normal;
+}
+.postsCurtidosAtividade > div > button{
+    background-color: transparent;
+    border: none;
+    color: var(--corPrincipal);
+}
+.postsCurtidosAtividade{
+    padding: 0 1em;
+    box-sizing: border-box;
+}
+.postsCurtidosAtividade ul{
+    box-sizing: border-box;
+    width: 100%;
+ 
+    display: flex;
+    flex-wrap: wrap;
+    height: 35vh;
+    overflow-y: auto;
+    margin-bottom: 1em;
+}
+.postsCurtidosAtividade ul::-webkit-scrollbar {
+    width:  15px;
+    background-color: #E4E4E4;
+    border-radius: 10px;
+}
+
+.postsCurtidosAtividade ul::-webkit-scrollbar-thumb {
+    background-color: var(--corPrincipal); 
+    border-radius: 10px;
+}
+
+
+.postsCurtidosAtividade ul::-webkit-scrollbar-button:hover {
+    background-color: #969292; 
+}
+
+
+.postsCurtidosAtividade ul li{
+    margin: 0 1%;
+    margin-bottom: 1em;
+    width: 23%;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.postsCurtidosAtividade ul figure{
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: right;
+    box-sizing: border-box;
+    width: 100%;
+}
+.postsCurtidosAtividade ul figure canvas{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 5px; 
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 100%;
+    box-sizing: border-box;
+}
+.postsCurtidosAtividade ul figure .selecionadoInteracaoAtividade{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 5px; 
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 100%;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.postsCurtidosAtividade ul img{
+    width: 100%;
+    height: 150px;
+    border-radius: 10px;
+    box-sizing: border-box;
+}

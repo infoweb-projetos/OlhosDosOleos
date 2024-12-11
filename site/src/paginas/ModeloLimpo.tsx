@@ -1,7 +1,7 @@
 import HeaderSite from '../componentes/header';
 import RodapeSite from '../componentes/rodape';
 
-const Feed: React.FC = () => {
+const Modelo: React.FC = () => {
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
@@ -12,4 +12,4 @@ const Feed: React.FC = () => {
         </div>
     );
 }
-export default Feed;
+export default Modelo;

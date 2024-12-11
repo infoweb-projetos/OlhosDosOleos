@@ -8,6 +8,7 @@ import Cadastro from './paginas/Cadastro';
 import EditarPerfil from './paginas/EditarPefil';
 import VerPastas from './paginas/VerPastas';
 import EditarPost from './paginas/EditarPost';
+import MinhaAtividade from './paginas/MinhaAtividade';
 
 const App: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ const App: React.FC = () => {
         <Route path="/postar"  element={<CriarPost />} />
         <Route path="/verpastas"  element={<VerPastas />} />
         <Route path="/editarpost/:id"  element={<EditarPost />} />
+        <Route path="/atividade/"  element={<MinhaAtividade />} />
       </Routes>
     </Router>
   );

@@ -169,10 +169,10 @@ const HeaderSite: React.FC = () => {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <a className="menuItemComum" href="#">
+                                                <Link className="menuItemComum" to="/atividade">
                                                     <img src="/imgs/header/atividadeHeader.svg" alt="Icone de relogio." />
                                                     <p>Minha Atividade</p>
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
                                                 <button onClick={SairConta} className="menuItemComum">
