@@ -57,6 +57,8 @@
 .introducaoMinhaAtividade ul li span{
     width: 100%;
     box-sizing: border-box;
+    color: #535050;
+    font-size: 90%;
 }
 
 
@@ -91,12 +93,7 @@
 .conteudoMinhaAtividade .tabSelecionadaAtividade{
     border-bottom: 1px solid var(--corPrincipal) !important;
 }
-.postsCurtidos{
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 1em;
-}
+
 .ocupaEspacoAtividade{
     border-bottom: 1px solid #DFDFDF;
     display: flex;
@@ -110,15 +107,15 @@
     width: 5%;
 }
 
-.postsCurtidosAtividade > div{
+.postsCurtidosAtividade > div, .postsComentariosAtividade > div{
     display: flex;
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5em 2em;
+    padding: 0.5em 1em;
     box-sizing: border-box;
     margin-top: 1em;
-    margin-bottom: 1.5em;
+    margin-bottom: 2.5em;
 }
 .postsCurtidosAtividade > div > div{
     display: flex;
@@ -133,17 +130,17 @@
     padding: 5px 1em;
     color: var(--corPrincipal);
 }
-.postsCurtidosAtividade > div > div > h5{
+.postsCurtidosAtividade > div > div > h5, .postsComentariosAtividade > div > h5{
     margin-right: 1em;
     font-size: 100%;
     font-weight: normal;
 }
-.postsCurtidosAtividade > div > button{
+.postsCurtidosAtividade > div > button, .postsComentariosAtividade > div > button{
     background-color: transparent;
     border: none;
     color: var(--corPrincipal);
 }
-.postsCurtidosAtividade{
+.postsCurtidosAtividade, .postsComentariosAtividade {
     padding: 0 1em;
     box-sizing: border-box;
 }
@@ -155,7 +152,6 @@
     flex-wrap: wrap;
     height: 35vh;
     overflow-y: auto;
-    margin-bottom: 1em;
 }
 .postsCurtidosAtividade ul::-webkit-scrollbar {
     width:  15px;
@@ -215,4 +211,120 @@
     height: 150px;
     border-radius: 10px;
     box-sizing: border-box;
+}
+
+.postsComentariosAtividade .atividadeComentarioAreaCriadorPost, .postsComentariosAtividade .atividadeComentarioAreaComentario{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  
+    box-sizing: border-box;
+    padding: 0 1em;
+}
+.postsComentariosAtividade .atividadeComentarioAreaCriadorPost{
+    align-items: flex-start;
+}
+.postsComentariosAtividade .atividadeComentarioAreaComentario{
+    align-items: center;
+}
+
+.postsComentariosAtividade .atividadeComentarioAreaCriadorPost > div , .postsComentariosAtividade .atividadeComentarioAreaComentario > div {
+    display: flex;
+    box-sizing: border-box;
+}
+.postsComentariosAtividade .atividadeComentarioAreaCriadorPost > div > div, .postsComentariosAtividade .atividadeComentarioAreaComentario > div > div{
+    display: flex;
+    align-content: space-between;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+.postsComentariosAtividade .atividadeComentarioAreaComentario > div > div{
+    margin-bottom: 1em;
+}
+.postsComentariosAtividade .atividadeComentarioAreaCriadorPost > div > div > p,
+.postsComentariosAtividade .atividadeComentarioAreaComentario > div > div > p{
+    width: 100%;
+}
+.postsComentariosAtividade .atividadeComentarioAreaCriadorPost > div > div > p{
+    margin-top: 1em;
+}
+.postsComentariosAtividade .atividadeComentarioAreaCriadorPost > div > div > span,
+.postsComentariosAtividade .atividadeComentarioAreaComentario > div > div > span{
+    width: 100%;
+    color: #7C7C7C;
+}
+.postsComentariosAtividade .atividadeComentarioAreaCriadorPost > div > div > div, .postsComentariosAtividade .atividadeComentarioAreaComentario > div > div > div{
+    display: flex;
+    align-items: flex-start;
+    align-content: space-between;
+}
+.atividadeComentarioUsuario{
+    width: 65px;
+    height: 80px;
+    box-sizing: border-box;
+    margin-right: 1em;
+}
+.atividadeComentarioUsuario img{
+    width: 100%;
+    height: 80%;
+    border-radius: 100%;
+}
+
+.atividadeComentarioPost img{
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+}
+.postsComentariosAtividade .atividadeComentarioAreaCriadorPost > div > div > div h6, 
+.postsComentariosAtividade .atividadeComentarioAreaComentario > div > div > div h6 {
+    font-size: 100%;
+    margin-right: 10px;
+}
+
+.postsComentariosAtividade .atividadeComentarioAreaComentario{
+    padding-left: 5em;
+}
+.atividadeComentarioAreaComentario canvas{
+    width: 25px;
+    height: 25px;
+    border: 1px solid #E3E3E3;
+    border-radius: 100%;
+    box-sizing: border-box;
+}
+
+
+.postsComentariosAtividade li{
+    box-sizing: border-box;
+    padding: 1em 0;
+    margin-bottom: 1em;
+    border-radius: 20px;
+    transition-duration: 200ms;
+    transition-timing-function: linear;
+    transition-property: background-color;
+}
+
+.atividadeComentarioSelecionado{
+    cursor: pointer;
+}
+.atividadeComentarioSelecionado:hover{
+    background-color: rgba(250, 150, 163, 0.247);
+}
+.postsComentariosAtividade ul{
+    height: 35vh;
+    overflow-y: auto;
+}
+.postsComentariosAtividade ul::-webkit-scrollbar {
+    width:  15px;
+    background-color: #E4E4E4;
+    border-radius: 10px;
+}
+
+.postsComentariosAtividade ul::-webkit-scrollbar-thumb {
+    background-color: var(--corPrincipal); 
+    border-radius: 10px;
+}
+
+
+.postsComentariosAtividade ul::-webkit-scrollbar-button:hover {
+    background-color: #969292; 
 }
