@@ -123,7 +123,7 @@
     align-content: center;
     box-sizing: border-box;
 }
-.postsCurtidosAtividade > div > div > button{
+.postsCurtidosAtividade > div > div > .classificarFiltrar{
     background-color: transparent;
     border: 1px solid #DFDFDF;
     border-radius: 20px;
@@ -327,4 +327,49 @@
 
 .postsComentariosAtividade ul::-webkit-scrollbar-button:hover {
     background-color: #969292; 
+}
+
+.minhaAtividadeExclusaoArea{
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    border-top: 1px solid #DFDFDF;
+
+}
+.minhaAtividadeExclusaoArea button{
+    background-color: transparent;
+    border: none;
+}
+.minhaAtividadeExclusaoArea > div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    padding-top: 1em;
+
+}
+.minhaAtividadeExclusaoArea > div > div{
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+.minhaAtividadeExclusaoArea > div > div button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+.minhaAtividadeExclusaoArea > div > div span{
+    color: #535050;
+}
+.minhaAtividadeExclusaoArea > div > button {
+    color: var(--corPrincipal);
+}
+
+.minhaAtividadeExclusaoArea > p{
+    width: 100%;
+    text-align: center;
+    margin-top: 1em;
 }

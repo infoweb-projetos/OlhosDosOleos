@@ -2,6 +2,7 @@ import { useState } from 'react';
 import HeaderSite from '../componentes/header';
 import RodapeSite from '../componentes/rodape';
 import '../estilos/minhaAtividade.css';
+import LinksAtividade from '../componentes/menuLinksAtividade';
 
 const MinhaAtividade: React.FC = () => {
     const [selecionarCurtidas, setSelecionarCurtida] = useState<boolean>(false);
@@ -12,6 +13,7 @@ const MinhaAtividade: React.FC = () => {
         <div className='organizacaoPadrao'>
             <HeaderSite />
             <div className="areaConteudo pagMinhaAtividade">
+                <LinksAtividade />
                 <div>
                     <div className='introducaoMinhaAtividade'>
                         <h3>Sua Atividade</h3>
@@ -50,7 +52,7 @@ const MinhaAtividade: React.FC = () => {
                                         <div>
                                             <div>
                                                 <h5>Sua Atividade</h5>
-                                                <button>Classificar e Filtrar</button>
+                                                <button className='classificarFiltrar'>Classificar e Filtrar</button>
                                             </div>
                                             <button onClick={() => setSelecionarCurtida(!selecionarCurtidas)}>Selecionar</button>
                                         </div>
@@ -74,6 +76,18 @@ const MinhaAtividade: React.FC = () => {
                                                 </figure>
                                             </li>
                                         </ul>
+                                        <div className='minhaAtividadeExclusaoArea'>
+                                            <div>
+                                                <div>
+                                                    <button>
+                                                        <img src='/imgs/minhaAtividade/cancelarExcluir.svg'/>
+                                                    </button>
+                                                    <span>x item selecionado</span>
+                                                </div>
+                                                <button>Excluir</button>
+                                            </div>
+                                            <p>Uma curtida excluída não será mais contabilizada na postagem nem em sua atividade.</p>
+                                        </div>
                                     </div>
                                 )
                                 :
@@ -248,6 +262,18 @@ const MinhaAtividade: React.FC = () => {
                                                 </div>
                                             </li>
                                         </ul>
+                                        <div className='minhaAtividadeExclusaoArea'>
+                                            <div>
+                                                <div>
+                                                    <button>
+                                                        <img src='/imgs/minhaAtividade/cancelarExcluir.svg'/>
+                                                    </button>
+                                                    <span>x item selecionado</span>
+                                                </div>
+                                                <button>Excluir</button>
+                                            </div>
+                                            <p>Uma curtida excluída não será mais contabilizada na postagem nem em sua atividade.</p>
+                                        </div>
                                     </div>
                                 )
                         }
