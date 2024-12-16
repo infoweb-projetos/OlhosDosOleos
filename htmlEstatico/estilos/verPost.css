@@ -21,16 +21,18 @@
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.8);
+    box-sizing: border-box ;
   }
   
   .modal-content {
     display: block;
     margin: auto;
     margin-top: 22em;
-    max-width: 90%; /* A imagem ocupará até 90% da largura da janela */
-    max-height: 90%; /* A imagem ocupará até 90% da altura da janela */
+    width: 90%; /* A imagem ocupará até 90% da largura da janela */
+    height: 90%; /* A imagem ocupará até 90% da altura da janela */
     transform: scale(3.1); /* Faz parecer ampliada */
     transition: transform 0.3s; /* Anima a expansão da imagem */
+    box-sizing: border-box;
   }
   
   .close {
@@ -43,14 +45,102 @@
     cursor: pointer;
   }
 
+  .perfil{
+    display: flex;
+    align-items: flex-end;
+
+  }
 .fotodoperfil{
     border-radius: 100%;
-    width: 3em;
-    height: 3em;}
+    width: 3.5em;
+    height: 3.5em;
+    display: block;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+  }
+  #alturaTotal {
+    display: flex;
 
+    align-items: center;
+  }
+ 
 .escrita{
     color: white;}
 
+
 #org1{
-    display: flex;
-    align-items: center;}
+  display: flex ;
+  align-items: center;
+  position: relative;
+  top: 100px;
+  left: 27%;}
+
+#grandepontoVermelho{
+background-color: #E30048 ;
+width: 5px;
+height: 5px;
+border-radius: 100%;
+margin: 0;
+}
+#grandepontobranco{
+  background-color: #ffffff ;
+  width: 5px;
+  height: 5px;
+  border-radius: 100%;
+  margin: 0;
+  }
+
+.areaprincipal{
+  width: 70%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 5%;
+ 
+}
+
+.sessao{
+  width: 100%;
+  box-sizing: border-box;
+}
+.imgs{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  margin-top: 1em;
+}
+.imgs img{
+  border-radius: 0;
+  width: 100%;
+}
+
+.alinhamento{
+  display: flex;
+  align-items: center;
+}
+
+.sessaodescricao{
+    background: rgb(227,0,72);
+background: radial-gradient(circle, rgba(227,0,72,1) 0%, rgba(227,0,72,1) 70%, rgba(144,0,59,1) 89%, rgba(118,0,55,1) 95%, rgba(107,0,34,1) 100%);
+width: 100%;
+
+}
+.quadrodescricao{
+  margin: 5em;
+}
+
+.descricao{
+  padding-top: 1em;
+  padding-bottom: 1em;
+  color: white;
+}
+
+.espaço{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
