@@ -29,7 +29,7 @@ export const VerificaToken = async (descodificado: boolean = false) => {
     }
 }
 
-export const CurtirPost = async (postid: number, token: string | null, setUltimosPosts: React.Dispatch<React.SetStateAction<Post[]>>, ultimosPosts: Post[]) => {
+export const CurtirPost = async (postid: number, token: string | null, setUltimosPosts: React.Dispatch<React.SetStateAction<Post[]>> | null, ultimosPosts: Post[]) => {
     if (token && postid > 0){
         axios.post(api + `posts/curtir/${postid}`, {}, {
             headers: {
@@ -46,7 +46,7 @@ export const CurtirPost = async (postid: number, token: string | null, setUltimo
                     let qtd = postAtualizado.curtidas.length > 0 ? postAtualizado.curtidas.length : 0
                     if (qtd > 0 && response.data.dados.foiApagado == true) qtd--;
                     postsAtualizado[postIndex].curtidasQtd = qtd;
-                    setUltimosPosts(postsAtualizado); 
+                    if (setUltimosPosts) setUltimosPosts(postsAtualizado); 
                 } 
             }
         })
