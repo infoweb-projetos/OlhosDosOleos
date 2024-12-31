@@ -82,6 +82,9 @@ input[type="submit"], button{
 .dmSansThin{
     font-family: "DM Sans Thin", sans-serif;
 }
+.ubuntoThin{
+    font-family: "UbuntuLeve", sans-serif;
+}
 
 .submenu > button{
     text-align: center;

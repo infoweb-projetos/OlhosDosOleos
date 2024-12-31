@@ -13,6 +13,7 @@ import { CurtirPost, VerificaToken } from '../scripts/uteis.tsx';
 import { AbrirFecharModal } from '../scripts/modal.ts';
 import FavoritarPost from '../componentes/favoritarPost.tsx';
 import { Categoria } from '../interfaces/Enums.ts';
+import VerPost from '../componentes/verPost.tsx';
 
 
 type Ordenacao = 'Recentes' | 'Populares' | 'Curtidos' | 'Meus Artistas';
@@ -209,6 +210,7 @@ const Feed: React.FC = () => {
         <div className='organizacaoPadrao'>
             <HeaderSite />
             {modalFavoritar && <FavoritarPost token={tokenAtual} setModal={setModalFavoritar} postId={postId}/>}
+            <VerPost />
             <div className="areaConteudo feed">
                 <h1>Descubra a arte <b>potiguar</b>!</h1>
                 <form className="espacamentoFeedComum">
