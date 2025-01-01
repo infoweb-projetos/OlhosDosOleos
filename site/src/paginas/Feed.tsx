@@ -29,6 +29,7 @@ const Feed: React.FC = () => {
     const [carroselAtivo, ativacaoCarrossel] = useState<boolean>(false);
     const navegar = useNavigate();
     const [modalFavoritar, setModalFavoritar] = useState<boolean>(false);
+    const [modalPost, setModalPost] = useState<boolean>(false);
     const [postId, setPostId] = useState<number>(0);
 
     const VerificarToken = async () => {
@@ -47,6 +48,13 @@ const Feed: React.FC = () => {
         if(id > 0){
             setPostId (id);
             setModalFavoritar(true);
+        }
+    }
+
+    const VerModalPost = (id:number) => {
+        if(id > 0){
+            setPostId (id);
+            setModalPost(true);
         }
     }
     
@@ -208,9 +216,10 @@ const Feed: React.FC = () => {
 
     return (
         <div className='organizacaoPadrao'>
+            {(modalFavoritar || modalPost) && <div className='Esmaecer'></div>}
             <HeaderSite />
             {modalFavoritar && <FavoritarPost token={tokenAtual} setModal={setModalFavoritar} postId={postId}/>}
-            <VerPost />
+            {modalPost && <VerPost setModal={setModalPost} postId={postId}/>}
             <div className="areaConteudo feed">
                 <h1>Descubra a arte <b>potiguar</b>!</h1>
                 <form className="espacamentoFeedComum">
@@ -268,10 +277,10 @@ const Feed: React.FC = () => {
                                                 </li>
                                             </ul>
                                         </div>
-                                        <Link to="">
+                                        <a onClick={() => VerModalPost(post.id ?? 0)}>
                                             <img  className={ post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} />
                                             <figcaption>{post.titulo}</figcaption>
-                                        </Link>
+                                        </a>
                                         {
                                             post.sensivel ?
                                             (

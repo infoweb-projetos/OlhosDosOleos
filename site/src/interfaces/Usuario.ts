@@ -1,5 +1,6 @@
 import { Seguir } from "./Seguir";
 import { Curtida } from "./Curtida";
+import { Cidade, Estado } from "./Enums";
 
 export interface Usuario {
     biografia?: string;
@@ -12,7 +13,7 @@ export interface Usuario {
     banner?: { type: string; data: Array<number> };
     bannertipo?: string;
     insta?: string;
-    localizacao?: string;
+    localizacao?: string | {estado: Estado, cidade: Cidade};
     localizacaoid?: string;
     nome?: string;
     senha?: string;

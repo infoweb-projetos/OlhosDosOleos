@@ -1,6 +1,17 @@
+.Esmaecer{
+    position: fixed;
+    display: block;
+    z-index: 6;
+    background-color: rgba(0, 0, 0, 0.5);
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+}
+
 .modalVerPost{
     position: absolute;
-    z-index: 6;
+    z-index: 7;
     left: 0;
     top: 0;
     width: 100%;
@@ -8,7 +19,7 @@
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
+   
     padding: 1em 0;
 }
 .modalVerPost > button{
@@ -16,7 +27,7 @@
     right: 10px;
     top: 15px;
     box-sizing: border-box;
-    z-index: 7;
+    z-index: 8;
     background-color: transparent;
     display: flex;
     align-items: center;
@@ -74,7 +85,10 @@
 
 .modalVerPostConteudoImagens{
     width: 100%;
-    box-sizing: border-box;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 .modalVerPostConteudoImagens img{
     width: 100%;

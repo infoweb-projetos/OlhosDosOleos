@@ -1,40 +1,139 @@
+import { useEffect, useState } from 'react';
 import '../estilos/verPost.css';
+import axios from 'axios';
+import { Post } from '../interfaces/Post';
+import { api } from '../apiUrl';
+import { Tag } from '../interfaces/Enums';
+import { VerificaToken } from '../scripts/uteis';
 
-const VerPost: React.FC = () => {
+interface parametros {
+    setModal: React.Dispatch<React.SetStateAction<boolean>>;
+    postId: number;
+}
+
+const VerPost: React.FC<parametros> = ({setModal, postId}) => {
+    const [post, setPost] = useState<Post | null>(null);
+    const [souEu, setSouEu] = useState<boolean>(false);
+    const [seguindo, setSeguindo] = useState<boolean>(false);
+
+    const CarregarPost = async () => {
+        axios.get(api + `posts/verpost/${postId}`, {})
+        .then(response => {
+            const postBD = response.data.dados;
+            console.log(response.data.dados);
+            const obj: Post = {
+                titulo: postBD.titulo,
+                usuario: postBD.usuario,
+                imagem: postBD.imagem,
+                imagemtipo: postBD.imagemtipo,
+                usuarioid: postBD.usuarioid ?? 0,
+                sensivel: postBD.sensivel ?? false,
+                curtidas:postBD.curtidas,
+                curtidasQtd: postBD.curtidas && postBD.curtidas.length > 0 ? postBD.curtidas.length : 0,
+                entrada: postBD.entrada?postBD.entrada:undefined,
+                processo: postBD.processo,
+                descricao: postBD.descricao,
+                tags: (postBD.tags as Array<{tag : Tag}>).map(item => item.tag) as Array<Tag>,
+            };
+
+            if (obj) {
+                console.log(obj);
+                if (obj.imagem && obj.imagemtipo) {
+                    const blob = new Blob([new Uint8Array(obj.imagem.data)], { type: obj.imagemtipo });
+                    const urlImagem = URL.createObjectURL(blob);
+                    obj.imagemUrl = urlImagem;
+                }
+
+                if(obj.usuario){
+                    if (obj.usuario?.imagem && obj.usuario?.imagemtipo) {
+                        const blob = new Blob([new Uint8Array(obj.usuario?.imagem.data)], { type: obj.usuario?.imagemtipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        obj.usuario.imagemUrl = urlImagem;
+                    }
+                    else{
+                        obj.usuario.imagemUrl = '/imgs/verPerfil/perfil.png';
+                    }
+                }
+               
+
+                if(obj.processo){
+                    for (let processo of obj.processo){
+                        if (processo.imagem && processo.imagemtipo) {
+                            const blob = new Blob([new Uint8Array(processo.imagem.data)], { type: processo.imagemtipo });
+                            const urlImagem = URL.createObjectURL(blob);
+                            processo.imagemUrl = urlImagem;
+                        }
+                    }
+                }
+            }
+            console.log(obj);
+            setPost(obj);
+        });
+    }
+   
+    useEffect(() => {
+        CarregarPost();
+        
+    }, []);
+
+    const VerificaSeguindo = async () => {
+        if (post && post.usuario && post.usuario.seguidores){
+            const usuarioId = await VerificaToken(true);
+            if (usuarioId) setSeguindo(post.usuario.seguidores.filter(s => s.seguidorid == usuarioId).length > 0);
+        }
+    }
+    const VerificaSouEu = async () => {
+        if (post && post.usuario){
+            const usuarioId = await VerificaToken(true);
+            if (usuarioId) setSouEu(post.usuarioid == usuarioId);
+        }
+    }
+    useEffect(() => {
+        if (post){
+            VerificaSeguindo();
+            VerificaSouEu();
+        }
+       
+    }, [post]);
     return (
         <div className="modalVerPost">
-            <button>
+            <button onClick={() => setModal(false)}>
                 <img src='/imgs/verPost/iconeFechar.svg'/>
             </button>
             <div className='modalVerPostCorpo'>
                 <div className='modalVerPostConteudo'>
                     <div className='modalVerPostConteudoCabecalho'>
-                        <img src='/imgs/verPerfil/perfil.png'/>
+                        <img src={post?.usuario?.imagemUrl}/>
                         <div>
-                            <h5>Titulo</h5>
+                            <h5>{post?.titulo}</h5>
                             <div>
-                                <span>Autor</span>
+                                <span>{post?.usuario?.nome}</span>
                                 <canvas></canvas>
-                                <button> Seguir</button>
+                                {!souEu && <button> {seguindo? "Deixar de Seguir" : "Seguir"}</button>}
                             </div>
                         </div>
                         
                     </div>
                     <div className='modalVerPostConteudoImagens'>
-                        <img src='/imgs/temp/bannerTemp.png'/>
+                        <img src={post?.imagemUrl}/>
+                        {post?.processo && post?.processo.length > 0 && (
+                            post?.processo.map((img, index) => (
+                                <img key={index} src={img?.imagemUrl}/>
+                            ))
+                        )}
                     </div>
 
                     <div className='modalVerPostConteudoDesc'>
-                        <h4>Titulo</h4>
-                        <p>Desc</p>
+                        <h4>{post?.titulo}</h4>
+                        <p>{post?.descricao}</p>
                         <div>
                             <figure>
                                 <img src='/imgs/verPost/iconeCoracaoBranco.svg' />
-                                <figcaption>1</figcaption>
+                                <figcaption>{post?.curtidasQtd}</figcaption>
                             </figure>
                             <figure>
                                 <img src='/imgs/verPost/iconeComentarioBranco.svg' />
-                                <figcaption>1</figcaption>
+                                <figcaption>0</figcaption>
                             </figure>
                         </div>
                     </div>
@@ -100,45 +199,66 @@ const VerPost: React.FC = () => {
                             <div className='modalVerPostConteudoAreaComentarioAsideProprietario'>
                                 <p>PROPRIETÁRIO</p>
                                 <div>
-                                    <img src='/imgs/verPerfil/perfil.png'/>
+                                    <img src={post?.usuario?.imagemUrl}/>
                                     <div>
-                                        <p>Autor</p>
-                                        <span><img src='/imgs/verPost/iconeLocalizacao.svg'/> Localização</span>
+                                        <p>{post?.usuario?.nome}</p>
+                                        {post?.usuario?.localizacao && typeof post?.usuario?.localizacao !== 'string' ? 
+                                            (
+                                                <span>
+                                                <img src='/imgs/verPost/iconeLocalizacao.svg'/>
+                                                    { 
+                                                      'Brasil, ' + post?.usuario?.localizacao.estado.nome + ', '  + 
+                                                      post?.usuario?.localizacao.cidade.nome
+                                                    }
+                                                </span>
+                                            )
+                                             
+                                            : null
+                                        }
+                                       
                                     </div>
                                 </div>
-                                <button className='modalVerPostConteudoAreaComentarioAsideProprietarioBtSeguir' >
-                                    <img src='/imgs/verPost/iconeSeguir.svg' />
-                                    Seguir
+                                {
+                                    !souEu && (
+                                    <button className='modalVerPostConteudoAreaComentarioAsideProprietarioBtSeguir' >
+                                        {!seguindo && <img src='/imgs/verPost/iconeSeguir.svg' />}
+                                        {seguindo? "Deixar de Seguir" : "Seguir"}
                                     </button>
+                                    )
+                                }
+                                
                                 <button className='modalVerPostConteudoAreaComentarioAsideProprietarioBtVer'>
                                     <img  src='/imgs/verPost/iconeVer.svg' />
                                     Ver Perfi
                                 </button>
                             </div>
                             <div className='modalVerPostConteudoAreaComentarioAsidePosts'>
-                                <h5>Titulo</h5>
+                                <h5>{post?.titulo}</h5>
                                 <div>
                                     <figure>
                                         <img src='/imgs/verPost/iconeCoracaoVermelho.svg' />
-                                        <figcaption>1</figcaption>
+                                        <figcaption>{post?.curtidasQtd}</figcaption>
                                     </figure>
                                     <figure>
                                         <img src='/imgs/verPost/iconeComentarioVermelho.svg' />
-                                        <figcaption>1</figcaption>
+                                        <figcaption>0</figcaption>
                                     </figure>
                                 </div>
-                                <p>Publicado em: 22 de Outubro de 2024</p>
+                                <p>Publicado em: {post?.entrada ? new Date(post?.entrada)?.toLocaleDateString(undefined, {year: 'numeric', month: 'long', day: 'numeric'}) : null}</p>
                             </div>
                             <ul className='modalVerPostConteudoAreaComentarioAsideTags modalVerPostConteudoAreaComentarioAsideTagsTag'>
-                                <li># tag</li>
-                                <li># tag</li>
-                                <li># tag</li>
-                                <li># tag</li>
-                                <li># tag</li>
-                                <li># tag</li>
+                                {post?.tags && post?.tags.length > 0 && (
+                                    post?.tags.filter(t => t.ferramenta).map((tag, index) => (
+                                        <li key={index} ># {tag.nome}</li>
+                                    ))
+                                )}
                             </ul>
                             <ul className='modalVerPostConteudoAreaComentarioAsideTags'>
-                                <li># tag</li>
+                                {post?.tags && post?.tags.length > 0 && (
+                                    post?.tags.filter(t => !t.ferramenta).map((tag, index) => (
+                                        <li key={index} ># {tag.nome}</li>
+                                    ))
+                                )}
                             </ul>
                         </div>
                     </div>
@@ -148,9 +268,9 @@ const VerPost: React.FC = () => {
             <ul>
                    <li className='modalVerPostAcoesPerfil'>
                        <button>
-                           <img src='/imgs/verPerfil/perfil.png'/>
+                           <img src={post?.usuario?.imagemUrl}/>
                        </button>
-                       <p>Seguir</p>
+                       {!souEu && <p>{seguindo? "Deixar de Seguir" : "Seguir"}</p>}
                     </li> 
                     <li  className='modalVerPostAcoesNormal'>
                        <button>

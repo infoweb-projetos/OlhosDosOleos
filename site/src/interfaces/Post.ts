@@ -38,4 +38,5 @@ export interface Processo{
     postid: number;
     imagem?:  { type: string; data: Array<number> };
     imagemtipo: string;
+    imagemUrl?: string;
 }
