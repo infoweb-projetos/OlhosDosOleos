@@ -216,7 +216,7 @@ const Feed: React.FC = () => {
 
     return (
         <div className='organizacaoPadrao'>
-            {(modalFavoritar || modalPost) && <div className='Esmaecer'></div>}
+            {(modalPost) && <div className='Esmaecer'></div>}
             <HeaderSite />
             {modalFavoritar && <FavoritarPost token={tokenAtual} setModal={setModalFavoritar} postId={postId}/>}
             {modalPost && <VerPost setModal={setModalPost} postId={postId}/>}
