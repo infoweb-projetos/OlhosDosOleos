@@ -29,7 +29,8 @@ const MinhaAtividade: React.FC = () => {
                     comentarioid: a.comentarioid, 
                     usuario: a.usuario,
                     post: a.post,
-                    selecionado: false
+                    selecionado: false,
+                    comentario: a.comentario,
                 };
 
                 if (obj.post) {
@@ -39,6 +40,30 @@ const MinhaAtividade: React.FC = () => {
                         const blob = new Blob([new Uint8Array(postimagem.imagem.data)], { type: postimagem.imagemtipo });
                         const urlImagem = URL.createObjectURL(blob);
                         obj.post.imagemUrl = urlImagem;
+                    }
+                }
+
+                if (obj.post && obj.post.usuario) {
+                    const postimagem = obj.post.usuario;
+                    if (postimagem.imagem && postimagem.imagemtipo) {
+                        const blob = new Blob([new Uint8Array(postimagem.imagem.data)], { type: postimagem.imagemtipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        obj.post.usuario.imagemUrl = urlImagem;
+                    }
+                    else{
+                        obj.post.usuario.imagemUrl = '/imgs/verPerfil/perfil.png'
+                    }
+                }
+
+                if (obj.usuario) {
+                    const imagem = obj.usuario;
+                    if (imagem.imagem && imagem.imagemtipo) {
+                        const blob = new Blob([new Uint8Array(imagem.imagem.data)], { type: imagem.imagemtipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        obj.usuario.imagemUrl = urlImagem;
+                    }
+                    else{
+                        obj.usuario.imagemUrl = '/imgs/verPerfil/perfil.png'
                     }
                 }
 
@@ -189,191 +214,56 @@ const MinhaAtividade: React.FC = () => {
                                             <button onClick={() => setSelecionarComentarios(!selecionarComentarios)}>Selecionar</button>
                                         </div>
                                         <ul >
-                                            <li className={selecionarComentarios ? 'atividadeComentarioSelecionado' : ''}>
-                                                <div className='atividadeComentarioAreaCriadorPost'>
-                                                {
+                                            {
                                                 atividades.filter(a => a.comentarioid).map((atividade, index) =>
                                                 (
-                                                    <li  key={index}>
-                                                        <figure onClick={() => selecionar(atividade.postid ? atividade.postid : 0)}>
-                                                            <img src={atividade.post?.imagemUrl} />
+                                                    <li key={index} className={selecionarComentarios ? 'atividadeComentarioSelecionado' : ''}>
+                                                        <div className='atividadeComentarioAreaCriadorPost'>
+                                                            <div>
+                                                                <figure className='atividadeComentarioUsuario'>
+                                                                    <img src={atividade.post?.usuario?.imagemUrl} />
+                                                                </figure>
+                                                                <div>
+                                                                    <div>
+                                                                        <h6>{atividade.post?.usuario?.nome}</h6>
+                                                                        <span>{atividade.post?.titulo}</span>
+                                                                    </div>
+                                                                    <p>{atividade.post?.descricao}</p>
+                                                                    <span>dias</span>
+                                                                </div>
+                                                            </div>
+                                                            <figure className='atividadeComentarioPost'>
+                                                                <img src={atividade.post?.imagemUrl} />
+                                                            </figure>
+                                                        </div>
+                                                        <div className='atividadeComentarioAreaComentario'>
+                                                        
+                                                            <div>
+                                                                <figure className='atividadeComentarioUsuario'>
+                                                                    <img  src={atividade.usuario?.imagemUrl} />
+                                                                </figure>
+                                                                <div>
+                                                                    <div>
+                                                                        <h6>{atividade.usuario?.nome}</h6>
+                                                                        <span>{atividade.comentario?.texto}</span>
+                                                                    </div>
+                                                                    <span>dias</span>
+                                                                </div>
+                                                                
+                                                            </div>
                                                             {
-                                                                 selecionarCurtidas && !atividade.selecionado &&
-                                                                (
-                                                                    <canvas></canvas>
-                                                                )
+                                                                selecionarComentarios &&
+                                                                (<canvas></canvas>)
                                                             }
                                                             {
-                                                                 selecionarCurtidas && atividade.selecionado &&
-                                                                (
-                                                                    <img className='selecionadoInteracaoAtividade' src='/imgs/minhaAtividade/iconeSelecionado.svg' />
-                                                                )
+                                                                selecionarComentarios &&
+                                                                (<img className='selecionadoInteracaoAtividade' src='/imgs/minhaAtividade/iconeSelecionado.svg' />)
                                                             }
-                                                        </figure>
+                                                        </div>
                                                     </li>
                                                 ))
                                             }
-                                                    <div>
-                                                        <figure className='atividadeComentarioUsuario'>
-                                                            <img src='/imgs/temp/postFeed.png' />
-                                                        </figure>
-                                                        <div>
-                                                            <div>
-                                                                <h6>Nome autor</h6>
-                                                                <span>Titulo post</span>
-                                                            </div>
-                                                            <p>descrição da publicação...</p>
-                                                            <span>dias</span>
-                                                        </div>
-
-                                                    </div>
-                                                    <figure className='atividadeComentarioPost'>
-                                                        <img src='/imgs/temp/postFeed.png' />
-                                                    </figure>
-                                                </div>
-                                                <div className='atividadeComentarioAreaComentario'>
-                                                   
-                                                    <div>
-                                                        <figure className='atividadeComentarioUsuario'>
-                                                            <img src='/imgs/temp/postFeed.png' />
-                                                        </figure>
-                                                        <div>
-                                                            <div>
-                                                                <h6>seu nome</h6>
-                                                                <span>Comentario</span>
-                                                            </div>
-                                                            <span>dias</span>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                    {
-                                                        selecionarComentarios &&
-                                                        (<canvas></canvas>)
-                                                    }
-                                                </div>
-                                            </li>
-                                            <li className={selecionarComentarios ? 'atividadeComentarioSelecionado' : ''}>
-                                                <div className='atividadeComentarioAreaCriadorPost'>
-                                                    <div>
-                                                        <figure className='atividadeComentarioUsuario'>
-                                                            <img src='/imgs/temp/postFeed.png' />
-                                                        </figure>
-                                                        <div>
-                                                            <div>
-                                                                <h6>Nome autor</h6>
-                                                                <span>Titulo post</span>
-                                                            </div>
-                                                            <p>descrição da publicação...</p>
-                                                            <span>dias</span>
-                                                        </div>
-
-                                                    </div>
-                                                    <figure className='atividadeComentarioPost'>
-                                                        <img src='/imgs/temp/postFeed.png' />
-                                                    </figure>
-                                                </div>
-                                                <div className='atividadeComentarioAreaComentario'>
-                                                   
-                                                    <div>
-                                                        <figure className='atividadeComentarioUsuario'>
-                                                            <img src='/imgs/temp/postFeed.png' />
-                                                        </figure>
-                                                        <div>
-                                                            <div>
-                                                                <h6>seu nome</h6>
-                                                                <span>Comentario</span>
-                                                            </div>
-                                                            <span>dias</span>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                    <canvas></canvas>
-                                                </div>
-                                            </li>
-                                            <li className={selecionarComentarios ? 'atividadeComentarioSelecionado' : ''}>
-                                                <div className='atividadeComentarioAreaCriadorPost'>
-                                                    <div>
-                                                        <figure className='atividadeComentarioUsuario'>
-                                                            <img src='/imgs/temp/postFeed.png' />
-                                                        </figure>
-                                                        <div>
-                                                            <div>
-                                                                <h6>Nome autor</h6>
-                                                                <span>Titulo post</span>
-                                                            </div>
-                                                            <p>descrição da publicação...</p>
-                                                            <span>dias</span>
-                                                        </div>
-
-                                                    </div>
-                                                    <figure className='atividadeComentarioPost'>
-                                                        <img src='/imgs/temp/postFeed.png' />
-                                                    </figure>
-                                                </div>
-                                                <div className='atividadeComentarioAreaComentario'>
-                                                   
-                                                    <div>
-                                                        <figure className='atividadeComentarioUsuario'>
-                                                            <img src='/imgs/temp/postFeed.png' />
-                                                        </figure>
-                                                        <div>
-                                                            <div>
-                                                                <h6>seu nome</h6>
-                                                                <span>Comentario</span>
-                                                            </div>
-                                                            <span>dias</span>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                    {
-                                                        selecionarComentarios &&
-                                                        (<canvas></canvas>)
-                                                    }
-                                                    
-                                                </div>
-                                            </li>
-                                            <li className={selecionarComentarios ? 'atividadeComentarioSelecionado' : ''}>
-                                                <div className='atividadeComentarioAreaCriadorPost'>
-                                                    <div>
-                                                        <figure className='atividadeComentarioUsuario'>
-                                                            <img src='/imgs/temp/postFeed.png' />
-                                                        </figure>
-                                                        <div>
-                                                            <div>
-                                                                <h6>Nome autor</h6>
-                                                                <span>Titulo post</span>
-                                                            </div>
-                                                            <p>descrição da publicação...</p>
-                                                            <span>dias</span>
-                                                        </div>
-
-                                                    </div>
-                                                    <figure className='atividadeComentarioPost'>
-                                                        <img src='/imgs/temp/postFeed.png' />
-                                                    </figure>
-                                                </div>
-                                                <div className='atividadeComentarioAreaComentario'>
-                                                   
-                                                    <div>
-                                                        <figure className='atividadeComentarioUsuario'>
-                                                            <img src='/imgs/temp/postFeed.png' />
-                                                        </figure>
-                                                        <div>
-                                                            <div>
-                                                                <h6>seu nome</h6>
-                                                                <span>Comentario</span>
-                                                            </div>
-                                                            <span>dias</span>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                    {
-                                                        selecionarComentarios &&
-                                                        (<img className='selecionadoInteracaoAtividade' src='/imgs/minhaAtividade/iconeSelecionado.svg' />)
-                                                    }
-                                                    
-                                                </div>
-                                            </li>
+                                            
                                         </ul>
                                         {
                                             selecionarComentarios &&

@@ -182,6 +182,10 @@
     padding: 10px 1em;
     border-radius: 15px;
 }
+.modalVerPostConteudoComentarios > div > button.podeComentarVerPost{
+    cursor: pointer;
+    background-color: var(--corPrincipal);
+}
 
 .modalVerPostConteudoComentarios > ul li{
     display: flex;

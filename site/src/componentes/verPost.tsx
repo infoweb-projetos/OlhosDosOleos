@@ -5,6 +5,7 @@ import { Post } from '../interfaces/Post';
 import { api } from '../apiUrl';
 import { Tag } from '../interfaces/Enums';
 import { VerificaToken } from '../scripts/uteis';
+import { Comentario } from '../interfaces/Comentario';
 
 interface parametros {
     setModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,9 +13,24 @@ interface parametros {
 }
 
 const VerPost: React.FC<parametros> = ({setModal, postId}) => {
+    const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const [post, setPost] = useState<Post | null>(null);
+    const [comentarios, setComentarios] = useState<Comentario[]>([]);
     const [souEu, setSouEu] = useState<boolean>(false);
     const [seguindo, setSeguindo] = useState<boolean>(false);
+    const [comentario, setComentario] = useState<Comentario>({postid: postId});
+    const [criandoComentario, setCriandoComentario] = useState<boolean>(false);
+
+    const VerificarToken = async () => {
+        const token = await VerificaToken();
+        if (token) atualizarTokenAtual(token);
+        else {
+            if (localStorage.getItem('tokenODO')) localStorage.removeItem('tokenODO');
+        }
+    }
+    useEffect(() => {
+        VerificarToken();
+    }, []);
 
     const CarregarPost = async () => {
         axios.get(api + `posts/verpost/${postId}`, {})
@@ -70,11 +86,52 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
             setPost(obj);
         });
     }
-   
     useEffect(() => {
         CarregarPost();
-        
     }, []);
+
+    const CarregaComentarios = async () => {
+        axios.get(api + `comentarios/post/${postId}/comentarios`, {})
+        .then(response => {
+            const comentariosBD = response.data.dados;
+            console.log('comen ', comentariosBD);
+            const comentariosLista: Comentario[] = comentariosBD.map((c: Comentario) => {
+                const obj = {...c};
+                if (obj.usuario ){
+                    if (obj.usuario.imagem && obj.usuario.imagemtipo){
+                        const blob = new Blob([ new Uint8Array(obj.usuario.imagem.data)], { type: obj.usuario.imagemtipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        obj.usuario.imagemUrl = urlImagem;
+                    }
+                    else{
+                        obj.usuario.imagemUrl = '/imgs/verPerfil/perfil.png';
+                    }
+                }
+                return obj;
+            });
+            setComentarios(comentariosLista);
+        });
+    }
+   
+    useEffect(() => {
+        CarregaComentarios();
+    }, [comentario]);
+
+    const CriarComentario = async () =>{
+        if (tokenAtual && comentario.texto && comentario.postid){
+            setCriandoComentario(true);
+            axios.post(api + `comentarios/criar`, comentario, {headers: {'Authorization': `Bearer ${tokenAtual}` }})
+            .then(response => {
+                console.log(response.data.status);
+                setComentario({postid: postId});
+                setCriandoComentario(false);
+            })
+            .catch(error => {
+                setCriandoComentario(false);
+                console.log(error);
+            });
+        }
+    }
 
     const VerificaSeguindo = async () => {
         if (post && post.usuario && post.usuario.seguidores){
@@ -133,7 +190,7 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                             </figure>
                             <figure>
                                 <img src='/imgs/verPost/iconeComentarioBranco.svg' />
-                                <figcaption>0</figcaption>
+                                <figcaption>{comentarios.length}</figcaption>
                             </figure>
                         </div>
                     </div>
@@ -143,56 +200,30 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                             <div>
                                 <div>
                                     <img src='/imgs/verPerfil/perfil.png' />
-                                    <textarea placeholder='O que você achou da postagem?'></textarea>
+                                    <textarea value={comentario.texto ? comentario.texto : undefined} onChange={(e) => setComentario({...comentario, texto: e.target.value})} placeholder='O que você achou da postagem?'></textarea>
                                 </div>
-                                <button>Publicar um comentário</button>
+                                <button disabled={criandoComentario}   onClick={() => CriarComentario()}  className={comentario.texto ? 'podeComentarVerPost' : ''}>Publicar comentário</button>
                             </div>
                             <ul>
-                                <li>
-                                    <figure>
-                                        <a href='#'><img src='/imgs/verPerfil/perfil.png' /></a>
-                                    </figure>
-                                    <div>
-                                        <div>
-                                            <h6 className='ubuntoThin'>Nome</h6>
-                                            <canvas></canvas>
-                                            <span className='ubuntoThin'>Há 5 dias</span>
-                                        </div>
+                                {comentarios && comentarios.length > 0 && (
+                                    comentarios.map((comentario, index) => (
+                                        <li key={index}>
+                                            <figure>
+                                                <a href='#'><img src={comentario.usuario?.imagemUrl} /></a>
+                                            </figure>
+                                            <div>
+                                                <div>
+                                                    <h6 className='ubuntoThin'>{comentario.usuario?.nome}</h6>
+                                                    <canvas></canvas>
+                                                    <span className='ubuntoThin'>Há 5 dias</span>
+                                                </div>
+                                                <p className='ubuntoThin'>{comentario.texto}</p>
+                                            </div>
                                         
-                                        <p className='ubuntoThin'>comentário</p>
-                                    </div>
-                                   
-                                </li>
-                                <li>
-                                    <figure>
-                                        <a href='#'><img src='/imgs/verPerfil/perfil.png' /></a>
-                                    </figure>
-                                    <div>
-                                        <div>
-                                            <h6 className='ubuntoThin'>Nome</h6>
-                                            <canvas></canvas>
-                                            <span className='ubuntoThin'>Há 5 dias</span>
-                                        </div>
-                                        
-                                        <p className='ubuntoThin'>comentário</p>
-                                    </div>
-                                   
-                                </li>
-                                <li>
-                                    <figure>
-                                        <a href='#'><img src='/imgs/verPerfil/perfil.png' /></a>
-                                    </figure>
-                                    <div>
-                                        <div>
-                                            <h6 className='ubuntoThin'>Nome</h6>
-                                            <canvas></canvas>
-                                            <span className='ubuntoThin'>Há 5 dias</span>
-                                        </div>
-                                        
-                                        <p className='ubuntoThin'>comentário</p>
-                                    </div>
-                                   
-                                </li>
+                                        </li>
+                                    ))
+                                )}
+                                
                             </ul>
                         </div>
                         <div className='modalVerPostConteudoAreaComentarioAside'>
@@ -241,7 +272,7 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                                     </figure>
                                     <figure>
                                         <img src='/imgs/verPost/iconeComentarioVermelho.svg' />
-                                        <figcaption>0</figcaption>
+                                        <figcaption>{comentarios.length}</figcaption>
                                     </figure>
                                 </div>
                                 <p>Publicado em: {post?.entrada ? new Date(post?.entrada)?.toLocaleDateString(undefined, {year: 'numeric', month: 'long', day: 'numeric'}) : null}</p>
