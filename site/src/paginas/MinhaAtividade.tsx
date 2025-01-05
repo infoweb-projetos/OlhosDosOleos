@@ -8,6 +8,7 @@ import { Atividade } from '../interfaces/Atividade';
 import { api } from '../apiUrl';
 import { CurtirPost, VerificaToken } from '../scripts/uteis';
 import { useNavigate } from 'react-router-dom';
+import { tempoRelativo } from '../scripts/funcoesUteis';
 
 const MinhaAtividade: React.FC = () => {
     const [selecionarCurtidas, setSelecionarCurtida] = useState<boolean>(false);
@@ -24,6 +25,7 @@ const MinhaAtividade: React.FC = () => {
 
             const lista: Array<Atividade> = response.data.dados.map((a: Atividade) => {
                 const obj: Atividade = {
+                    id: a.id,
                     usuarioid: a.usuarioid, 
                     postid: a.postid, 
                     comentarioid: a.comentarioid, 
@@ -35,7 +37,6 @@ const MinhaAtividade: React.FC = () => {
 
                 if (obj.post) {
                     const postimagem = obj.post;
-                    console.log(postimagem);
                     if (postimagem.imagem && postimagem.imagemtipo) {
                         const blob = new Blob([new Uint8Array(postimagem.imagem.data)], { type: postimagem.imagemtipo });
                         const urlImagem = URL.createObjectURL(blob);
@@ -70,7 +71,6 @@ const MinhaAtividade: React.FC = () => {
                 return obj;
             });
             setAtividades(lista);
-            console.log(response);
         })
     }
 
@@ -83,15 +83,14 @@ const MinhaAtividade: React.FC = () => {
         if (token) atualizarTokenAtual(token); 
         else { navegar('/entrar'); localStorage.removeItem('tokenODO');}
     }
-
     useEffect(() => {
         VerificarToken();
     }, []);
   
     const selecionar = (id: number) =>{
-        if (selecionarCurtidas){
+        if (selecionarCurtidas || selecionarComentarios){
             const novaLista = [...atividades];
-            let index = novaLista.findIndex(a => a.postid === id);
+            let index = novaLista.findIndex(a => a.id == id);
             if(index != -1){
                 novaLista[index] = {
                     ...novaLista[index], 
@@ -110,6 +109,21 @@ const MinhaAtividade: React.FC = () => {
         const atividadesRestantes = atividades.filter(a => !a.comentarioid && !curtidasSelecionadas.includes(a));
         setAtividades(atividadesRestantes);
 
+    }
+
+    const apagarComentarios = async () => {
+        const comentariosSelecionados = atividades.filter(a => a.comentarioid && a.selecionado);
+        for (let atividade of comentariosSelecionados){
+            axios.delete(api + `comentarios/apagar/${atividade.comentarioid}`, { headers: {'Authorization': `Bearer ${tokenAtual}` }})
+            .then(resposta =>{
+                console.log(resposta);
+            })
+            .catch(erro =>{
+                console.log(erro);
+            })
+        }
+        const atividadesRestantes = atividades.filter(a => a.comentarioid && !comentariosSelecionados.includes(a));
+        setAtividades(atividadesRestantes);
     }
 
     return (
@@ -144,8 +158,8 @@ const MinhaAtividade: React.FC = () => {
                     <div className='conteudoMinhaAtividade'>
                         <ul className='tabsAtividade'>
                             <li className='ocupaEspacoAtividade ocupaEspacoAtividadeEsquerdo'></li>
-                            <li onClick={() => setTabSelecionada(true)} className='tipoAtividade '><button className={tabSelecionada ? 'tabSelecionadaAtividade' : ''}>Curtidas</button></li>
-                            <li onClick={() => setTabSelecionada(false)} className='tipoAtividade'><button className={!tabSelecionada ? 'tabSelecionadaAtividade' : ''}>Comentarios</button></li>
+                            <li onClick={() => {setTabSelecionada(true); setSelecionarComentarios(false)}} className='tipoAtividade '><button className={tabSelecionada ? 'tabSelecionadaAtividade' : ''}>Curtidas</button></li>
+                            <li onClick={() => {setTabSelecionada(false); setSelecionarCurtida(false)}} className='tipoAtividade'><button className={!tabSelecionada ? 'tabSelecionadaAtividade' : ''}>Comentarios</button></li>
                             <li className='ocupaEspacoAtividade'></li>
                         </ul>
                         {
@@ -164,7 +178,7 @@ const MinhaAtividade: React.FC = () => {
                                                 atividades.filter(a => !a.comentarioid).map((atividade, index) =>
                                                 (
                                                     <li  key={index}>
-                                                        <figure onClick={() => selecionar(atividade.postid ? atividade.postid : 0)}>
+                                                        <figure onClick={() => selecionar(atividade.id ? atividade.id : 0)}>
                                                             <img src={atividade.post?.imagemUrl} />
                                                             {
                                                                  selecionarCurtidas && !atividade.selecionado &&
@@ -217,9 +231,9 @@ const MinhaAtividade: React.FC = () => {
                                             {
                                                 atividades.filter(a => a.comentarioid).map((atividade, index) =>
                                                 (
-                                                    <li key={index} className={selecionarComentarios ? 'atividadeComentarioSelecionado' : ''}>
+                                                    <li onClick={() => selecionar(atividade.id ? atividade.id : 0)} key={index} className={selecionarComentarios ? 'atividadeComentarioSelecionado' : ''}>
                                                         <div className='atividadeComentarioAreaCriadorPost'>
-                                                            <div>
+                                                            <div >
                                                                 <figure className='atividadeComentarioUsuario'>
                                                                     <img src={atividade.post?.usuario?.imagemUrl} />
                                                                 </figure>
@@ -229,7 +243,13 @@ const MinhaAtividade: React.FC = () => {
                                                                         <span>{atividade.post?.titulo}</span>
                                                                     </div>
                                                                     <p>{atividade.post?.descricao}</p>
-                                                                    <span>dias</span>
+                                                                    <span>
+                                                                    {   
+                                                                        atividade.post?.entrada ?
+                                                                        tempoRelativo(new Date(atividade.post?.entrada))
+                                                                        : '' 
+                                                                    }
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                             <figure className='atividadeComentarioPost'>
@@ -237,7 +257,6 @@ const MinhaAtividade: React.FC = () => {
                                                             </figure>
                                                         </div>
                                                         <div className='atividadeComentarioAreaComentario'>
-                                                        
                                                             <div>
                                                                 <figure className='atividadeComentarioUsuario'>
                                                                     <img  src={atividade.usuario?.imagemUrl} />
@@ -247,16 +266,23 @@ const MinhaAtividade: React.FC = () => {
                                                                         <h6>{atividade.usuario?.nome}</h6>
                                                                         <span>{atividade.comentario?.texto}</span>
                                                                     </div>
-                                                                    <span>dias</span>
+                                                                    <span>
+                                                                        { 
+                                                                            atividade.comentario?.criacao ?
+                                                                            tempoRelativo(new Date(atividade.comentario?.criacao)) 
+                                                                            : ''
+                                                                        }
+                                                                    </span>
+        
                                                                 </div>
                                                                 
                                                             </div>
                                                             {
-                                                                selecionarComentarios &&
+                                                                selecionarComentarios && !atividade.selecionado &&
                                                                 (<canvas></canvas>)
                                                             }
                                                             {
-                                                                selecionarComentarios &&
+                                                                selecionarComentarios  && atividade.selecionado &&
                                                                 (<img className='selecionadoInteracaoAtividade' src='/imgs/minhaAtividade/iconeSelecionado.svg' />)
                                                             }
                                                         </div>
@@ -271,14 +297,17 @@ const MinhaAtividade: React.FC = () => {
                                                 <div className='minhaAtividadeExclusaoArea'>
                                                 <div>
                                                     <div>
-                                                        <button>
+                                                        <button  onClick={() => setSelecionarComentarios(false)}>
                                                             <img src='/imgs/minhaAtividade/cancelarExcluir.svg'/>
                                                         </button>
-                                                        <span>x item selecionado</span>
+                                                        <span>
+                                                        {atividades.filter(a => a.comentarioid && a.selecionado).length} 
+                                                        {atividades.filter(a => a.comentarioid && a.selecionado).length == 1 ? " item selecionado" : " itens selecionados"} 
+                                                        </span>
                                                     </div>
-                                                    <button>Excluir</button>
+                                                    <button onClick={() => apagarComentarios()}>Excluir</button>
                                                 </div>
-                                                <p>Uma curtida excluída não será mais contabilizada na postagem nem em sua atividade.</p>
+                                                <p>Um comentario excluído não será mais contabilizado na postagem nem em sua atividade.</p>
                                             </div>
                                             )
                                         }

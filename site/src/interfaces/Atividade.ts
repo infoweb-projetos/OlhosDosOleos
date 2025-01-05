@@ -3,6 +3,7 @@ import { Post } from "./Post";
 import { Usuario } from "./Usuario";
 
 export interface Atividade {
+    id?: number;
     usuarioid?: number;
     postid?: number;
     comentarioid?: number;

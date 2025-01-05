@@ -67,6 +67,7 @@
     width: 35px;
     height: 35px;
     border-radius: 100%;
+    cursor: pointer;
 }
 .modalVerPostConteudoCabecalho button{
     display: flex;
@@ -373,10 +374,15 @@
     background-color: #FFFFFF;
     border-radius: 100%;
 }
-.modalVerPost >  ul .modalVerPostAcoesPerfil p{
+.modalVerPost >  ul .modalVerPostAcoesPerfil button.btSeguirVerPost{
+    display: block;
+    background-color: transparent;
+    border: none;
     border-bottom: 1px solid #FFFFFF;
     width: min-content;
     margin: 0 auto;
+    color: #FFFFFF;
+    font-size: 100%;
 }
 .modalVerPost >  ul  .modalVerPostAcoesNormal button{
     background-color: #FFFFFF;

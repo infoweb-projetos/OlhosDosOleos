@@ -55,12 +55,7 @@ const MeuPerfil: React.FC = () => {
     };
 
     const MontarPerfil = async (token: string | null) => {
-        const url = api + 'usuarios/perfil';
-        axios.get(url, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        tokenAtual
             .then(response => {
                 setEhMeuPerfil(true)
                 const usu = response.data.dados;
@@ -391,7 +386,7 @@ const MeuPerfil: React.FC = () => {
                                     </div>
 
                                 </div>
-                                {usuario?.localizacao ?
+                                {usuario?.localizacao && typeof usuario.localizacao == 'string' ?
                                     (
                                         <p className="dmSansThin textoLocalizacao">
                                             <img className="location-icon" src="/imgs/verPerfil/location_icon.png" alt="Localização" />

@@ -6,6 +6,8 @@ import { api } from '../apiUrl';
 import { Tag } from '../interfaces/Enums';
 import { VerificaToken } from '../scripts/uteis';
 import { Comentario } from '../interfaces/Comentario';
+import { Link, useNavigate } from 'react-router-dom';
+import { tempoRelativo } from '../scripts/funcoesUteis';
 
 interface parametros {
     setModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,13 +15,18 @@ interface parametros {
 }
 
 const VerPost: React.FC<parametros> = ({setModal, postId}) => {
+    const navegar = useNavigate();
     const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const [post, setPost] = useState<Post | null>(null);
     const [comentarios, setComentarios] = useState<Comentario[]>([]);
     const [souEu, setSouEu] = useState<boolean>(false);
     const [seguindo, setSeguindo] = useState<boolean>(false);
+    const [curtido, setCurtido] = useState<boolean>(false);
+    const [favoritado, setFavoritado] = useState<boolean>(false);
     const [comentario, setComentario] = useState<Comentario>({postid: postId});
     const [criandoComentario, setCriandoComentario] = useState<boolean>(false);
+    const [foto, setFoto] = useState<string>("/imgs/verPerfil/perfil.png");
+
 
     const VerificarToken = async () => {
         const token = await VerificaToken();
@@ -31,6 +38,10 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
     useEffect(() => {
         VerificarToken();
     }, []);
+
+    const verPerfil = (id: number) =>{
+        if (id > 0) navegar(`/perfil/${id}`)
+    }
 
     const CarregarPost = async () => {
         axios.get(api + `posts/verpost/${postId}`, {})
@@ -133,10 +144,52 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
         }
     }
 
-    const VerificaSeguindo = async () => {
-        if (post && post.usuario && post.usuario.seguidores){
+    const SetarImagem = async () => {
+        const url = api + 'usuarios/perfil';
+        axios.get(url, {
+            headers: {
+                'Authorization': `Bearer ${tokenAtual}`
+            }
+        })
+        .then(response => {
+            const usu = response.data.dados;
+            if (usu && usu.imagem && usu.imagem.data && usu.imagemtipo) {
+                const blob = new Blob([new Uint8Array(usu.imagem.data)], { type: usu.imagemtipo });
+                const urlImagem = URL.createObjectURL(blob);
+                setFoto(urlImagem);
+            } else {
+                setFoto("/imgs/verPerfil/perfil.png");
+            }
+        })
+        .catch(() => setFoto("/imgs/verPerfil/perfil.png"));
+    }
+    useEffect(() => {
+        if(tokenAtual) SetarImagem()
+    }, [tokenAtual]);
+
+    const VerificaSeguindoCurtida = async () => {
+        if (post && post.usuario){
             const usuarioId = await VerificaToken(true);
-            if (usuarioId) setSeguindo(post.usuario.seguidores.filter(s => s.seguidorid == usuarioId).length > 0);
+            if (usuarioId){
+                if (post.usuario.seguidores) setSeguindo(post.usuario.seguidores.filter(s => s.seguidorid == usuarioId).length > 0);
+                if (post.curtidas) setCurtido(post.curtidas.filter(c => c.usuarioid == usuarioId).length > 0);
+            } 
+        }
+    }
+    const VerificaFavoritado = async () => {
+        if (post){
+            const usuarioId = await VerificaToken(true);
+            if (usuarioId){
+                axios.get(api + `pastas/favoritado/post/${postId}`, {headers: {'Authorization': `Bearer ${tokenAtual}` }})
+                .then(response => {
+                    console.log(response)
+                    setFavoritado(response.data.favoritado);
+                })
+                .catch(error =>{
+                    console.log(error);
+                    setFavoritado(false);
+                })
+            } 
         }
     }
     const VerificaSouEu = async () => {
@@ -147,10 +200,10 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
     }
     useEffect(() => {
         if (post){
-            VerificaSeguindo();
+            VerificaSeguindoCurtida();
             VerificaSouEu();
+            VerificaFavoritado();
         }
-       
     }, [post]);
     return (
         <div className="modalVerPost">
@@ -160,11 +213,11 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
             <div className='modalVerPostCorpo'>
                 <div className='modalVerPostConteudo'>
                     <div className='modalVerPostConteudoCabecalho'>
-                        <img src={post?.usuario?.imagemUrl}/>
+                        <img onClick={() => verPerfil(post?.usuario?.id ?? 0)} src={post?.usuario?.imagemUrl}/>
                         <div>
                             <h5>{post?.titulo}</h5>
                             <div>
-                                <span>{post?.usuario?.nome}</span>
+                                <span onClick={() => verPerfil(post?.usuario?.id ?? 0)}>{post?.usuario?.nome}</span>
                                 <canvas></canvas>
                                 {!souEu && <button> {seguindo? "Deixar de Seguir" : "Seguir"}</button>}
                             </div>
@@ -199,7 +252,7 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                         <div className='modalVerPostConteudoComentarios'>
                             <div>
                                 <div>
-                                    <img src='/imgs/verPerfil/perfil.png' />
+                                    <img src={foto} />
                                     <textarea value={comentario.texto ? comentario.texto : undefined} onChange={(e) => setComentario({...comentario, texto: e.target.value})} placeholder='O que você achou da postagem?'></textarea>
                                 </div>
                                 <button disabled={criandoComentario}   onClick={() => CriarComentario()}  className={comentario.texto ? 'podeComentarVerPost' : ''}>Publicar comentário</button>
@@ -209,13 +262,20 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                                     comentarios.map((comentario, index) => (
                                         <li key={index}>
                                             <figure>
-                                                <a href='#'><img src={comentario.usuario?.imagemUrl} /></a>
+                                                <Link to={`/perfil/${comentario.usuarioid}`}><img src={comentario.usuario?.imagemUrl} /></Link>
                                             </figure>
                                             <div>
                                                 <div>
                                                     <h6 className='ubuntoThin'>{comentario.usuario?.nome}</h6>
                                                     <canvas></canvas>
-                                                    <span className='ubuntoThin'>Há 5 dias</span>
+                                                    <span className='ubuntoThin'>
+                                                    {
+                                                        comentario.criacao ?
+                                                        tempoRelativo(new Date(comentario.criacao))
+                                                        : ''
+                                                        
+                                                    }
+                                                    </span>
                                                 </div>
                                                 <p className='ubuntoThin'>{comentario.texto}</p>
                                             </div>
@@ -258,7 +318,7 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                                     )
                                 }
                                 
-                                <button className='modalVerPostConteudoAreaComentarioAsideProprietarioBtVer'>
+                                <button onClick={() => verPerfil(post?.usuario?.id ?? 0)} className='modalVerPostConteudoAreaComentarioAsideProprietarioBtVer'>
                                     <img  src='/imgs/verPost/iconeVer.svg' />
                                     Ver Perfi
                                 </button>
@@ -298,14 +358,14 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
             </div>
             <ul>
                    <li className='modalVerPostAcoesPerfil'>
-                       <button>
+                       <button onClick={() => verPerfil(post?.usuario?.id ?? 0)}>
                            <img src={post?.usuario?.imagemUrl}/>
                        </button>
-                       {!souEu && <p>{seguindo? "Deixar de Seguir" : "Seguir"}</p>}
+                       {!souEu && <button className='btSeguirVerPost'>{seguindo? "Deixar de Seguir" : "Seguir"}</button>}
                     </li> 
                     <li  className='modalVerPostAcoesNormal'>
                        <button>
-                           <img src='/imgs/verPost/iconeCurtir.svg' />
+                           <img src={!curtido ? '/imgs/verPost/iconeCurtir.svg' : '/imgs/verPost/iconeCurtido.svg'} />
                        </button>
                        <p>Curtir</p>
                     </li> 
@@ -317,7 +377,7 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                     </li> 
                     <li  className='modalVerPostAcoesNormal'>
                        <button>
-                           <img src='/imgs/verPost/iconeSalvar.svg' />
+                           <img src={!favoritado ? '/imgs/verPost/iconeSalvar.svg' : '/imgs/verPost/iconeSalvo.svg'} />
                        </button>
                        <p>Salvar</p>
                     </li> 

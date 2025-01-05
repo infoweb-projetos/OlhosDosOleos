@@ -294,7 +294,7 @@ const Perfil: React.FC = () => {
                                     </div>
 
                                 </div>
-                                {usuario?.localizacao ?
+                                {usuario?.localizacao && typeof usuario.localizacao == 'string' ?
                                     (
                                         <p className="dmSansThin textoLocalizacao">
                                             <img className="location-icon" src="/imgs/verPerfil/location_icon.png" alt="Localização" />

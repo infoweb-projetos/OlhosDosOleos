@@ -57,7 +57,7 @@ export const CurtirPost = async (postid: number, token: string | null, setUltimo
     
 }
 
-export const Seguir = async (usuarioid: number, token: string | null, setUsuario: React.Dispatch<React.SetStateAction<Usuario | null>>, usuario: Usuario | null) => {
+export const Seguir = async (usuarioid: number, token: string | null, setUsuario: React.Dispatch<React.SetStateAction<Usuario | null>> | null, usuario: Usuario | null) => {
     if (token && usuarioid > 0){
         axios.post(api + `usuarios/seguir/${usuarioid}`, {}, {
             headers: {
@@ -74,7 +74,8 @@ export const Seguir = async (usuarioid: number, token: string | null, setUsuario
                     usuarioAtualizado.sigo = false;
                 } 
                    
-                setUsuario(usuarioAtualizado);
+                if(setUsuario) setUsuario(usuarioAtualizado);
+                return  usuarioAtualizado.sigo;
             }
         })
         .catch(error => {
