@@ -55,7 +55,12 @@ const MeuPerfil: React.FC = () => {
     };
 
     const MontarPerfil = async (token: string | null) => {
-        tokenAtual
+        const url = api + 'usuarios/perfil';
+        axios.get(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(response => {
                 setEhMeuPerfil(true)
                 const usu = response.data.dados;
