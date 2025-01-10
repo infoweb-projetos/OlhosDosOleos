@@ -75,7 +75,7 @@ const MinhaAtividade: React.FC = () => {
     }
 
     useEffect(() => {
-        CarregarAtividades();
+        if(tokenAtual)CarregarAtividades();
     }, [tokenAtual]);
 
     const VerificarToken = async () => {

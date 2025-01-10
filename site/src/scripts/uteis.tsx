@@ -14,7 +14,6 @@ export const VerificaToken = async (descodificado: boolean = false) => {
                 'Authorization': `Bearer ${token}`
             }
         });
-        console.log(response.data)
         if(response.data.estado==='ok'){
             if(descodificado){
                 return response.data.token.usuario;
@@ -37,21 +36,50 @@ export const CurtirPost = async (postid: number, token: string | null, setUltimo
             }
         })
         .then(response => {
-            console.log(response);
+            let curtido = true;
             if (response.data.dados && response.data.dados.post && response.data.dados.post.curtidas){
                 const postAtualizado = response.data.dados.post; 
                 const postsAtualizado = [...ultimosPosts];
                 const postIndex = postsAtualizado.findIndex(post => post.id === postid);
                 if (postIndex != -1) {
                     let qtd = postAtualizado.curtidas.length > 0 ? postAtualizado.curtidas.length : 0
-                    if (qtd > 0 && response.data.dados.foiApagado == true) qtd--;
+                    if (qtd > 0 && response.data.dados.foiApagado == true){
+                        qtd--;
+                        curtido = false;
+                    } 
                     postsAtualizado[postIndex].curtidasQtd = qtd;
                     if (setUltimosPosts) setUltimosPosts(postsAtualizado); 
+                    return curtido;
                 } 
             }
         })
         .catch(error => {
             console.log(error);
+            return false;
+        });
+    }
+    
+}
+
+export const CurtirPostSimples = async (postid: number, token: string | null, setPostCurtido: React.Dispatch<React.SetStateAction<boolean>>) => {
+    console.log(postid);
+    if (token && postid > 0){
+        axios.post(api + `posts/curtir/${postid}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            console.log(response)
+            if (response){
+                console.log(response)
+                setPostCurtido(response.data.dados.foiApagado as boolean); 
+            }
+            else setPostCurtido(false); 
+        })
+        .catch(error => {
+            console.log(error);
+            setPostCurtido(false); 
         });
     }
     
@@ -80,7 +108,30 @@ export const Seguir = async (usuarioid: number, token: string | null, setUsuario
         })
         .catch(error => {
             console.log(error);
+            return  false;
         });
     }
     
+}
+
+export const SeguirSimples = async (usuarioid: number, token: string | null,  setSeguindo: React.Dispatch<React.SetStateAction<boolean>>) => {
+    if (token && usuarioid > 0){
+        axios.post(api + `usuarios/seguir/${usuarioid}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (response.data.dados && response.data.dados.usuario){
+                setSeguindo(true);
+                if (response.data.dados.seguindo == false){
+                    setSeguindo(false);
+                }   
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            setSeguindo(false);
+        });
+    }
 }

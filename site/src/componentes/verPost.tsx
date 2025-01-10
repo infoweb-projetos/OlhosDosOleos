@@ -4,29 +4,31 @@ import axios from 'axios';
 import { Post } from '../interfaces/Post';
 import { api } from '../apiUrl';
 import { Tag } from '../interfaces/Enums';
-import { VerificaToken } from '../scripts/uteis';
+import { CurtirPostSimples, SeguirSimples, VerificaToken } from '../scripts/uteis';
 import { Comentario } from '../interfaces/Comentario';
 import { Link, useNavigate } from 'react-router-dom';
 import { tempoRelativo } from '../scripts/funcoesUteis';
+import FavoritarPost from './favoritarPost';
 
 interface parametros {
     setModal: React.Dispatch<React.SetStateAction<boolean>>;
     postId: number;
+    setPostAtualizado: React.Dispatch<React.SetStateAction<{id:number, naoCurtido:boolean} | null>>;
 }
 
-const VerPost: React.FC<parametros> = ({setModal, postId}) => {
+const VerPost: React.FC<parametros> = ({setModal, postId, setPostAtualizado}) => {
     const navegar = useNavigate();
     const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const [post, setPost] = useState<Post | null>(null);
     const [comentarios, setComentarios] = useState<Comentario[]>([]);
     const [souEu, setSouEu] = useState<boolean>(false);
     const [seguindo, setSeguindo] = useState<boolean>(false);
-    const [curtido, setCurtido] = useState<boolean>(false);
+    const [naoCurtido, setNaoCurtido] = useState<boolean>(true);
     const [favoritado, setFavoritado] = useState<boolean>(false);
     const [comentario, setComentario] = useState<Comentario>({postid: postId});
-    const [criandoComentario, setCriandoComentario] = useState<boolean>(false);
+    const [habilitaComentario, setHabilitaComentario] = useState<boolean>(true);
     const [foto, setFoto] = useState<string>("/imgs/verPerfil/perfil.png");
-
+    const [modalFavoritar, setModalFavoritar] = useState<boolean>(false);
 
     const VerificarToken = async () => {
         const token = await VerificaToken();
@@ -47,54 +49,54 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
         axios.get(api + `posts/verpost/${postId}`, {})
         .then(response => {
             const postBD = response.data.dados;
-            console.log(response.data.dados);
-            const obj: Post = {
-                titulo: postBD.titulo,
-                usuario: postBD.usuario,
-                imagem: postBD.imagem,
-                imagemtipo: postBD.imagemtipo,
-                usuarioid: postBD.usuarioid ?? 0,
-                sensivel: postBD.sensivel ?? false,
-                curtidas:postBD.curtidas,
-                curtidasQtd: postBD.curtidas && postBD.curtidas.length > 0 ? postBD.curtidas.length : 0,
-                entrada: postBD.entrada?postBD.entrada:undefined,
-                processo: postBD.processo,
-                descricao: postBD.descricao,
-                tags: (postBD.tags as Array<{tag : Tag}>).map(item => item.tag) as Array<Tag>,
-            };
-
-            if (obj) {
-                console.log(obj);
-                if (obj.imagem && obj.imagemtipo) {
-                    const blob = new Blob([new Uint8Array(obj.imagem.data)], { type: obj.imagemtipo });
-                    const urlImagem = URL.createObjectURL(blob);
-                    obj.imagemUrl = urlImagem;
-                }
-
-                if(obj.usuario){
-                    if (obj.usuario?.imagem && obj.usuario?.imagemtipo) {
-                        const blob = new Blob([new Uint8Array(obj.usuario?.imagem.data)], { type: obj.usuario?.imagemtipo });
+            if(postBD){
+                const obj: Post = {
+                    id: postId,
+                    titulo: postBD.titulo ?? '',
+                    usuario: postBD.usuario,
+                    imagem: postBD.imagem,
+                    imagemtipo: postBD.imagemtipo,
+                    usuarioid: postBD.usuarioid ?? 0,
+                    sensivel: postBD.sensivel ?? false,
+                    curtidas:postBD.curtidas,
+                    curtidasQtd: postBD.curtidas && postBD.curtidas.length > 0 ? postBD.curtidas.length : 0,
+                    entrada: postBD.entrada?postBD.entrada:undefined,
+                    processo: postBD.processo,
+                    descricao: postBD.descricao,
+                    tags: (postBD.tags as Array<{tag : Tag}>).map(item => item.tag) as Array<Tag>,
+                };
+    
+                if (obj) {
+                    if (obj.imagem && obj.imagemtipo) {
+                        const blob = new Blob([new Uint8Array(obj.imagem.data)], { type: obj.imagemtipo });
                         const urlImagem = URL.createObjectURL(blob);
-                        obj.usuario.imagemUrl = urlImagem;
+                        obj.imagemUrl = urlImagem;
                     }
-                    else{
-                        obj.usuario.imagemUrl = '/imgs/verPerfil/perfil.png';
-                    }
-                }
-               
-
-                if(obj.processo){
-                    for (let processo of obj.processo){
-                        if (processo.imagem && processo.imagemtipo) {
-                            const blob = new Blob([new Uint8Array(processo.imagem.data)], { type: processo.imagemtipo });
+    
+                    if(obj.usuario){
+                        if (obj.usuario?.imagem && obj.usuario?.imagemtipo) {
+                            const blob = new Blob([new Uint8Array(obj.usuario?.imagem.data)], { type: obj.usuario?.imagemtipo });
                             const urlImagem = URL.createObjectURL(blob);
-                            processo.imagemUrl = urlImagem;
+                            obj.usuario.imagemUrl = urlImagem;
+                        }
+                        else{
+                            obj.usuario.imagemUrl = '/imgs/verPerfil/perfil.png';
+                        }
+                    }
+                   
+                    if(obj.processo){
+                        for (let processo of obj.processo){
+                            if (processo.imagem && processo.imagemtipo) {
+                                const blob = new Blob([new Uint8Array(processo.imagem.data)], { type: processo.imagemtipo });
+                                const urlImagem = URL.createObjectURL(blob);
+                                processo.imagemUrl = urlImagem;
+                            }
                         }
                     }
                 }
+                setPost(obj);
             }
-            console.log(obj);
-            setPost(obj);
+            
         });
     }
     useEffect(() => {
@@ -105,7 +107,6 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
         axios.get(api + `comentarios/post/${postId}/comentarios`, {})
         .then(response => {
             const comentariosBD = response.data.dados;
-            console.log('comen ', comentariosBD);
             const comentariosLista: Comentario[] = comentariosBD.map((c: Comentario) => {
                 const obj = {...c};
                 if (obj.usuario ){
@@ -123,24 +124,34 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
             setComentarios(comentariosLista);
         });
     }
-   
+
     useEffect(() => {
         CarregaComentarios();
-    }, [comentario]);
+    }, []);
 
     const CriarComentario = async () =>{
         if (tokenAtual && comentario.texto && comentario.postid){
-            setCriandoComentario(true);
+            setHabilitaComentario(false);
             axios.post(api + `comentarios/criar`, comentario, {headers: {'Authorization': `Bearer ${tokenAtual}` }})
             .then(response => {
-                console.log(response.data.status);
-                setComentario({postid: postId});
-                setCriandoComentario(false);
+                let obj = response.data.dados as Comentario;
+                if(obj.usuario){
+                    if (obj.usuario?.imagem && obj.usuario?.imagemtipo) {
+                        const blob = new Blob([new Uint8Array(obj.usuario?.imagem.data)], { type: obj.usuario?.imagemtipo });
+                        const urlImagem = URL.createObjectURL(blob);
+                        obj.usuario.imagemUrl = urlImagem;
+                    }
+                    else{
+                        obj.usuario.imagemUrl = '/imgs/verPerfil/perfil.png';
+                    }
+                }
+                setComentarios([obj , ...comentarios])
             })
             .catch(error => {
-                setCriandoComentario(false);
                 console.log(error);
+                setHabilitaComentario(true);
             });
+            setHabilitaComentario(true);
         }
     }
 
@@ -172,7 +183,7 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
             const usuarioId = await VerificaToken(true);
             if (usuarioId){
                 if (post.usuario.seguidores) setSeguindo(post.usuario.seguidores.filter(s => s.seguidorid == usuarioId).length > 0);
-                if (post.curtidas) setCurtido(post.curtidas.filter(c => c.usuarioid == usuarioId).length > 0);
+                if (post.curtidas) setNaoCurtido(post.curtidas.filter(c => c.usuarioid == usuarioId).length < 1);
             } 
         }
     }
@@ -180,9 +191,8 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
         if (post){
             const usuarioId = await VerificaToken(true);
             if (usuarioId){
-                axios.get(api + `pastas/favoritado/post/${postId}`, {headers: {'Authorization': `Bearer ${tokenAtual}` }})
+                axios.get(api + `pastas/favoritado/post/${post.id ?? 0}`, {headers: {'Authorization': `Bearer ${tokenAtual}` }})
                 .then(response => {
-                    console.log(response)
                     setFavoritado(response.data.favoritado);
                 })
                 .catch(error =>{
@@ -205,8 +215,33 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
             VerificaFavoritado();
         }
     }, [post]);
+
+    useEffect(() => {
+        if (post && !modalFavoritar){
+            VerificaFavoritado();
+        }
+    }, [modalFavoritar]);
+
+    const Curtir = () => {
+        if(post && tokenAtual){
+            CurtirPostSimples(post.id ?? 0, tokenAtual, setNaoCurtido);
+            setPostAtualizado({id:post.id ?? 0, naoCurtido: naoCurtido})
+            console.log(naoCurtido)
+        }
+    }
+    const Favoritar =  () =>{
+        if(post && tokenAtual && post.id){
+            setModalFavoritar(true);
+        }
+    }
+    const SeguirProprietario = () =>{
+        if (post && tokenAtual){
+            SeguirSimples(post?.usuarioid ?? 0, tokenAtual, setSeguindo);
+        }
+    }
     return (
         <div className="modalVerPost">
+            {modalFavoritar && <FavoritarPost token={tokenAtual} setModal={setModalFavoritar} postId={post?.id ?? 0}/>}
             <button onClick={() => setModal(false)}>
                 <img src='/imgs/verPost/iconeFechar.svg'/>
             </button>
@@ -219,7 +254,7 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                             <div>
                                 <span onClick={() => verPerfil(post?.usuario?.id ?? 0)}>{post?.usuario?.nome}</span>
                                 <canvas></canvas>
-                                {!souEu && <button> {seguindo? "Deixar de Seguir" : "Seguir"}</button>}
+                                {!souEu && <button onClick={() => SeguirProprietario()}> {seguindo? "Deixar de Seguir" : "Seguir"}</button>}
                             </div>
                         </div>
                         
@@ -255,7 +290,7 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                                     <img src={foto} />
                                     <textarea value={comentario.texto ? comentario.texto : undefined} onChange={(e) => setComentario({...comentario, texto: e.target.value})} placeholder='O que você achou da postagem?'></textarea>
                                 </div>
-                                <button disabled={criandoComentario}   onClick={() => CriarComentario()}  className={comentario.texto ? 'podeComentarVerPost' : ''}>Publicar comentário</button>
+                                <button disabled={!habilitaComentario}   onClick={() => CriarComentario()}  className={comentario.texto ? 'podeComentarVerPost' : ''}>Publicar comentário</button>
                             </div>
                             <ul>
                                 {comentarios && comentarios.length > 0 && (
@@ -311,7 +346,7 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                                 </div>
                                 {
                                     !souEu && (
-                                    <button className='modalVerPostConteudoAreaComentarioAsideProprietarioBtSeguir' >
+                                    <button onClick={() => SeguirProprietario()} className='modalVerPostConteudoAreaComentarioAsideProprietarioBtSeguir' >
                                         {!seguindo && <img src='/imgs/verPost/iconeSeguir.svg' />}
                                         {seguindo? "Deixar de Seguir" : "Seguir"}
                                     </button>
@@ -361,11 +396,11 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                        <button onClick={() => verPerfil(post?.usuario?.id ?? 0)}>
                            <img src={post?.usuario?.imagemUrl}/>
                        </button>
-                       {!souEu && <button className='btSeguirVerPost'>{seguindo? "Deixar de Seguir" : "Seguir"}</button>}
+                       {!souEu && <button onClick={() => SeguirProprietario()} className='btSeguirVerPost'>{seguindo? "Deixar de Seguir" : "Seguir"}</button>}
                     </li> 
-                    <li  className='modalVerPostAcoesNormal'>
-                       <button>
-                           <img src={!curtido ? '/imgs/verPost/iconeCurtir.svg' : '/imgs/verPost/iconeCurtido.svg'} />
+                    <li onClick={() => Curtir()} className='modalVerPostAcoesNormal'>
+                       <button >
+                           <img src={naoCurtido ? '/imgs/verPost/iconeCurtir.svg' : '/imgs/verPost/iconeCurtido.svg'} />
                        </button>
                        <p>Curtir</p>
                     </li> 
@@ -375,8 +410,8 @@ const VerPost: React.FC<parametros> = ({setModal, postId}) => {
                        </button>
                        <p>Comentar</p>
                     </li> 
-                    <li  className='modalVerPostAcoesNormal'>
-                       <button>
+                    <li onClick={() => Favoritar()} className='modalVerPostAcoesNormal'>
+                       <button >
                            <img src={!favoritado ? '/imgs/verPost/iconeSalvar.svg' : '/imgs/verPost/iconeSalvo.svg'} />
                        </button>
                        <p>Salvar</p>
