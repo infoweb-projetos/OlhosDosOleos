@@ -9,6 +9,7 @@ import { api } from '../apiUrl';
 import { CurtirPost, VerificaToken } from '../scripts/uteis';
 import { useNavigate } from 'react-router-dom';
 import { tempoRelativo } from '../scripts/funcoesUteis';
+import VerPost from '../componentes/verPost';
 
 const MinhaAtividade: React.FC = () => {
     const [selecionarCurtidas, setSelecionarCurtida] = useState<boolean>(false);
@@ -18,6 +19,9 @@ const MinhaAtividade: React.FC = () => {
     const navegar = useNavigate();
     const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const [atividades, setAtividades] = useState<Atividade[]>([]);
+    
+    const [modalPost, setModalPost] = useState<boolean>(false);
+    const [postId, setPostId] = useState<number>(0);
     
     const CarregarAtividades = async () =>{
         axios.get(api + 'atividades/listar', { headers: {'Authorization': `Bearer ${tokenAtual}` }})
@@ -126,9 +130,18 @@ const MinhaAtividade: React.FC = () => {
         setAtividades(atividadesRestantes);
     }
 
+    const VerModalPost = (id:number) => {
+        if(id > 0 && (!selecionarCurtidas && !selecionarComentarios)){
+            setPostId (id);
+            setModalPost(true);
+        }
+    }
+
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
+            {(modalPost) && <div className='Esmaecer'></div>}
+            {modalPost && <VerPost setModal={setModalPost} postId={postId} />}
             <div className="areaConteudo pagMinhaAtividade">
                 <LinksAtividade />
                 <div>
@@ -177,7 +190,7 @@ const MinhaAtividade: React.FC = () => {
                                             {
                                                 atividades.filter(a => !a.comentarioid).map((atividade, index) =>
                                                 (
-                                                    <li  key={index}>
+                                                    <li onClick={() => VerModalPost(atividade.post?.id ?? 0)} key={index}>
                                                         <figure onClick={() => selecionar(atividade.id ? atividade.id : 0)}>
                                                             <img src={atividade.post?.imagemUrl} />
                                                             {
@@ -252,7 +265,7 @@ const MinhaAtividade: React.FC = () => {
                                                                     </span>
                                                                 </div>
                                                             </div>
-                                                            <figure className='atividadeComentarioPost'>
+                                                            <figure onClick={() => VerModalPost(atividade.post?.id ?? 0)} className='atividadeComentarioPost'>
                                                                 <img src={atividade.post?.imagemUrl} />
                                                             </figure>
                                                         </div>
