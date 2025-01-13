@@ -214,11 +214,10 @@ const VerPastas: React.FC = () => {
             {modalPost && <VerPost setModal={setModalPost} postId={postId} />}
             {criarPasta && (<CriarPasta token={tokenAtual} setModal={setCriarPasta}/>)}
 
-            <div className="pagPastas">
+            <div className="pagPastas areaConteudo">
                 <section className="pastas" >
                     <h2>Minhas pastas</h2>
-                    <div className='carrosel'>
-                        <div className="new-project-card">
+                    <div className="new-project-card">
                             <button onClick={() => setCriarPasta(true)} style={{backgroundColor: "transparent"}} className="new-project-button">
                                 <span className="new-project-icon dmSansThin">+</span>
                                 <span className="new-project-text dmSansThin">Criar pasta</span>
@@ -227,6 +226,8 @@ const VerPastas: React.FC = () => {
                                 Organize seus itens favoritos da forma que desejar!
                             </p>
                         </div>
+                    <div className='pastasDiv'>
+                        
                         {
                             pastas.length < 1 ?
                                 (
