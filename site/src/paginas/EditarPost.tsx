@@ -214,8 +214,10 @@ const EditarPost: React.FC = () => {
                 ...dados,
                 [name]: files ? files : undefined,
             });
-            if (elemento.target.name == "imagemPost" || (dados.imagemPost && dados.imagemPost?.length > 0)) setTemImagem(true);
-            else setTemImagem(false);
+            if (elemento.target.name == "imagemPost"){
+                if (files?.length && files?.length > 0 )setTemImagem(true);
+                else setTemImagem(false);
+            } 
         } else {
             setDados({
                 ...dados,

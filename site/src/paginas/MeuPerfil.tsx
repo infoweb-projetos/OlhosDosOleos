@@ -9,6 +9,7 @@ import '../estilos/verPerfil.css';
 import '../estilos/modalExcluir.css';
 import { AbrirFecharModal } from '../scripts/modal.ts';
 import { VerificaToken } from '../scripts/uteis.tsx';
+import VerPost from '../componentes/verPost.tsx';
 
 const MeuPerfil: React.FC = () => {
     const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
@@ -28,6 +29,9 @@ const MeuPerfil: React.FC = () => {
 
     const [modalExcluirVisivel, setModalExcluirVisivel] = useState<boolean>(false);
     const [postExcluir, setPostExcluir] = useState<Post | null>(null);
+
+    const [modalPost, setModalPost] = useState<boolean>(false);
+    const [postId, setPostId] = useState<number>(0);
 
     const btEnviarBanner = () => {
         arquivoInputRef.current?.click();
@@ -191,10 +195,18 @@ const MeuPerfil: React.FC = () => {
         }
     }
 
+    const VerModalPost = (id:number) => {
+        if(id > 0){
+            setPostId (id);
+            setModalPost(true);
+        }
+    }
 
     return (
         <div className="paginaPerfil">
             <HeaderSite />
+            {(modalPost) && <div className='Esmaecer'></div>}
+            {modalPost && <VerPost setModal={setModalPost} postId={postId} />}
             {modalExcluirVisivel && (
                 <div className='ModalConfirmarExclusao'>
                     <div className=''>
@@ -343,7 +355,7 @@ const MeuPerfil: React.FC = () => {
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <a href="#">
+                                                <a onClick={() => VerModalPost(post?.id ?? 0)}>
                                                     <img className={post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} alt="Obra do artista." />
                                                     {
                                                         post.sensivel ?

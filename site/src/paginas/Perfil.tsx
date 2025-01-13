@@ -7,6 +7,7 @@ import { Post } from '../interfaces/Post';
 import {api} from '../apiUrl.ts';
 import '../estilos/verPerfil.css';
 import { Seguir, VerificaToken } from '../scripts/uteis.tsx';
+import VerPost from '../componentes/verPost.tsx';
 
 const Perfil: React.FC = () => {
     const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
@@ -20,6 +21,9 @@ const Perfil: React.FC = () => {
 
     const ehMeuPerfil  = false;
     const { perfilid } = useParams();
+
+    const [modalPost, setModalPost] = useState<boolean>(false);
+    const [postId, setPostId] = useState<number>(0);
 
     const MontarPerfil = async (id : string | undefined) => {
         const url = api + `usuarios/outroperfil/${id}`;
@@ -71,6 +75,7 @@ const Perfil: React.FC = () => {
             }
             const postLista: Array<Post> = postsBD.map((p: Post) => {
                 const obj: Post = {
+                    id: p.id,
                     titulo: p.titulo,
                     usuario: p.usuario,
                     usuarioid: p.usuarioid,
@@ -136,9 +141,18 @@ const Perfil: React.FC = () => {
         MontarPerfil(perfilid);
     }, [tokenAtual]);
 
+    const VerModalPost = (id:number) => {
+        if(id > 0){
+            setPostId (id);
+            setModalPost(true);
+        }
+    }
+
     return (
         <div className="paginaPerfil">
             <HeaderSite />
+            {(modalPost) && <div className='Esmaecer'></div>}
+            {modalPost && <VerPost setModal={setModalPost} postId={postId} />}
             <form action="" className="banner ">
                 <img className="esconda" alt="Banner Image" src={bannerUrl} id="imgBanner" />
                 {
@@ -239,7 +253,7 @@ const Perfil: React.FC = () => {
                                     posts.map((post, index) => 
                                     (
                                         <div key={index} className="project-card imagemPortifolio">
-                                            <a href="">
+                                            <a onClick={() => VerModalPost(post?.id ?? 0)}>
                                                 <img className={ post.sensivel ? "conteudoSensivel" : ""} src={post.imagemUrl} alt="Obra do artista." />
                                                 {
                                                 post.sensivel ?

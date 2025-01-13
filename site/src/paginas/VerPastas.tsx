@@ -9,6 +9,7 @@ import { PastaImagem, PastaPosts } from '../interfaces/Pasta';
 import { Post } from '../interfaces/Post';
 import CriarPasta from '../componentes/criarPasta';
 import { VerificaToken } from '../scripts/uteis';
+import VerPost from '../componentes/verPost';
 
 
 const VerPastas: React.FC = () => {
@@ -196,9 +197,21 @@ const VerPastas: React.FC = () => {
         setPastaId(id);  // Atualiza o estado com o ID da pasta
         setNomePastaSelecionada(nome);
     };
+
+    const [modalPost, setModalPost] = useState<boolean>(false);
+    const [postId, setPostId] = useState<number>(0);
+    const VerModalPost = (id:number) => {
+        if(id > 0){
+            setPostId (id);
+            setModalPost(true);
+        }
+    }
+
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
+            {(modalPost) && <div className='Esmaecer'></div>}
+            {modalPost && <VerPost setModal={setModalPost} postId={postId} />}
             {criarPasta && (<CriarPasta token={tokenAtual} setModal={setCriarPasta}/>)}
 
             <div className="pagPastas">
@@ -253,7 +266,7 @@ const VerPastas: React.FC = () => {
                                         (
 
 
-                                            <div key={index} className='item-pasta'>
+                                            <div onClick={() => VerModalPost(pastaPost?.postid ?? 0)} key={index} className='item-pasta'>
                                                 <picture>
                                                     <img src={pastaPost.post?.imagemUrl} alt="arte da pasta" />
                                                 </picture>

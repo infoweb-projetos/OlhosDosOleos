@@ -13,10 +13,9 @@ import FavoritarPost from './favoritarPost';
 interface parametros {
     setModal: React.Dispatch<React.SetStateAction<boolean>>;
     postId: number;
-    setPostAtualizado: React.Dispatch<React.SetStateAction<{id:number, naoCurtido:boolean} | null>>;
 }
 
-const VerPost: React.FC<parametros> = ({setModal, postId, setPostAtualizado}) => {
+const VerPost: React.FC<parametros> = ({setModal, postId}) => {
     const navegar = useNavigate();
     const [tokenAtual, atualizarTokenAtual] = useState<string | null>("");
     const [post, setPost] = useState<Post | null>(null);
@@ -225,7 +224,6 @@ const VerPost: React.FC<parametros> = ({setModal, postId, setPostAtualizado}) =>
     const Curtir = () => {
         if(post && tokenAtual){
             CurtirPostSimples(post.id ?? 0, tokenAtual, setNaoCurtido);
-            setPostAtualizado({id:post.id ?? 0, naoCurtido: naoCurtido})
             console.log(naoCurtido)
         }
     }
