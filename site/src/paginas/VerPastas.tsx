@@ -10,6 +10,7 @@ import { Post } from '../interfaces/Post';
 import CriarPasta from '../componentes/criarPasta';
 import ExcluirPasta from '../componentes/excluirPasta';
 import { VerificaToken } from '../scripts/uteis';
+import VerPost from '../componentes/verPost';
 
 
 const VerPastas: React.FC = () => {
@@ -200,6 +201,16 @@ const VerPastas: React.FC = () => {
         document.getElementById('setaBaixo').style.display = "flex";
         
     };
+
+    const [modalPost, setModalPost] = useState<boolean>(false);
+    const [postId, setPostId] = useState<number>(0);
+    const VerModalPost = (id:number) => {
+        if(id > 0){
+            setPostId (id);
+            setModalPost(true);
+        }
+    }
+
     function showModal() {
         const modal = document.getElementById('modalOpcoes');
         modal.style.display = "flex";
@@ -207,14 +218,15 @@ const VerPastas: React.FC = () => {
     return (
         <div className='organizacaoPadrao'>
             <HeaderSite />
+            {(modalPost) && <div className='Esmaecer'></div>}
+            {modalPost && <VerPost setModal={setModalPost} postId={postId} />}
             {criarPasta && (<CriarPasta token={tokenAtual} setModal={setCriarPasta}/>)}
             {excluirPasta && (<ExcluirPasta token={tokenAtual} setModal={setExcluirPasta}/>)}
 
-            <div className="pagPastas">
+            <div className="pagPastas areaConteudo">
                 <section className="pastas" >
                     <h2>Minhas pastas</h2>
-                    <div className='carrosel'>
-                        <div className="new-project-card">
+                    <div className="new-project-card">
                             <button onClick={() => setCriarPasta(true)} style={{backgroundColor: "transparent"}} className="new-project-button">
                                 <span className="new-project-icon dmSansThin">+</span>
                                 <span className="new-project-text dmSansThin">Criar pasta</span>
@@ -223,6 +235,8 @@ const VerPastas: React.FC = () => {
                                 Organize seus itens favoritos da forma que desejar!
                             </p>
                         </div>
+                    <div className='pastasDiv'>
+                        
                         {
                             pastas.length < 1 ?
                                 (
@@ -280,7 +294,7 @@ const VerPastas: React.FC = () => {
                                         (
 
 
-                                            <div key={index} className='item-pasta'>
+                                            <div onClick={() => VerModalPost(pastaPost?.postid ?? 0)} key={index} className='item-pasta'>
                                                 <picture>
                                                     <img src={pastaPost.post?.imagemUrl} alt="arte da pasta" />
                                                 </picture>

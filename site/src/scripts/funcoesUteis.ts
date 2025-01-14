@@ -2,11 +2,11 @@ export const tempoRelativo = (data: Date | null | undefined): string => {
     if (data && data instanceof Date){
         const agora = new Date();
         const diferencaMs = agora.getTime() - data.getTime();
-        const diferencaMinutos = Math.floor(diferencaMs / (1000 * 60));
-        const diferencaHoras = Math.floor(diferencaMs / (1000 * 60 * 60));
-        const diferencaDias = Math.floor(diferencaMs / (1000 * 60 * 60 * 24));
-        const diferencaMeses = Math.floor(diferencaDias / 30);
-        const diferencaAnos = Math.floor(diferencaMeses / 12);
+        const diferencaMinutos = Math.abs(Math.floor(diferencaMs / (1000 * 60)));
+        const diferencaHoras = Math.abs(Math.floor(diferencaMs / (1000 * 60 * 60)));
+        const diferencaDias = Math.abs(Math.floor(diferencaMs / (1000 * 60 * 60 * 24)));
+        const diferencaMeses = Math.abs(Math.floor(diferencaDias / 30));
+        const diferencaAnos = Math.abs(Math.floor(diferencaMeses / 12));
       
         if (diferencaMinutos < 60) {
           return `Há ${diferencaMinutos} minuto${diferencaMinutos !== 1 ? 's' : ''} atrás`;

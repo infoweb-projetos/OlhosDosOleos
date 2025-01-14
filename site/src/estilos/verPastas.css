@@ -226,3 +226,26 @@ h2{
 #modalOpcoes button:hover{
   background-color: rgba(253, 106, 153, 0.15);
 }
+
+.pagPastas{
+  width: 100%;
+  box-sizing: border-box;
+}
+.pastasDiv{
+  display: flex;
+  width: 99%;
+  box-sizing: border-box;
+  overflow: auto;
+}
+.pastasDiv::-webkit-scrollbar {
+  height:  8px;
+  background-color: #E4E4E4;
+  border-radius: 10px;
+  
+}
+
+.pastasDiv::-webkit-scrollbar-thumb {
+  background-color: var(--corPrincipal); 
+  border-radius: 10px;
+  cursor: grab;
+}

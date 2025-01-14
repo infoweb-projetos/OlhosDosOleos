@@ -31,7 +31,6 @@ const Feed: React.FC = () => {
     const [modalFavoritar, setModalFavoritar] = useState<boolean>(false);
     const [modalPost, setModalPost] = useState<boolean>(false);
     const [postId, setPostId] = useState<number>(0);
-    const [postAtualizado, setPostAtualizado] = useState<{id:number, naoCurtido:boolean} | null>(null);
 
     const VerificarToken = async () => {
         const token = await VerificaToken();
@@ -221,28 +220,12 @@ const Feed: React.FC = () => {
         }
     }, [modalPost]);
 
-    useEffect(() => {
-        if (postAtualizado){
-            const novaLista = [...posts];
-            let index = novaLista.findIndex(p => p.id == postAtualizado.id);
-            if(index != -1){
-                const qtd = novaLista[index].curtidasQtd ?? 0;
-                novaLista[index] = {
-                    ...novaLista[index], 
-                    curtidasQtd: postAtualizado.naoCurtido ? qtd-1 : qtd+1, 
-                };
-                setPosts(novaLista);
-            }
-            setPostAtualizado(null);
-        }
-    }, [postAtualizado]);
-
     return (
         <div className='organizacaoPadrao'>
             {(modalPost) && <div className='Esmaecer'></div>}
             <HeaderSite />
             {modalFavoritar && <FavoritarPost token={tokenAtual} setModal={setModalFavoritar} postId={postId}/>}
-            {modalPost && <VerPost setModal={setModalPost} postId={postId} setPostAtualizado={setPostAtualizado} />}
+            {modalPost && <VerPost setModal={setModalPost} postId={postId} />}
             <div className="areaConteudo feed">
                 <h1>Descubra a arte <b>potiguar</b>!</h1>
                 <form className="espacamentoFeedComum">

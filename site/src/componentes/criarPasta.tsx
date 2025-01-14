@@ -12,10 +12,12 @@ const CriarPasta: React.FC<parametros> = ({setModal, token}) => {
 
     const [nomePasta, setNomePasta] = useState('');
     const [sucesso, setSucesso] = useState(false);
+    const [criando, setCriando] = useState(false);
 
     const clickCriarPasta  = () => {
         console.log(token);
-        if(token){
+        if(token && !criando){
+            setCriando(true);
             axios.post(`${api}pastas/criar`, { nome: nomePasta },{
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -24,9 +26,11 @@ const CriarPasta: React.FC<parametros> = ({setModal, token}) => {
             .then(response => {
                 console.log('Pasta criada com sucesso!', response);
                 setSucesso(true);
+                setCriando(false);
             })
             .catch(error => {
                 console.log('Erro ao criar pasta:', error);
+                setCriando(false);
             });
         }
        
