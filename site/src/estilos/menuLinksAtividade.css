@@ -42,3 +42,6 @@
 .menuLinksAtividade a:hover{
     border-left-color: var(--corPrincipal);
 }
+.menuLinksAtividade a.menuLinkSelecionado{
+    border-left-color: var(--corPrincipal);
+}

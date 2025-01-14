@@ -10,6 +10,7 @@ import { CurtirPost, VerificaToken } from '../scripts/uteis';
 import { useNavigate } from 'react-router-dom';
 import { tempoRelativo } from '../scripts/funcoesUteis';
 import VerPost from '../componentes/verPost';
+import { LinkMinhaAtividade } from '../interfaces/Enums';
 
 const MinhaAtividade: React.FC = () => {
     const [selecionarCurtidas, setSelecionarCurtida] = useState<boolean>(false);
@@ -143,7 +144,7 @@ const MinhaAtividade: React.FC = () => {
             {(modalPost) && <div className='Esmaecer'></div>}
             {modalPost && <VerPost setModal={setModalPost} postId={postId} />}
             <div className="areaConteudo pagMinhaAtividade">
-                <LinksAtividade />
+                <LinksAtividade selecionado={LinkMinhaAtividade.Atividade}/>
                 <div>
                     <div className='introducaoMinhaAtividade'>
                         <h3>Sua Atividade</h3>
