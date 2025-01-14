@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
 .new-project-card, .project-card {
     border: 2px dashed #ccc;
     border-radius: 10px;
@@ -178,4 +180,49 @@ section.pastas {
   width: 20px;
   height: 20px;
   border-radius: 100%;
+}
+.pastaSelecionada{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: left;
+  align-items: center;
+}
+#setaBaixo {
+  display: none;
+  padding: 3px 0 0 10px;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+h2{
+  font-family: "DM Sans";
+  font-weight: 500;
+  font-size: 2rem;
+}
+.botaoOpcoes{
+  float: right;
+  padding-right: 1rem;
+  position: relative;
+}
+#modalOpcoes{
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: -340%;
+  left: -300%;
+  width: 8rem;
+  background-color: #fff;
+  padding: 4px;
+  border-radius: 5px;
+}
+#modalOpcoes button{
+  background-color: transparent;
+  border: none;
+  padding: 4px 10px;
+  font-family: 'DM Sans';
+  font-size: 1rem;
+  color: var(--corPrincipal);
+  border-radius: 5px;
+}
+#modalOpcoes button:hover{
+  background-color: rgba(253, 106, 153, 0.15);
 }

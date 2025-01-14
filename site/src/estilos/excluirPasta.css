@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+
+.modalExcluirPastaArea{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+    margin: 0;
+    z-index: 4;
+}
+.modalExcluirPastaArea button{
+    background-color: transparent;
+    display: flex;
+    border: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalExcluirPastaArea > div{
+    background-color: #FFFFFF;
+    width: 45%;
+    margin-top: 2em;
+    border-radius: 10px;
+}
+.modalExcluirPastaHeader{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #F5E8E8;
+    color: var(--corPrincipal);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.modalExcluirPastaArea > div > figure{
+    width: 100%;
+    text-align: center;
+    padding: 1.5em 0;
+}
+.modalExcluirPastaArea > div > figure figcaption{
+    color: var(--corPrincipal);
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+.modalExcluirContent{
+    background-image: url("../imgs/pastas/bg-logo.svg");
+    background-position: 75% 0%;
+    background-repeat: no-repeat;
+    height: 18rem;
+    padding: 1rem 6rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.modalExcluirPastaArea h3{
+    color: var(--corPrincipal);
+    font-weight:bold;
+    font-size: 1.3rem;
+}
+.modalExcluirPastaArea p{
+    width: 50%;
+    font-size: 1rem;
+    font-family: "DM Sans";
+    color: #aaaaaa;
+}
+.modalExcluirPastaArea button{
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+.buttonsArea img{
+    margin-right: 6px;
+    height: 70%;
+}
+#cancelarButton{
+    background-color: #dedede;
+}
+#removeButton{
+    background-color: var(--corPrincipal);
+    
+}
+.buttonsArea{
+    display: flex;
+    justify-content: space-around;
+    margin: 0 auto;
+    width: 60%;
+}
