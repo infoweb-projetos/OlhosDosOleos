@@ -1,3 +1,4 @@
+import { Comentario } from "./Comentario";
 import { Curtida } from "./Curtida";
 import { Tag } from "./Enums";
 import { Usuario } from "./Usuario";
@@ -19,6 +20,8 @@ export interface Post {
     curtidas?: Curtida[];
     curtidasQtd?: number;
     entrada?: Date;
+    comentariosQtd?: number;
+    comentarios?: Comentario[];
 }
 
 

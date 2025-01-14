@@ -1,21 +1,23 @@
 import { Link } from 'react-router-dom';
 import '../estilos/menuLinksAtividade.css';
+import { LinkMinhaAtividade } from '../interfaces/Enums';
 
-const LinksAtividade: React.FC = () => {
+const LinksAtividade: React.FC<{selecionado: number}> = ({selecionado}) => {
+    console.log(selecionado);
     return (
         <ul className="menuLinksAtividade">
             <li ></li>
             <li>
-                <Link  to='#'>Informações da Conta</Link>
+                <Link className={selecionado == LinkMinhaAtividade.Conta ? 'menuLinkSelecionado' : ''}  to='#'>Informações da Conta</Link>
             </li>
             <li>
-                <Link to='/atividade/'>Minha Atividade</Link>
+                <Link className={selecionado == LinkMinhaAtividade.Atividade ? 'menuLinkSelecionado' : ''} to='/atividade/'>Minha Atividade</Link>
             </li>
             <li>
-                <Link to='#'>Privacidade</Link>
+                <Link className={selecionado == LinkMinhaAtividade.Privacidade ? 'menuLinkSelecionado' : ''} to='#'>Privacidade</Link>
             </li>
             <li>
-                <Link  to='#'>Guia de Utilização</Link>
+                <Link className={selecionado == LinkMinhaAtividade.Utilizacao ? 'menuLinkSelecionado' : ''}  to='#'>Guia de Utilização</Link>
             </li>
             <li  ></li>
         </ul>

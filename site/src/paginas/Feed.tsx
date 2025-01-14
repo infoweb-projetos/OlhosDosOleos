@@ -105,6 +105,7 @@ const Feed: React.FC = () => {
                     curtidas:p.curtidas,
                     curtidasQtd: p.curtidas && p.curtidas.length > 0 ? p.curtidas.length : 0,
                     entrada: p.entrada?p.entrada:undefined,
+                    comentariosQtd: p.comentarios ? p.comentarios.length : 0,
                 };
 
                 if (p.imagem && p.imagemtipo) {
@@ -167,6 +168,7 @@ const Feed: React.FC = () => {
             } default: return posts;
         }
         setPostsExibidos(postsOrdenados);
+        setClassificadorAtual(-1);
     }
 
     useEffect(() =>{
@@ -220,6 +222,39 @@ const Feed: React.FC = () => {
         }
     }, [modalPost]);
 
+    const [modalClassificar, setModalClassificar] = useState<boolean>(false);
+    const Classificacoes = {
+        Recomendado: 0,
+        Recente: 1,
+        Curtidos: 2,
+        Comentados: 3,
+    }
+    const [classificadorAtual, setClassificadorAtual] = useState<number>(Classificacoes.Recente);
+    const classificarPosts = (classificacao: number) => {
+        if(postsExibidos && postsExibidos.length > 0){
+            setClassificadorAtual(classificacao)
+            let postsCopia = [...postsExibidos];
+            if (classificacao == Classificacoes.Recomendado){
+                postsCopia.sort((a, b) => (b.curtidasQtd ?? 0) + (b.comentariosQtd ?? 0) - (a.curtidasQtd ?? 0) + (a.comentariosQtd ?? 0));
+            }
+            else if (classificacao == Classificacoes.Curtidos){
+                postsCopia.sort((a, b) => (b.curtidasQtd ?? 0)- (a.curtidasQtd ?? 0));
+            }
+            else if (classificacao == Classificacoes.Comentados){
+                postsCopia.sort((a, b) => (b.comentariosQtd ?? 0) - (a.comentariosQtd ?? 0));
+            }
+            else if (classificacao == Classificacoes.Recente){
+                postsCopia.sort((a, b) => {
+                    const timeA = a.entrada instanceof Date && !isNaN(a.entrada.getTime()) ? a.entrada.getTime() : 0;
+                    const timeB = b.entrada instanceof Date && !isNaN(b.entrada.getTime()) ? b.entrada.getTime() : 0;
+                    return timeB - timeA;
+                });
+            }
+            setPostsExibidos(postsCopia);
+        }
+    }
+    
+
     return (
         <div className='organizacaoPadrao'>
             {(modalPost) && <div className='Esmaecer'></div>}
@@ -230,10 +265,30 @@ const Feed: React.FC = () => {
                 <h1>Descubra a arte <b>potiguar</b>!</h1>
                 <form className="espacamentoFeedComum">
                     <button type="button" className="botaoComum fundoBtBranco"><img src="imgs/feed/iconeFIltrar.svg" alt="Icone de filtragem" /> Filtrar</button>
-                    <select className="botaoComum fundoBtBranco">
-                        <option>Classificar</option>
-                        <option>aa</option>
-                    </select>
+                    <button onClick={() => setModalClassificar(!modalClassificar)} id='btClassificarFeed' type="button" className="botaoComum fundoBtBranco">
+                        Classificar
+                        {
+                            modalClassificar &&
+                            (
+                                <ul className='modalClassificar'>
+                                    <li onClick={() => classificarPosts(Classificacoes.Recomendado)}>
+                                        <button className={classificadorAtual == Classificacoes.Recomendado ? 'btClassificarFeedSelecionado' : ''} >Recomendado</button>
+                                    </li>
+                                    <li onClick={() => classificarPosts(Classificacoes.Recente)}>
+                                        <button className={classificadorAtual == Classificacoes.Recente ? 'btClassificarFeedSelecionado' : ''}>Mais Recente</button>
+                                    </li>
+                                    <li  onClick={() => classificarPosts(Classificacoes.Curtidos)}>
+                                        <button className={classificadorAtual == Classificacoes.Curtidos ? 'btClassificarFeedSelecionado' : ''}>Mais Curtido</button>
+                                    </li>
+                                    <li onClick={() => classificarPosts(Classificacoes.Comentados)}>
+                                        <button className={classificadorAtual == Classificacoes.Comentados ? 'btClassificarFeedSelecionado' : ''}>
+                                            Mais Comentado
+                                        </button>
+                                    </li>
+                                </ul>
+                            )
+                        }
+                    </button>
                 </form>
                 <ul className="menuCategoriasFiltro">
                     {categorias.length > 0 ? (
