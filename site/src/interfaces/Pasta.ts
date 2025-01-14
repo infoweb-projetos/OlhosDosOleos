@@ -10,6 +10,7 @@ export interface Pasta {
 export interface PastaImagem {
     id: number;
     nome: string;
+    descricao?: string;
     posts: Array<{post: {imagem?:  { type: string; data: Array<number> }; imagemtipo: string}}>;
     imagemUrl: string;
 }

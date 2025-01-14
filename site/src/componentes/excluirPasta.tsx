@@ -5,31 +5,31 @@ import { api } from '../apiUrl';
 
 interface parametros {
     setModal: React.Dispatch<React.SetStateAction<boolean>>;
-    token: string | null;
+    pastaid: string | null;
+    nomePasta: string | null;
 }
 
-const ExcluirPasta: React.FC<parametros> = ({setModal, token}) => {
+const ExcluirPasta: React.FC<parametros> = ({setModal, pastaid, nomePasta}) => {
 
-    const [nomePasta, setNomePasta] = useState('');
+    console.log("pasta id: ", pastaid);
     const [sucesso, setSucesso] = useState(false);
 
-    const clickExcluirPasta  = () => {
-        console.log(token);
-        if(token){
-            axios.post(`${api}pastas/excluir`, { nome: nomePasta },{
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                console.log('Pasta excluida com sucesso!', response);
-                setSucesso(true);
-            })
-            .catch(error => {
-                console.log('Erro ao excluir pasta:', error);
-            });
-        }
-       
+    const clickExcluirPasta  = (pastaid: string) => {
+        console.log("pasta id: ", pastaid);
+            const token = localStorage.getItem('tokenODO');
+            try {
+                axios.delete(`${api}pastas/excluir/${pastaid}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                console.log("pasta excluida")
+                setSucesso(true)
+                location.reload();
+
+            } catch (error) {
+                console.error('Houve um erro ao tentar excluir a pasta:', error)
+            }
     }
 
     return (
@@ -52,7 +52,7 @@ const ExcluirPasta: React.FC<parametros> = ({setModal, token}) => {
                                     <img src="/imgs/pastas/criarFecharBt.svg" />
                                     Cancelar
                                 </button>
-                                <button type="button" id='removeButton' onClick={clickExcluirPasta}>
+                                <button type="button" id='removeButton' onClick={() => clickExcluirPasta(pastaid ?? '')}>
                                     <img src="/imgs/pastas/icontrash.svg" />
                                     Remover
                                 </button>

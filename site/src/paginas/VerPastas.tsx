@@ -5,12 +5,13 @@ import '../estilos/verPastas.css';
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { api } from '../apiUrl';
-import { PastaImagem, PastaPosts } from '../interfaces/Pasta';
 import { Post } from '../interfaces/Post';
 import CriarPasta from '../componentes/criarPasta';
 import ExcluirPasta from '../componentes/excluirPasta';
 import { VerificaToken } from '../scripts/uteis';
 import VerPost from '../componentes/verPost';
+import EditarPasta from '../componentes/editarPasta';
+import { PastaImagem, PastaPosts } from '../interfaces/Pasta';
 
 
 const VerPastas: React.FC = () => {
@@ -20,8 +21,11 @@ const VerPastas: React.FC = () => {
     const [posts, setPosts] = useState<Array<PastaPosts>>([]);
     const [pastaId, setPastaId] = useState<string | null>(null); // Estado para armazenar o ID da pasta selecionada
     const [nomePastaSelecionada, setNomePastaSelecionada] = useState<string | null>(null);
+    const [descricaoPasta, setDescricaoPasta] = useState<string | null>(null);
+    const [pastaImagem, setPastaImagem] = useState<string | null>(null);
     const [criarPasta, setCriarPasta] = useState<boolean>(false)
     const [excluirPasta, setExcluirPasta] = useState<boolean>(false)
+    const [editarPasta, setEditarPasta] = useState<boolean>(false)
 
     const VerificarToken = async () => {
         const token = await VerificaToken();
@@ -195,10 +199,15 @@ const VerPastas: React.FC = () => {
     }, [pastaId, CarregarPastas, CarregarPosts, navegar, criarPasta]);  // Dependências para garantir a execução correta
 
     // Função para selecionar uma pasta
-    const selecionarPasta = (id: string, nome: string) => {
+    const selecionarPasta = (id: string, nome: string, descricao: string, imagemUrl: string) => {
         setPastaId(id);  // Atualiza o estado com o ID da pasta
         setNomePastaSelecionada(nome);
-        document.getElementById('setaBaixo').style.display = "flex";
+        setDescricaoPasta(descricao);
+        setPastaImagem(imagemUrl);
+        const seta = document.getElementById('setaBaixo');
+        if(seta) {
+            seta.style.display = "flex";
+        }
         
     };
 
@@ -213,7 +222,12 @@ const VerPastas: React.FC = () => {
 
     function showModal() {
         const modal = document.getElementById('modalOpcoes');
-        modal.style.display = "flex";
+        if (modal) {
+        if (modal.style.display == "flex") {
+            modal.style.display = "none"
+        } else {
+            modal.style.display = "flex";
+        }}
     }
     return (
         <div className='organizacaoPadrao'>
@@ -221,7 +235,8 @@ const VerPastas: React.FC = () => {
             {(modalPost) && <div className='Esmaecer'></div>}
             {modalPost && <VerPost setModal={setModalPost} postId={postId} />}
             {criarPasta && (<CriarPasta token={tokenAtual} setModal={setCriarPasta}/>)}
-            {excluirPasta && (<ExcluirPasta token={tokenAtual} setModal={setExcluirPasta}/>)}
+            {excluirPasta && (<ExcluirPasta setModal={setExcluirPasta} nomePasta={nomePastaSelecionada} pastaid={pastaId}/>)}
+            {editarPasta && (<EditarPasta setPosts={setPosts} setModal={setEditarPasta} nomePasta={nomePastaSelecionada} pastaid={pastaId} descricao={descricaoPasta} posts={posts} imagemUrl={pastaImagem}/>)}
 
             <div className="pagPastas areaConteudo">
                 <section className="pastas" >
@@ -246,18 +261,18 @@ const VerPastas: React.FC = () => {
                                 (
                                     pastas.map((pasta, index) =>
                                     (
-                                        <div className='card-pasta' key={index} onClick={() => selecionarPasta(`${pasta.id}`, `${pasta.nome}`)}>
+                                        <div className='card-pasta' key={index} onClick={() => selecionarPasta(`${pasta.id}`, `${pasta.nome}`, `${pasta.descricao}`, `${pasta.imagemUrl}`)}>
                                             <img className='card-capa' src={pasta.imagemUrl} alt='icone de carregamento' />
                                             <p><strong>{pasta.nome}</strong></p>
                                             <img className='icone' src='../public/imgs/pastas/iconeImg.svg' alt='icone de imagem' /> <span>{pasta.posts.length} publicações</span>
-                                            <div className='botaoOpcoes' onClick={showModal} /* onClick={() => setExcluirPasta(true)}*/>
+                                            <div className='botaoOpcoes' onClick={showModal}>
                                                 <img src="../public/imgs/pastas/IconeOpcoes.svg" alt="" />
                                                 <div id="modalOpcoes">
                                                     <button onClick={() => setExcluirPasta(true)}>
                                                         <img src="" alt="" />
                                                         Excluir Pasta
                                                     </button>
-                                                    <button>
+                                                    <button onClick={() => setEditarPasta(true)}>
                                                         <img src="" alt="" />
                                                         Editar Pasta
                                                     </button>

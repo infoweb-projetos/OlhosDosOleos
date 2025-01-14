@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+
+.modalEditarPastaArea{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+    margin: 0;
+    z-index: 4;
+}
+.modalEditarPastaArea button{
+    background-color: transparent;
+    display: flex;
+    border: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalEditarPastaArea .modalProblema{
+    background-color: #FFFFFF;
+    width: 60%;
+    margin-top: 2em;
+    border-radius: 10px;
+}
+.modalEditarPastaHeader{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #F5E8E8;
+    color: var(--corPrincipal);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.modalEditarPastaArea > div > figure{
+    width: 100%;
+    text-align: center;
+    padding: 1.5em 0;
+}
+.modalEditarPastaArea > div > figure figcaption{
+    color: var(--corPrincipal);
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+.modalEditarContent{
+    height: 26rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+
+}
+.modalEditarPastaArea h3{
+    color: var(--corPrincipal);
+    font-weight:bold;
+    font-size: 1.3rem;
+}
+.modalEditarPastaArea p{
+    width: 50%;
+    font-size: 1rem;
+    font-family: "DM Sans";
+    color: #aaaaaa;
+}
+.modalEditarPastaArea button{
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+.buttonsArea img{
+    margin-right: 6px;
+    height: 70%;
+}
+#cancelarButton{
+    background-color: #dedede;
+}
+#removeButton{
+    background-color: var(--corPrincipal);
+    
+}
+.buttonArea{
+    display: flex;
+    justify-content: right;
+    padding: 1rem;
+    background-color: #F5E8E8;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.modalEditarContent form{
+    width: 40%;
+    background-color: #F5E8E8;
+    display: flex;
+    flex-direction: column;
+    padding: 1em; 
+}
+.modalEditarContent .pastaPosts{
+    width: 60%;
+    overflow: auto;
+    margin: 1rem;
+}
+.modalEditarContent .pastaPosts .item-pasta h3{
+    color: white;
+}
+.modalEditarContent form figure img{
+    width: 100%;
+    
+}
+.modalEditarContent form label{
+    color: var(--corPrincipal);
+}
+.modalEditarContent form input{
+    padding: 0.5em;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+}
+.modalEditarContent form textarea{
+    padding: 0.5em;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+}
+.ModalConfirmarExclusao{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 4;
+}
+
+.ModalConfirmarExclusao > div{
+    background-color: #FFFFFF;
+    padding: 1.3em;
+    border-radius: 1em;
+    width: 40%;
+    box-sizing: border-box;
+    margin-top: 2em;
+}
+
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    margin-bottom: 1.6em;
+}
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoHeader figure{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FEE4E2;
+    border: 8px solid #FEF3F2;
+    padding: 10px;
+    border-radius: 100%;
+}
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoHeader img{
+    width: 20px;
+    height: 20px;
+}
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoHeader button{
+    background-color: transparent;
+    color: var(--corPrincipal);
+    border: none;
+    font-size: 130%;
+}
+
+.ModalConfirmarExclusao > div > h3{
+    color: var(--corPrincipal);
+    margin-bottom: 0.4em;
+}
+.ModalConfirmarExclusao > div > p{
+    color: #7C7C7C;
+}
+
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoAcoes{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 1.6em;
+    box-sizing: border-box;
+}
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoAcoes .ModalConfirmarExclusaoBtExcluir{
+    margin-right: 1em;
+    background-color: var(--corPrincipal);
+    border: 1px solid var(--corPrincipal);
+    color: #FFFFFF;
+    padding: 10px 2em;
+    border-radius: 10px;
+}
+.ModalConfirmarExclusao > div .ModalConfirmarExclusaoAcoes .ModalConfirmarExclusaoBtCancelar{  
+    border: 1px solid #7C7C7C;
+    background-color: transparent;
+    color: #7C7C7C;
+    padding: 10px 1em;
+    border-radius: 10px;
+}
