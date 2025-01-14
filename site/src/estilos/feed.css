@@ -283,18 +283,18 @@
     margin: 0.5em 0em;
     background-color: transparent;
     border: none;
-    color: var(--corPrincipal);
+    color: #000000;
     transition-duration: 200ms;
     transition-property: font-weight;
     transition-timing-function: linear;
 }
 
 #btClassificarFeed > ul button:hover{
-    font-weight: bold;
+    color: var(--corPrincipal);
 }
 
 #btClassificarFeed > ul button.btClassificarFeedSelecionado{
-    font-weight: bold;
+    color: var(--corPrincipal);
 }
 
 @media screen and (max-width: 1000px) {
